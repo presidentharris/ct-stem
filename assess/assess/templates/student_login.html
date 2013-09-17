@@ -1,36 +1,58 @@
 <html>
 <head>
-    <title>Search</title>
+  <title>CT-STEM Student Login</title>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+  <script type="text/javascript">
+    function getData(url, select) {
+      $.ajax( {
+        url: url,
+        dataType : 'json',
+        data: {'filter': select.value} 
+      })
+        .done( function (data) {
+          $('#' + data['table'])
+            .prop('disabled', false)
+            .empty()
+            .append($('<option>').attr('value', '').append('--- Select ' + data['table'] + '---'));
+          $(data['values']).each(function(index, element) {
+            $('#' + data['table']).append($('<option>').attr('value', element[0]).append(element[1]));
+          });
+        });
+    }
+  </script>
 </head>
 <body>
 
 
+  {% if student_login_form.errors %}
+    <p style="color: red;">
+      Please correct the error{{ student_login_form.errors|pluralize }} below.
+    </p>
+  {% endif %}
 
-    
+  <form action="/student/status/" method="post">
 
+      Student ID: <input type="text" name="student_id" size="8"/><br/>
 
-	{% if student_login_form.errors %}
-        <p style="color: red;">
-            Please correct the error{{ student_login_form.errors|pluralize }} below.
-        </p>
-    {% endif %}
+      <select id="school" name="school_list" onChange="getData('/student/get_data/Teacher/', this)">
+        <option  value="" selected="selected">---Select School---</option>
+          {% for school in schools %}
+              <option value="{{school.school}}">{{school.school|capfirst}}</option>
+          {% endfor %}
+      </select><br/>
+      
+      <select id="Teacher" name="teacher_list" onChange="getData('/sutdent/get_data/Section/', this)" disabled>
+        <option  value="" selected="selected">---Select Teacher---</option>
+      </select><br/>
 
-    <form action="/student/status/" method="post">
+      <select id="Section" name="section_list" disabled>
+        <option  value="" selected="selected">--- Select Section ---</option>
+      </select><br/>
 
-        Student ID: <input type="text" name="student_id" size="8"/><br/>
+      <input type="submit" value="Submit">
 
-        <select id="school" name="school_list" onChange="getTeachers()">
-          <option  value="" selected="selected">---Select School---</option>
-            {% for school in schools %}
-                <option value="{{school.school}}">{{school.school|capfirst}}</option>
-            {% endfor %}
-        </select><br/>
-        
-        <input type="submit" value="Submit">
-
-{{schools}}
-
-    </form>
+  </form>
 
 
 </body>

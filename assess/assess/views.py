@@ -6,16 +6,27 @@ from oas.models import Student, Section, Teacher
 from forms import StudentLoginForm
 
 import datetime
-
+import json
 
 
 def student_login(request):
     schools = Teacher.objects.values('school').distinct()
     teachers = Teacher.objects.all().order_by("last_name")
-    teachers_by_school = [(t.school, t) for t in teachers]
-    sections = Section.objects.all()
-    sections_by_teacher = [(s.teacher.last_name, s) for s in sections]
-    return render(request, 'student_login.html', {'student_login_form': StudentLoginForm(), 'schools':schools, 'teachers_by_school':teachers_by_school, 'sections_by_teacher':sections_by_teacher})
+    return render(request, 'student_login.html', {'schools':schools, 'teachers':teachers})
+
+def get_data(request, table):
+    if 'filter' in request.GET:
+        inFilter = request.GET['filter']
+        if table == 'Teacher':
+            teachers = Teacher.objects.filter(school=inFilter).order_by("last_name")
+            data_json = [(t.id, t.first_name + ' ' + t.last_name) for t in teachers]
+        elif table == 'Section':
+            teacher = Teacher.objects.get(id=inFilter)
+            sections = Section.object.filter(teacher=teacher)
+            data_json = [(s.id, s.subject + ' ' + s.section) for s in sections]
+        return HttpResponse(json.dumps({'table' : table, 'values': data_json}), mimetype="application/json")
+    else:
+        return HttpResponse(table)
 
 def student_status(request):
     form = StudentLoginForm()
