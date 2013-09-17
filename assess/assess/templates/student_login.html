@@ -1,0 +1,31 @@
+<html>
+<head>
+    <title>Search</title>
+</head>
+<body>
+
+		{% if student_login_form.errors %}
+        <p style="color: red;">
+            Please correct the error{{ student_login_form.errors|pluralize }} below.
+        </p>
+    {% endif %}
+
+    <form action="/student/status/" method="post">
+        <table>
+        		Student ID: {{ student_login_form.student_id }}<br/>
+        		School: {{ student_login_form.school }}
+        		
+        		<br/>
+            {{ student_login_form.teacher }}<br/>
+            {{ student_login_form.section }}<br/>
+        </table>
+        {% csrf_token %}
+        <input type="submit" value="Submit">
+
+    </form>
+
+    <br/>or<br/>
+
+
+</body>
+</html>
