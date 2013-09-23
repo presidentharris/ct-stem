@@ -1,6 +1,9 @@
-<html>
-<head>
-  <title>CT-STEM Student Login</title>
+{% extends "base.html" %}
+
+{% block title %}CT-STEM Student Login{% endblock %}
+
+{% block js %}
+  <title></title>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
   <script type="text/javascript">
@@ -21,9 +24,10 @@
         });
     }
   </script>
-</head>
-<body>
+{% endblock %}
 
+
+{% block pages %}
 
   {% if errors %}
     <p style="color: red;">
@@ -36,16 +40,27 @@
   {{ e }}
 -->
 
-  <form action="/student/status/" method="post">
 
-      Student ID: <input type="text" name="student_id" size="8"/><br/>
-
+  <div class="page">
+    <center>
+    <h1 style="font-size: 40pt;">CT-STEM</h1>
+    <h2>Computational Thinking in<br/>Science, Technology, Engineering, and Mathematics</h2>
+    </center>
+    <img src="/static/images/logo.png">
+       
+    <form id="theForm" action="/student/status/" method="post">
+      <div style="margin:10px;height:380px;">
+      
+      <div class="prompt" style="margin:6px; padding 6px;">Student ID: <input type="text" name="student_id" size="8"/></div>
+      
       <select id="school" name="school" onChange="getData('/student/get_data/Teacher/', this)">
         <option  value="" selected="selected">---Select School---</option>
           {% for school in schools %}
               <option value="{{school.school}}">{{school.school|capfirst}}</option>
           {% endfor %}
       </select><br/>
+      
+
       
       <select id="Teacher" name="teacher" onChange="getData('/student/get_data/Section/', this)" disabled>
         <option  value="" selected="selected">---Select Teacher---</option>
@@ -71,11 +86,25 @@
         <option value="other_school">Somewhere Else at School</option>
         <option value="other_not_school">Somewhere Else Outside of School</option>
       </select>
-
-      <input type="submit" value="Submit">
-
-  </form>
+    </div>
+    </form>
 
 
-</body>
-</html>
+
+    <div class="logos">
+       <img src="/static/images/northwestern.png" style="width: 70px; margin: 20px;">
+       <img src="/static/images/NSF.png" style="width: 70px; margin: 20px;">
+    </div>
+    
+    <div class="sponsor-info">
+       This work is supported by the National Science Foundation under grant
+       CNS-1138461 and is covered by <br>Northwestern University IRB Study STU00058570.
+    </div>
+  </div>  
+
+{% endblock %}
+{% block footer %}
+  <button class="next-button" onclick="$('#theForm').submit()">NEXT &#x25BA;</button>
+  
+{% endblock %}
+

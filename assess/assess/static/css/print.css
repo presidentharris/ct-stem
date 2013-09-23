@@ -1,0 +1,49 @@
+.noprint {
+   display: none;
+}
+
+@page {
+   size: 8.5in 11in;
+   margin: 0.85in 0.75in 1in 0.75in;
+   padding: 0;
+}
+
+body {
+   background-color: white;
+   color: black;
+}
+
+.content {
+   overflow: visible;
+   background-color: white;
+   margin: 0;
+   box-shadow: none;
+}
+
+.page {
+   padding: 0;
+   margin: 0;
+   box-shadow: none;
+   border: none;
+   background-color: white;
+   position: static;
+   visibility: visible;
+}
+
+.footer {
+   left: -1in;
+   bottom: 1.3in;
+}
+
+.logos {
+   left: -1in;
+   bottom: 1.7in;
+}
+
+button {
+   display: none;
+}
+
+#page-number {
+   display: none;
+}

@@ -1,14 +1,49 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html lang="en">
 <head>
-    <title>{% block title %}{% endblock %}</title>
+  <title>{% block title %}{% endblock %}</title>
+
+	<meta charset="utf-8">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+
+	{% load staticfiles %}   
+	<script type="text/javascript" src="{% static "js/main.js"%}"></script>
+	<!--
+	<script type="text/javascript" src="../js/ct-stem.js"></script>
+	-->
+
+	<link rel="stylesheet" href="{% static "css/main.css" %}" type="text/css">
+	<link rel="stylesheet" href="{% static "css/print.css"%}" type="text/css" media="print">
+  <link rel="stylesheet" href="{% static "css/jquery-ui-1.8.14.custom.css"%}" type="text/css"> 
+	<link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Lora:400,400italic,700,700italic' type='text/css'>
+
+	{% block js %}{% endblock %}
+
 </head>
-<body>
-    <h1>My helpful timestamp site</h1>
-    {% block content %}{% endblock %}
-    {% block footer %}
-    <hr>
-    <p>Thanks for visiting my site.</p>
-    {% endblock %}
+<body onload="startup()">
+  <div class="content">
+		<div id="header" class="ui-widget-header" style="border:none;height:53px;">
+	  {% block header %}
+	      <!-- <button id="top-back-button" class="back-button" onclick="backPage();">&#x25C4; BACK</button> -->
+	      <div id="page-number">Page 1</div>
+	      <button id="top-next-button" class="next-button" onclick="localNextPageHandler();return false;">NEXT &#x25BA;</button>
+	  {% endblock %}
+		</div>
+	
+	  {% block pages %}{% endblock %}
+  
+		<div id="footer" class="ui-widget-header" style="border:none;height:53px;">
+	  {% block footer %}
+		  	<div style="height:88px;">
+	      <button id="bottom-next-button" class="next-button" onclick="localNextPageHandler();return false;">NEXT &#x25BA;</button>
+	      <button id="submit-and-finish-button" class="submit-and-finish-button" type="submit" onclick="if(confirm('Are you sure you want to submit your answers?\nThere are still more questions to answer.')){return preSubmitLogic();} else {return false;}">Submit &amp; Finish</button>
+	      <input id="submit-button" class="submit-button" type="submit" onclick="return preSubmitLogic();" style="visibility:hidden;" name="submit" value="Submit" />
+	  {% endblock %}
+		</div>
+  </div>
 </body>
 </html>
