@@ -4,7 +4,7 @@ class Teacher(models.Model):
   first_name = models.CharField(max_length=30)
   last_name = models.CharField(max_length=30)
   school = models.CharField(max_length=50)
-  # title = models.CharField(max_length=40) # this would hold: Mr. Weintrop, Ms. Trouille, etc.
+	  # display_name = models.CharField(max_length=40) # this would hold: Mr. Weintrop, Ms. Trouille, etc.
   email = models.EmailField()
 
   def __unicode__(self):

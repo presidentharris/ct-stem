@@ -25,30 +25,52 @@
 <body>
 
 
-  {% if student_login_form.errors %}
+  {% if errors %}
     <p style="color: red;">
-      Please correct the error{{ student_login_form.errors|pluralize }} below.
+      Please correct the error{{ errors|pluralize }} below.
     </p>
   {% endif %}
+
+<!--
+  {{ errors }}
+  {{ e }}
+-->
 
   <form action="/student/status/" method="post">
 
       Student ID: <input type="text" name="student_id" size="8"/><br/>
 
-      <select id="school" name="school_list" onChange="getData('/student/get_data/Teacher/', this)">
+      <select id="school" name="school" onChange="getData('/student/get_data/Teacher/', this)">
         <option  value="" selected="selected">---Select School---</option>
           {% for school in schools %}
               <option value="{{school.school}}">{{school.school|capfirst}}</option>
           {% endfor %}
       </select><br/>
       
-      <select id="Teacher" name="teacher_list" onChange="getData('/sutdent/get_data/Section/', this)" disabled>
+      <select id="Teacher" name="teacher" onChange="getData('/student/get_data/Section/', this)" disabled>
         <option  value="" selected="selected">---Select Teacher---</option>
       </select><br/>
 
-      <select id="Section" name="section_list" disabled>
+      <select id="Section" name="section" disabled>
         <option  value="" selected="selected">--- Select Section ---</option>
       </select><br/>
+
+      <select id="Assessment" name="assessment_set">
+        <option  value="" selected="selected">--- Select Assessment ---</option>
+        <option  value="PB">Purple Bugs</option>
+        <option  value="WARB">Warblers</option>
+        <option  value="HDI">Human Development Index</option>
+        <option  value="CPS1">Computational Problem Solving 1</option>
+      </select><br/>
+
+      <select id="location" name="location">
+        <option value="" selected="selected">--- Select Locatoin ---</option>
+        <option value="in_class">In Class</option>
+        <option value="at_home">At Home</option>
+        <option value="computer lab">In Computer Lab</option>
+        <option value="other_school">Somewhere Else at School</option>
+        <option value="other_not_school">Somewhere Else Outside of School</option>
+      </select>
 
       <input type="submit" value="Submit">
 

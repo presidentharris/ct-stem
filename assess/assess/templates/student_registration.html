@@ -1,11 +1,116 @@
 <html>
 <head>
-    <title>Search</title>
+  <title>Student Registration</title>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script type="text/javascript">
+
+	function getEthnicity() {
+		var eth_string = "";
+		$(".ethnicity:checked").each(function() {
+	    eth_string = eth_string + $(this).val() + '|';
+		});
+		eth_string = eth_string.concat($('#ethnicity_other').val());
+		$('#id_ethnicity').val(eth_string);
+		return eth_string;
+	}
+  </script>
+
 </head>
 <body>
-    <form action="/student/status" method="get">
-        <input type="text" name="q">
-        <input type="submit" value="Search">
-    </form>
+	Student Registration!<br/>
+
+  {% if errors %}
+    <p style="color: red;">
+      Please correct the error{{ student_login_form.errors|pluralize }} below.
+    </p>
+  {% endif %}
+
+  Already registered? click <a href="/student/login/">here</a><br/>
+  Student ID or Teacher/Section incorrected? click <a href="/student/login/">here</a><br/>
+
+	Student id: {{form.student_id.value}}<br/>
+	School: {{form.school.value}}<br/>
+	Teacher: {{section.teacher.first_name}} {{section.teacher.last_name}}<br/>
+	Section: {{section.subject}} : {{section.section}}<br/>
+
+	<form action="/student/register/" method="post">
+		<div style="display:none;">
+			<!-- Hidden forms to populate w/ javascript -->
+			{{form.student_id}}
+			{{form.school}}
+			{{form.ethnicity}}
+			{{form.assessment_set}}
+			{{form.location}}
+			{{form.section_id}}
+		</div>
+
+	  <table class="info-form" style="width: 650px;">
+      <tr>
+         <td class="label"><label for="first_name">First Name</label></td>
+         <td  colspan="2">
+						{{form.first_name}}
+         </td>
+      </tr>
+      <tr>
+         <td class="label"><label for="last_name">Last Name</label></td>
+         <td  colspan="2">
+         		{{form.last_name}}
+         </td>
+      </tr>
+      <tr>
+        <td class="label"><label for="date_of_birth">Date of Birth</label></td>
+        <td colspan="2">
+        	{{form.date_of_birth}}
+        </td>
+      </tr>
+      <tr>
+         <td class="label"><label for="grade">Grade</label></td>
+         <td colspan="2">
+            {{form.grade}}
+         </td>
+      </tr>
+      <tr>
+         <td class="label"><label for="sex">Sex</label></td>
+         <td colspan="2">
+            {{form.sex}}
+         </td>
+     </tr>
+      <tr>
+        <td class="label"><label for="email">Email</label></td>
+        <td colspan="2">
+         	{{form.email}}
+        </td>
+      </tr>
+			<tr>
+         <td class="label"><label for="entry.131054180">Race&nbsp;/&nbsp;Ethnicity</label></td>
+         <td colspan="2">(check all that apply)</td>
+     </tr>
+     <tr>
+         <td></td>
+         <td>
+            <input type="checkbox" class="ethnicity" name="race-ethnicity" value="asian">Asian American<br>
+            <input type="checkbox" class="ethnicity" name="race-ethnicity" value="mexican">Mexican American or Chicano<br>
+            <input type="checkbox" class="ethnicity" name="race-ethnicity" value="otherLatinAmerican">Other Latin American<br>
+            <input type="checkbox" class="ethnicity" name="race-ethnicity" value="puertoRican">Puerto Rican<br>
+         </td>
+         <td>
+            <input type="checkbox" class="ethnicity" name="race-ethnicity" value="black">Black or African American<br>
+            <input type="checkbox" class="ethnicity" name="race-ethnicity" value="nativeAmerican">Native American<br>
+            <input type="checkbox" class="ethnicity" name="race-ethnicity" value="pacificIslander">Pacific Islander<br>
+            <input type="checkbox" class="ethnicity" name="race-ethnicity" value="white">White (Caucasian)<br>
+         </td>
+      </tr>
+      <tr>
+         <td class="label"></td>
+         <td colspan="2">
+            <label for="ethnicity">Other</label>
+            <input type="text" name="ethnicity_other" id="ethnicity_other" style="width:242px;" placeholder="please specify">
+         </td>
+      </tr>
+    </table>
+    <input type="submit" value="Submit" onclick="getEthnicity()">
+
+  </form>
 </body>
 </html>
