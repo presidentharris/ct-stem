@@ -1,5 +1,5 @@
 from django.contrib import admin
-from oas.models import Teacher, Section, Student, AssessEvent
+from oas.models import Teacher, Section, Student, AssessEvent, Response
 
 class TeacherAdmin(admin.ModelAdmin):
     list_display = ('first_name', 'last_name', 'school', 'email')
@@ -11,5 +11,5 @@ admin.site.register(Teacher, TeacherAdmin)
 admin.site.register(Section)
 admin.site.register(Student, StudentAdmin)
 admin.site.register(AssessEvent)
-# admin.site.register(Response)
+admin.site.register(Response)
 

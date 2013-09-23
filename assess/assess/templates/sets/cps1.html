@@ -1,0 +1,14 @@
+CPS1<br/>
+student: {{assessmevent.student.first_name}} {{assessmevent.student.last_name}}<br/>
+
+assessmevent id:{{assessmevent.id}}<br/>
+
+<form action="/assessment/record/{{assessmevent.id}}/" method="post">
+	1. <input type="text" name="cps1_1" value="cps1_1 answer"/><br/>
+	2a. <input type="text" name="cps1_2a" value="cps1_2a answer"/><br/>
+	2b. <input type="text" name="cps1_2b" value="cps1_2b answer"/><br/>
+
+
+  <input type="submit" value="Submit">
+</form>
+

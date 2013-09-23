@@ -1,14 +1,14 @@
 from django.db import models
 
 class Teacher(models.Model):
-  first_name = models.CharField(max_length=30)
-  last_name = models.CharField(max_length=30)
-  school = models.CharField(max_length=50)
-	  # display_name = models.CharField(max_length=40) # this would hold: Mr. Weintrop, Ms. Trouille, etc.
-  email = models.EmailField()
+	first_name = models.CharField(max_length=30)
+	last_name = models.CharField(max_length=30)
+	school = models.CharField(max_length=50)
+	display_name = models.CharField(max_length=40) # this would hold: Mr. Weintrop, Ms. Trouille, etc.
+	email = models.EmailField()
 
-  def __unicode__(self):
-  	return self.first_name + ' ' + self.last_name
+	def __unicode__(self):
+		return self.first_name + ' ' + self.last_name
 
 class Section(models.Model):
   name = models.CharField(max_length=30)
@@ -40,8 +40,14 @@ class AssessEvent(models.Model):
 	location = models.CharField(max_length=40)
 	assessment_set = models.CharField(max_length=30) # "Purple Bugs", "HDI", "Warblers", "CPS1", etc.
 
-# class Response(models.Model):
-# 	assess_event = models.ForeignKey(AssessEvent)
-#		item_name	= models.CharField 						#"PB1a", "Warb1"  
-#		response = models.CharField(max_length=400)
-#   submitted_at = models.DateTimeField()
+	def __unicode__(self):
+		return self.student.last_name + ': ' + self.assessment_set
+
+class Response(models.Model):
+	assess_event = models.ForeignKey(AssessEvent)
+	item_name	= models.CharField(max_length=10) 						#"PB1a", "Warb1"  
+	response = models.CharField(max_length=400)
+ 	submitted_at = models.DateTimeField()
+
+ 	def __unicode__(self):
+ 		return self.assess_event.student.last_name + ': ' +self.item_name + ' : ' + self.response

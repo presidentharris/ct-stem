@@ -1,8 +1,6 @@
 from django.shortcuts import render
-from django.template.loader import get_template
-from django.template import Context
 from django.http import Http404, HttpResponse
-from oas.models import Student, Section, Teacher, AssessEvent
+from oas.models import Student, Section, Teacher, AssessEvent, Response
 from forms import StudentRegistrationForm
 
 import datetime
@@ -20,7 +18,7 @@ def get_data(request, table):
         inFilter = request.GET['filter']
         if table == 'Teacher':
             teachers = Teacher.objects.filter(school=inFilter).order_by("last_name")
-            data_json = [(t.id, t.first_name + ' ' + t.last_name) for t in teachers]
+            data_json = [(t.id, t.display_name) for t in teachers]
         elif table == 'Section':
             teacher = Teacher.objects.get(id=inFilter)
             sections = Section.objects.filter(teacher=teacher)
@@ -56,7 +54,7 @@ def student_status(request):
 
         # how are we going to decide which assessment student should take? Maybe an intermediate page that says: hi {{name}} welcome back, please choose the assessment you'd like to take.
 
-        return render(request, ASSESSMENTS[assessmevent.assessment_set], {'assessmevent': assessmevent})
+        return render(request, 'sets/' + ASSESSMENTS[assessmevent.assessment_set], {'assessmevent': assessmevent})
 
     except Student.DoesNotExist:
         registration_form = StudentRegistrationForm(
@@ -98,7 +96,22 @@ def student_register(request):
                 assessment_set = in_data['assessment_set']
                 )
             assessmevent.save()
-            return render(request, assessmevent.assessment_set, {'assessmevent': assessmevent})
+            return render(request, 'sets/' + assessmevent.assessment_set, {'assessmevent': assessmevent})
         else:
             return HttpResponse(form.errors)
+
+def record_assessment(request, assessmevent_id):
+    if request.method == 'POST':
+        assessmevent = AssessEvent.objects.get(id=assessmevent_id)
+        for item_name, value in request.POST.items():
+            new_response = Response(
+                assess_event = assessmevent,
+                item_name = item_name,
+                response = value,
+                submitted_at = datetime.datetime.now()
+                )
+            new_response.save()
+        return render(request, 'assessment_complete.html')
+    # this handler will be assessment agnostic - it will serve up the assessment passed in
+    return HttpResponse('something went wrong')    
 
