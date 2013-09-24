@@ -1,1 +1,33 @@
-assessment_complete
+{% extends "base.html" %}
+
+{% block title %}CT-STEM Submission Accepted{% endblock %}
+
+{% block header %}
+  <span class="page-header-text">CT-STEM Submission Accepted!</span>
+{% endblock %}
+
+{% block body %}
+<div class="page">
+	<center>
+    <h3>Thank You. You have completed the activity.<br/>You may now close this window.</h3>
+		<br/>
+    <h3>Computational Thinking in Science, Technology,<br/>Engineering, and Mathematics</h3>
+		<img src="/static/images/logo.png">
+  </center>
+	<div class="logos" style="bottom:35px;">
+	   <img src="/static/images/northwestern.png" style="width: 70px; margin: 20px;">
+	   <img src="/static/images/NSF.png" style="width: 70px; margin: 20px;">
+	</div>
+
+	<div class="sponsor-info" style="bottom:10px;">
+	   This work is supported by the National Science Foundation under grant
+	   CNS-1138461 and is covered by <br>Northwestern University IRB Study STU00058570.
+	</div>
+	</div> 
+{% endblock %}
+
+{% block footer %}
+  <div id="footer" class="ui-widget-header" style="border:none;height:53px;">
+  </div>
+  
+{% endblock %}
