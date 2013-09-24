@@ -3,7 +3,6 @@
 {% block title %}CT-STEM Student Login{% endblock %}
 
 {% block js %}
-  <title></title>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 
   <script type="text/javascript">
@@ -27,13 +26,12 @@
 {% endblock %}
 
 
-{% block pages %}
+{% block header %}
+  <div id="page-number">CT-STEM Student Login</div>
+  <button class="next-button" onclick="$('#theForm').submit()">NEXT &#x25BA;</button>
+{% endblock %}
 
-  {% if errors %}
-    <p style="color: red;">
-      Please correct the error{{ errors|pluralize }} below.
-    </p>
-  {% endif %}
+{% block body %}
 
 <!--
   {{ errors }}
@@ -43,10 +41,16 @@
 
   <div class="page">
     <center>
-    <h1 style="font-size: 40pt;">CT-STEM</h1>
-    <h2>Computational Thinking in<br/>Science, Technology, Engineering, and Mathematics</h2>
+    {# <h1 style="font-size: 40pt;">CT-STEM</h1> #}
+      <h2>Computational Thinking in<br/>Science, Technology, Engineering, and Mathematics</h2>
+      <img src="/static/images/logo.png">
     </center>
-    <img src="/static/images/logo.png">
+
+    {% if errors %}
+      <p style="color: red;">
+        Please correct the error{{ errors|pluralize }} below.
+      </p>
+    {% endif %}
        
     <form id="theForm" action="/student/status/" method="post">
       <div style="margin:10px;height:380px;">

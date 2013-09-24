@@ -96,7 +96,7 @@ def student_register(request):
                 assessment_set = in_data['assessment_set']
                 )
             assessmevent.save()
-            return render(request, 'sets/' + assessmevent.assessment_set, {'assessmevent': assessmevent})
+            return render(request, 'sets/' + ASSESSMENTS[assessmevent.assessment_set], {'assessmevent': assessmevent})
         else:
             return HttpResponse(form.errors)
 

@@ -28,20 +28,22 @@ function startup() {
    // Start with all pages invisible but spaced correctly
    //----------------------------------------------
    var pages = document.querySelectorAll(".page");
-   for (var i=0; i<pages.length; i++) {
-      var page = pages[i];
-      page.id = "page" + i;
-      page.style.left = (page_width * i) + "px";
-   }
-   page_count = pages.length;
-   
-   var hash = parent.location.hash;
-   if (hash && hash.indexOf('#p') == 0) {
-      gotoPage(parseInt(hash.substring(2)));
+   if (pages.length > 1) {
+      for (var i=0; i<pages.length; i++) {
+         var page = pages[i];
+         page.id = "page" + i;
+         page.style.left = (page_width * i) + "px";
+      }
+      page_count = pages.length;
+      var hash = parent.location.hash;
+      if (hash && hash.indexOf('#p') == 0) {
+         gotoPage(parseInt(hash.substring(2)));
+      } else {
+         gotoPage(1);
+      }
    } else {
-      gotoPage(1);
+      displayPage(pages[0]);
    }
-
    
    //----------------------------------------------
    // Likert tables
@@ -120,14 +122,20 @@ function gotoPage(p) {
          var page = pages[i];
          page.style.left = (page_width * (i - curr_page)) + "px";
          if (curr_page == i) {
-            page.style.visibility = 'visible';
-
-            var footer = document.getElementById("footer");
-            if (footer) {
-               footer.style.marginTop = page.clientHeight + "px";
-            }
+            displayPage(page)
          } 
       }
+   }
+}
+
+//-----------------------------------------------------------------------------
+// Page display helper
+//-----------------------------------------------------------------------------
+function displayPage(page) {
+   page.style.visibility = 'visible';
+   var footer = document.getElementById("footer");
+   if (footer) {
+      footer.style.marginTop = page.clientHeight + "px";
    }
 }
 

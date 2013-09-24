@@ -1,8 +1,8 @@
-<html>
-<head>
-  <title>Student Registration</title>
+{% extends "base.html" %}
 
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+{% block title %}CT-STEM Student Registration{% endblock %}
+
+{% block js %}
   <script type="text/javascript">
 
 	function getEthnicity() {
@@ -15,10 +15,21 @@
 		return eth_string;
 	}
   </script>
+{% endblock %}
 
-</head>
-<body>
-	Student Registration!<br/>
+{% block header %}
+	<button id="top-back-button" class="back-button" onclick="history.go(-1)">&#x25C4; BACK</button>
+	<div id="page-number">Student Registration</div>
+  <button id="top-next-button" class="next-button" onclick="getEthnicity();$('#theForm').submit()">NEXT &#x25BA;</button>
+{% endblock %}
+
+{% block body %}
+
+<div class="page">
+	<center>
+		<h2>Computational Thinking in<br/>Science, Technology, Engineering, and Mathematics</h2>
+    <img src="/static/images/logo.png">
+  </center>
 
   {% if errors %}
     <p style="color: red;">
@@ -26,15 +37,10 @@
     </p>
   {% endif %}
 
-  Already registered? click <a href="/student/login/">here</a><br/>
-  Student ID or Teacher/Section incorrected? click <a href="/student/login/">here</a><br/>
+  Already registered? click <a href="#" onclick="history.go(-1)">here</a><br/>
+  Student ID or school incorrected? click <a href="#" onclick="history.go(-1)">here</a><br/>
 
-	Student id: {{form.student_id.value}}<br/>
-	School: {{form.school.value}}<br/>
-	Teacher: {{section.teacher.first_name}} {{section.teacher.last_name}}<br/>
-	Section: {{section.subject}} : {{section.section}}<br/>
-
-	<form action="/student/register/" method="post">
+	<form id="theForm" action="/student/register/" method="post">
 		<div style="display:none;">
 			<!-- Hidden forms to populate w/ javascript -->
 			{{form.student_id}}
@@ -46,6 +52,18 @@
 		</div>
 
 	  <table class="info-form" style="width: 650px;">
+      <tr>
+         <td class="label"><label for="first_name">Student ID:</label></td>
+         <td  colspan="2">
+						{{form.student_id.value}}
+         </td>
+      </tr>      
+      <tr>
+         <td class="label"><label for="first_name">School:</label></td>
+         <td  colspan="2">
+						{{form.school.value}}
+         </td>
+      </tr>
       <tr>
          <td class="label"><label for="first_name">First Name</label></td>
          <td  colspan="2">
@@ -109,8 +127,11 @@
          </td>
       </tr>
     </table>
-    <input type="submit" value="Submit" onclick="getEthnicity()">
-
   </form>
-</body>
-</html>
+</div>
+{% endblock %}
+
+{% block footer %}
+	<button id="top-back-button" class="back-button" onclick="history.go(-1)">&#x25C4; BACK</button>
+	<button class="next-button" onclick="getEthnicity();$('#theForm').submit()">NEXT &#x25BA;</button>
+{% endblock %}
