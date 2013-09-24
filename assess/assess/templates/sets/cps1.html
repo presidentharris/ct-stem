@@ -1,14 +1,407 @@
-CPS1<br/>
-student: {{assessmevent.student.first_name}} {{assessmevent.student.last_name}}<br/>
+{% extends "base.html" %}
 
-assessmevent id:{{assessmevent.id}}<br/>
+{% block title %}Computational Problem Sovling{% endblock %}
 
-<form action="/assessment/record/{{assessmevent.id}}/" method="post">
-	1. <input type="text" name="cps1_1" value="cps1_1 answer"/><br/>
-	2a. <input type="text" name="cps1_2a" value="cps1_2a answer"/><br/>
-	2b. <input type="text" name="cps1_2b" value="cps1_2b answer"/><br/>
+{% block css %}
+<link rel="stylesheet" href="/static/css/codemirror.css">
+{% endblock %}
+
+{% block js %}
+<script src="/static/js/codemirror.js"></script>
+
+<script type="text/javascript">
+   function localNextPageHandler() {
+      // ineligant hack to get the fixed position images to face after their page has been viewed
+      // all attempts at elegance failed - sigh
+      $('.fixed-image').each(
+         function (index, el){
+            if ($(this).parents(".page").css("left") == '0px'){
+               $(this).fadeOut("slow");
+            }
+         }
+      );
+      nextPageHandler();
+   }
+ </script>
+{% endblock %}
+
+{% block page-header%}Computational Problem Solving{% endblock %}
+
+{% block body %}
+ 
+   <div class="page">
 
 
-  <input type="submit" value="Submit">
-</form>
+			CPS1<br/>
+			student: {{assessmevent.student.first_name}} {{assessmevent.student.last_name}}<br/>
 
+			assessmevent id:{{assessmevent.id}}<br/>
+
+			<form id="theForm" action="/assessment/record/{{assessmevent.id}}/" method="post">
+      <div class="stimulus">
+         A climate scientist wrote this computer program to measure air temperatures
+         at a weather station.
+         <pre>
+   repeat 20 times:
+      pause-minutes(30)
+      record-temperature
+         </pre>
+      </div>
+      <div class="prompt">
+         <b>Item 1:</b> Which of these plots shows her measurements?
+      </div>
+      <ol class="check-one" input-num="cps1_1">
+      	<!-- yes the margin-left:0px needs to be there - otherwise the select buttons don't show -->
+				<li answer="A"><img src="/static/images/cps1/temp-plot1.png" style="width: 500px;margin-left:0px;"></li>
+				<li answer="B"><img src="/static/images/cps1/temp-plot2.png" style="width: 500px;margin-left:0px;"></li>
+				<li answer="C"><img src="/static/images/cps1/temp-plot3.png" style="width: 500px;margin-left:0px;"></li>
+				<li answer="D"><img src="/static/images/cps1/temp-plot4.png" style="width: 500px;margin-left:0px;"></li>
+      </ol>
+      <input id="cps1_1" type="text" dir="auto" value="" name="cps1_1" style="display:none;">
+   </div>
+
+   <div class="page">
+      <div class="stimulus">
+         The data collected by the air temperature program is stored in a file called temperature-readings.dta. To analyze the data, the climate scientist wrote another program, shown below.
+         <pre>
+for-each temperature-data-point in temperature-readings.dta:
+   if temperature-data-point &lt; 12&deg; AND temperature-data-point &gt; 11&deg;:
+      print temperature-data-point
+         </pre>
+      </div>
+      <div class="prompt">
+         <b>Item 2:</b> What does this program do?
+      </div>
+      <ol class="check-one" input-num="cps1_2">
+         <li answer="A">Prints the first temperature reading less than 12&deg;</li>
+         <li answer="B">Prints all temperature readings</li>
+         <li answer="C">Prints all temperature readings bewteen 11&deg; and 12&deg;</li>
+         <li answer="D">Prints all temperature readings greater than 12&deg; or less than 11&deg;</li>
+      </ol>
+      <input id="cps1_2" type="text" dir="auto" value="" name="cps1_2" style="display:none;">
+   </div>
+
+
+   <div class="page">
+      <div class="stimulus">
+         To display the data in temperature-readings.dta in a graph, the climate scientist wrote the following program:
+         <pre>
+for-each temperature-data-point in temperature-readings.dta:
+   if temperature-data-point &gt; 12&deg;:
+      set plot-color red
+   else if temperature-data-point &lt; 11&deg;
+      set plot-color blue
+   else 
+      set plot-color black
+   plot temperature-data-point
+         </pre>
+      </div>
+      <div class="prompt">
+         <b>Item 3:</b> What plot does this program produce?
+      </div>
+      <ol class="check-one" input-num="cps1_3">
+         <li answer="A"><img src="/static/images/cps1/temp-color-plot1.png" style="width: 500px;margin-left:0px;"></li>
+         <li answer="B"><img src="/static/images/cps1/temp-color-plot2.png" style="width: 500px;margin-left:0px;"></li>
+         <li answer="C"><img src="/static/images/cps1/temp-color-plot3.png" style="width: 500px;margin-left:0px;"></li>
+         <li answer="D"><img src="/static/images/cps1/temp-color-plot4.png" style="width: 500px;margin-left:0px;"></li>
+      </ol>
+      <input id="cps1_3" type="text" dir="auto" value="" name="cps1_3" style="display:none;">
+   </div>
+
+   <div class="page">
+      <div style="width:450px;">
+         <div class="stimulus">
+            <img src="/static/images/cps1/maze1.png" class="fixed-image" style="float: right; margin-left: 450px; width: 220px; position:fixed;">
+            <p>
+            A team of engineering students is building an autonomous robot for a contest.
+            To win, they must program their robot to move around a grid while avoiding
+            obstacles. The robot moves exactly one square at a time either up, down,
+            left, or right.
+            </p>
+            The team started by writing this program to move their robot.
+            <pre>
+   move-up
+   move-right
+   move-up
+   move-right
+   move-right</pre>
+         </div>
+         <div class="prompt">
+            <b>Item 4a:</b> After running the program, which square will the robot stop on.
+         </div>
+         <ol class="check-one two-columns" input-num="cps1_4a">
+            <li answer="A">Square A</li>
+            <li answer="B">Square B</li>
+            <li answer="C">Square C</li>
+            <li answer="D">Square D</li>
+         </ol>
+         <input id="cps1_4a" type="text" dir="auto" value="" name="cps1_4a" style="display:none;">
+         <br>
+         
+         <div class="stimulus">
+            The team tried changing their program to this:
+            <pre>
+   move-up
+   move-right
+   move-up
+   move-up</pre>
+         </div>
+         <div class="prompt">
+            <b>Item 4b:</b> Now where will the robot stop?
+         </div>
+         
+         <ol class="check-one two-columns" input-num="cps1_4b">
+            <li answer="A">Square A</li>
+            <li answer="B">Square B</li>
+            <li answer="C">Square C</li>
+            <li answer="D">Square D</li>
+         </ol>
+         <input id="cps1_4b" type="text" dir="auto" value="" name="cps1_4b" style="display:none;">
+      </div>
+   </div>
+<!-- ======================================================================= -->
+
+   <div class="page">
+      <div style="width:450px;">
+         <div class="stimulus">
+            <img src="/static/images/cps1/maze2.png" class="fixed-image" style="float: right; margin-left: 450px; width: 220px;position:fixed;">
+            The team of engineering students added sensors to their robot to help
+            it avoid obstacles (shown as grey squares on the grid). Then they wrote
+            this program:
+            <pre>
+   if obstacle-left then:
+      move-right
+   if obstacle-up then:
+      move-down
+   if obstacle-right then:
+      move-left
+   if obstacle-down then:
+      move-up</pre>
+         </div>
+         <div class="prompt">
+            <b>Item 5a:</b> On which square will the robot stop?
+         </div>
+         
+         <ol class="check-one two-columns" input-num="cps1_5a">
+            <li answer="A">Square A</li>
+            <li answer="B">Square B</li>
+            <li answer="C">Square C</li>
+            <li answer="D">Square D</li>
+         </ol>
+         <input id="cps1_5a" type="text" dir="auto" value="" name="cps1_5a" style="display:none;">
+      <br>
+         
+         <div class="stimulus">
+            The students then changed their program to this:
+            <pre>
+   if obstacle-left then:
+      move-right
+   else if obstacle-up then:
+      move-down
+   else if obstacle-right then:
+      move-left
+   else:
+      move-up</pre>
+         </div>
+         <div class="prompt">
+            <b>Item 5b:</b> Now where will the robot stop?
+         </div>
+         <ol class="check-one two-columns" input-num="cps1_5b">
+            <li answer="A">Square A</li>
+            <li answer="B">Square B</li>
+            <li answer="C">Square C</li>
+            <li answer="D">Square D</li>
+         </ol>
+         <input id="cps1_5b" type="text" dir="auto" value="" name="cps1_5b" style="display:none;">
+      </div>
+   </div>
+
+<!-- ======================================================================= -->
+   <div class="page">
+      <div style="width:450px;">
+         <div class="stimulus">
+            <img src="/static/images/cps1/maze3.png" class="fixed-image" style="float: right; margin-left: 450px; width: 220px;position:fixed;">
+            The students now want to make the robot move in a bigger
+            world. They tried this program, but the robot ran into an obstacle (grey square).
+            <pre>
+   repeat forever:
+      move-up
+      move-right</pre>
+         </div>
+         <div class="prompt">
+            <b>Item 6a:</b> Which obstacle did the robot hit first?
+         </div>
+         
+         <ol class="check-one three-columns" input-num="cps1_6a">
+            <li answer="A">Square A</li>
+            <li answer="B">Square B</li>
+            <li answer="C">Square C</li>
+            <li answer="D">Square D</li>
+            <li answer="E">Square E</li>
+         </ol>
+         <input id="cps1_6a" type="text" dir="auto" value="" name="cps1_6a" style="display:none;">
+         
+         <div class="stimulus">
+            They tried a different program, but the robot ran into an obstacle again.
+            <pre>
+   repeat forever:
+      move-right
+      move-up
+      move-up</pre>
+         </div>
+         <div class="prompt">
+            <b>Item 6b:</b> Which obstacle did the robot hit first this time?
+         </div>
+         <ol class="check-one three-columns" input-num="cps1_6b">
+            <li answer="A">Square A</li>
+            <li answer="B">Square B</li>
+            <li answer="C">Square C</li>
+            <li answer="D">Square D</li>
+            <li answer="E">Square E</li>
+         </ol>
+         <input id="cps1_6b" type="text" dir="auto" value="" name="cps1_6b" style="display:none;">
+         
+         <div class="stimulus">
+            They tried one more program, but the robot still hit an obstacle.
+            <pre>
+   repeat forever:
+      move-up
+      repeat-until obstacle-right:
+         move-right</pre>
+         </div>
+         <div class="prompt">
+            <b>Item 6c:</b> Which obstacle did the robot hit first this time? 
+         </div>
+         <ol class="check-one three-columns" input-num="cps1_6c">
+            <li answer="A">Square A</li>
+            <li answer="B">Square B</li>
+            <li answer="C">Square C</li>
+            <li answer="D">Square D</li>
+            <li answer="E">Square E</li>
+         </ol>
+         <input id="cps1_6c" type="text" dir="auto" value="" name="cps1_6c" style="display:none;">
+      </div>
+   </div>
+   
+<!-- ======================================================================= -->
+   <div class="page">
+      <div class="stimulus">
+         <img src="/static/images/cps1/maze6.png" style="margin: 10px; width: 500px;">
+      </div>
+      <div class="prompt">
+         <b>Item 7:</b>  Try changing this program to move the robot to the STAR. The commands the robot knows are listed on the right.
+      </div>
+      <div class="stimulus" style="float:right;margin-left:10px;margin-top:-7px;">
+         <pre style="padding: 10px; border: 1px solid black;">
+   move-up
+   move-left
+   move-down
+   move-right
+
+   obstacle-up
+   obstacle-left
+   obstacle-down
+   obstracel-right
+   
+   repeat-forever:
+   repeat-until:
+   if:
+   else if:
+   else:</pre>
+      </div>
+      <div style="padding-top: 10px; width:450px;height:500px;">
+      <textarea id="cps1_7" name="cps1_7">
+repeat-forever:
+   move-up
+   move-right</textarea>
+      </div>
+      <script>
+         var el = document.getElementById("cps1_7");
+         var editor = CodeMirror.fromTextArea(el, {
+            lineNumbers: true,
+            theme : 'solarized dark'
+         });
+      </script>
+   </div>
+   
+ <!-- ======================================================================= -->
+  <div class="page">
+      <div style="width: 289px;">
+         <div class="stimulus">
+            <img src="/static/images/cps1/maze5.png" class="fixed-image" style="float: right; margin-left: 288px; width: 394px; position:fixed; margin-bottom: 12px;"><br>
+            The team has now tried to get the robot to start avoiding obstacles with
+            this program:
+            <pre>
+   define climb-stair-up:
+      move-up
+      move-right
+      
+   define climb-stair-down:
+      move-right
+      move-down
+      
+   define walk-right:
+      if obstacle-right then:
+         climb-stair-up
+      else:
+         right
+         
+   repeat forever:
+      walk-right</pre>
+         </div>
+         <div class="prompt">
+            <b>Item 8:</b> Which obstacle will the robot hit when it runs this program?
+         </div>
+         <ol class="check-one three-columns" input-num="cps1_8">
+            <li answer="A">Square A</li>
+            <li answer="B">Square B</li>
+            <li answer="C">Square C</li>
+            <li answer="D">Square D</li>
+            <li answer="E">Square E</li>
+         </ol>
+         <input id="cps1_8" type="text" dir="auto" value="" name="cps1_8" style="display:none;">
+      </div>
+   </div>
+   
+  <!-- ======================================================================= -->
+  <div class="page">
+      <div style="width:289px;">
+         <div class="stimulus">
+            <img src="/static/images/cps1/maze5.png" class="fixed-image" style="float: right; margin-left: 288px; width: 394px; position:fixed; margin-bottom: 12px;"><br>
+            They tried changing their program:
+            <pre>
+define climb-stair-up:
+   move-up
+   move-right
+   
+define climb-stair-down:
+   move-right
+   move-down
+   
+define walk-right:
+   if obstacle-right then:
+      climb-stair-up
+   else if obstacle-down then:
+      right
+   else:
+      climb-stair-down
+      
+repeat forever:
+   walk-right</pre>
+         </div>
+         <div class="prompt">
+            <b>Item 9:</b> Which obstacle will the robot hit this time?
+         </div>
+         <ol class="check-one three-columns" input-num="cps1_9">
+            <li answer="A">Square A</li>
+            <li answer="B">Square B</li>
+            <li answer="C">Square C</li>
+            <li answer="D">Square D</li>
+            <li answer="E">Square E</li>
+         </ol>
+         <input id="cps1_9" type="text" dir="auto" value="" name="cps1_9" style="display:none;">
+      </div>
+   </div>
+
+ </form>
+ {% endblock %}

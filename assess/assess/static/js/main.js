@@ -110,7 +110,7 @@ function gotoPage(p) {
       //-----------------------------------------------------
       // Set the page number at the bottom of the screen
       //-----------------------------------------------------
-      setHtmlText("page-number", "Page " + p + " of " + page_count);
+      setHtmlText("page-number", "(p. " + p + "/" + page_count + ")");
 
       //-----------------------------------------------------
       // Update the left margin for all pages. The CSS rule
@@ -125,6 +125,16 @@ function gotoPage(p) {
             displayPage(page)
          } 
       }
+
+      //-----------------------------------------------------
+      // Handle displaying navigation buttons
+      //-----------------------------------------------------
+      setHtmlVisibility("submit-and-finish-button", (p < page_count));
+      setHtmlVisibility("top-next-button", p < page_count);
+      setHtmlVisibility("submit-button", p == page_count);
+      setHtmlVisibility("bottom-next-button", p < page_count);
+      setHtmlVisibility("top-back-button", p > 1);
+      setHtmlVisibility("bottom-back-button", p > 1);
    }
 }
 

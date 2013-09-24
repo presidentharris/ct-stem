@@ -27,9 +27,10 @@
 
 
 {% block header %}
-  <div id="page-number">CT-STEM Student Login</div>
+  <span class="page-header-text">CT-STEM Student Login </span>
   <button class="next-button" onclick="$('#theForm').submit()">NEXT &#x25BA;</button>
 {% endblock %}
+
 
 {% block body %}
 
@@ -108,7 +109,9 @@
 
 {% endblock %}
 {% block footer %}
-  <button class="next-button" onclick="$('#theForm').submit()">NEXT &#x25BA;</button>
+  <div id="footer" class="ui-widget-header" style="border:none;height:53px;">
+    <button class="next-button" onclick="$('#theForm').submit()">NEXT &#x25BA;</button>
+  </div>
   
 {% endblock %}
 

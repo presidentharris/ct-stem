@@ -19,9 +19,11 @@
 
 {% block header %}
 	<button id="top-back-button" class="back-button" onclick="history.go(-1)">&#x25C4; BACK</button>
-	<div id="page-number">Student Registration</div>
+	<span class="page-header-text">Student Registration</span>
   <button id="top-next-button" class="next-button" onclick="getEthnicity();$('#theForm').submit()">NEXT &#x25BA;</button>
 {% endblock %}
+
+
 
 {% block body %}
 
@@ -38,7 +40,7 @@
   {% endif %}
 
   Already registered? click <a href="#" onclick="history.go(-1)">here</a><br/>
-  Student ID or school incorrected? click <a href="#" onclick="history.go(-1)">here</a><br/>
+  Student ID or school incorrect? click <a href="#" onclick="history.go(-1)">here</a><br/>
 
 	<form id="theForm" action="/student/register/" method="post">
 		<div style="display:none;">
@@ -132,6 +134,8 @@
 {% endblock %}
 
 {% block footer %}
-	<button id="top-back-button" class="back-button" onclick="history.go(-1)">&#x25C4; BACK</button>
-	<button class="next-button" onclick="getEthnicity();$('#theForm').submit()">NEXT &#x25BA;</button>
+	<div id="footer" class="ui-widget-header" style="border:none;height:53px;">
+		<button id="top-back-button" class="back-button" onclick="history.go(-1)">&#x25C4; BACK</button>
+		<button class="next-button" onclick="getEthnicity();$('#theForm').submit()">NEXT &#x25BA;</button>
+	</div>
 {% endblock %}

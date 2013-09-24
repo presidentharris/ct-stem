@@ -123,7 +123,7 @@ li img {
 
 
 .check-one li {
-   background-image: url('../images/unfilled.png');
+   background-image: url('/static/images/unfilled.png');
    background-repeat: no-repeat;
    background-size: 25px 25px;
    background-position: 0 -3px;
@@ -131,12 +131,12 @@ li img {
 }
 
 .check-one li:hover { text-decoration: underline; }
-.check-one li:active { background-image: url('../images/halffilled.png'); }
-.check-one li.selected { background-image: url('../images/filled.png'); }
+.check-one li:active { background-image: url('/static/images/halffilled.png'); }
+.check-one li.selected { background-image: url('/static/images/filled.png'); }
 
 
 .check-all li {
-   background-image: url('../images/unchecked.png');
+   background-image: url('/static/images/unchecked.png');
    background-repeat: no-repeat;
    background-size: 25px 25px;
    background-position: 0 -3px;
@@ -144,8 +144,8 @@ li img {
 }
 
 .check-all li:hover { text-decoration: underline; }
-.check-all li:active { background-image: url('../images/halfchecked.png'); }
-.check-all li.selected { background-image: url('../images/checked.png'); }
+.check-all li:active { background-image: url('/static/images/halfchecked.png'); }
+.check-all li.selected { background-image: url('/static/images/checked.png'); }
 
 
 .inline {
@@ -156,7 +156,7 @@ li img {
 
 
 table.likert td {
-   background-image: url('../images/unfilled.png');
+   background-image: url('/static/images/unfilled.png');
    background-repeat: no-repeat;
    background-size: 25px 25px;
    background-position: 15px 8px;
@@ -166,8 +166,8 @@ table.likert td {
    vertical-align: top;
 }
 
-table.likert td:active { background-image: url('../images/halffilled.png'); }
-table.likert td.selected { background-image: url('../images/filled.png'); }
+table.likert td:active { background-image: url('/static/images/halffilled.png'); }
+table.likert td.selected { background-image: url('/static/images/filled.png'); }
 
 table.likert td.prompt {
    text-align: left;
@@ -186,7 +186,7 @@ table.likert th {
 }
 
 table.likert td.check-one {
-   background-image: url('../images/unfilled.png');
+   background-image: url('/static/images/unfilled.png');
    background-repeat: no-repeat;
    background-size: 25px 25px;
    background-position: 0 -3px;
@@ -210,7 +210,7 @@ table.likert td.check-one {
    height: 46px;
    vertical-align: bottom;
    text-align: center;
-   background-image: url('../images/unfilled.png');
+   background-image: url('/static/images/unfilled.png');
    background-size: 25px 25px;
    background-repeat: no-repeat;
    background-position: center bottom;
@@ -219,8 +219,8 @@ table.likert td.check-one {
    line-height: 95%;
 }
 
-.likert li:active { background-image: url('../images/halffilled.png'); }
-.likert li.selected { background-image: url('../images/filled.png'); }
+.likert li:active { background-image: url('/static/images/halffilled.png'); }
+.likert li.selected { background-image: url('/static/images/filled.png'); }
 
 
 textarea {
@@ -285,7 +285,7 @@ button:active {
 
 .submit-and-finish-button {
    margin-top: 55px;
-   margin-right: 10px;
+   margin-right: -97px;
    float: right;
    height: 27px;
    width: 97px;
@@ -298,11 +298,12 @@ button:active {
 .submit-button {
    margin: 10px;
    float: right;
+   margin-right: -97px;
    z-index: 100;
    visibility: hidden;
 }
 
-#page-number, #sub-accepted {
+.page-header-text {
    color: white;
    font-family: 'Helvetica Neue', sans-serif;
    font-weight: normal;
@@ -320,7 +321,7 @@ button:active {
 
 
 #status {
-   background-image: url('../images/spinner.svg');
+   background-image: url('/static/images/spinner.svg');
    background-size: 25px;
    background-repeat: no-repeat;
    background-position: 50px 15px;
