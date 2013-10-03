@@ -30,13 +30,6 @@
 {% block body %}
  
    <div class="page">
-
-
-			CPS1<br/>
-			student: {{assessmevent.student.first_name}} {{assessmevent.student.last_name}}<br/>
-
-			assessmevent id:{{assessmevent.id}}<br/>
-
 			<form id="theForm" action="/assessment/record/{{assessmevent.id}}/" method="post">
       <div class="stimulus">
          A climate scientist wrote this computer program to measure air temperatures

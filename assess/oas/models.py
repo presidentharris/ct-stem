@@ -1,11 +1,17 @@
 from django.db import models
 
+class TeacherManager(models.Manager):
+	def getSchoolChoices(self):
+		return [(t['school'], t['school']) for t in self.get_query_set().values('school').distinct()]
+
 class Teacher(models.Model):
 	first_name = models.CharField(max_length=30)
 	last_name = models.CharField(max_length=30)
 	school = models.CharField(max_length=50)
 	display_name = models.CharField(max_length=40) # this would hold: Mr. Weintrop, Ms. Trouille, etc.
 	email = models.EmailField()
+
+	objects = TeacherManager()
 
 	def __unicode__(self):
 		return self.first_name + ' ' + self.last_name
