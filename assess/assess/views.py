@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import Http404, HttpResponse
+from django.http import HttpResponse
 from oas.models import Student, Section, Teacher, AssessEvent, Response
 from forms import StudentRegistrationForm
 
