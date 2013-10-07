@@ -89,8 +89,7 @@
       <tr>
         <td class="label"><label for="date_of_birth">Date of Birth</label></td>
         <td colspan="2">
-          {# {{form.date_of_birth.errors}} #}
-          {{form.date_of_birth}}
+          <input type="text" placeholder="mm/dd/yyyy" name="{{form.date_of_birth.name}}" value="{{form.date_of_birth.value}}"/>
           <span class="class-msg">
             {% for error in form.date_of_birth.errors %}
               {{ error }}

@@ -17,7 +17,7 @@ class StudentRegistrationForm(forms.Form):
 		school = forms.CharField()
 		first_name = forms.CharField()
 		last_name = forms.CharField()
-		date_of_birth = forms.DateField() #, attrs={'pattern': 'mm/dd/yyyy'})
+		date_of_birth = forms.DateField(widget=forms.widgets.DateInput(format="%m/%d/%Y"), help_text='aaa') 
 		grade = forms.CharField(widget=forms.Select)
 		sex = forms.CharField(widget=forms.Select)
 		email = forms.EmailField()

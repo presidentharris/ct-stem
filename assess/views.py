@@ -53,7 +53,6 @@ def student_status(request):
         assessmevent.save()
 
         # how are we going to decide which assessment student should take? Maybe an intermediate page that says: hi {{name}} welcome back, please choose the assessment you'd like to take.
-
         return render(request, 'sets/' + ASSESSMENTS[assessmevent.assessment_set], {'assessmevent': assessmevent})
 
     except Student.DoesNotExist:
@@ -65,31 +64,32 @@ def student_status(request):
         errors.append("An error occured, please verify your information and try again.")
         return render(request, 'student_login.html', {'errors': errors, 'e':e})
 
-        # figure out how to put errors on/in the request before REDIRECTING to student_login
-        # return student_login(request)
-
 def student_register(request):
     if request.method == 'POST':
         form = StudentRegistrationForm(request.POST)
         if form.is_valid():
             in_data = form.cleaned_data
-            in_data['student_id']
-            #create student!
-            new_student = Student(
-                student_id=in_data['student_id'],
-                first_name=in_data['first_name'],
-                last_name=in_data['last_name'],
-                grade=in_data['grade'],
-                sex=in_data['sex'],
-                dob=in_data['date_of_birth'],
-                school=in_data['school'],
-                email=in_data['email'],
-                ethnicity=in_data['ethnicity'])
-            new_student.save()
+
+            if ( not Student.objects.filter(student_id=in_data['student_id'], school=in_data['school'])):
+                #create student!
+                student = Student(
+                    student_id=in_data['student_id'],
+                    first_name=in_data['first_name'],
+                    last_name=in_data['last_name'],
+                    grade=in_data['grade'],
+                    sex=in_data['sex'],
+                    dob=in_data['date_of_birth'],
+                    school=in_data['school'],
+                    email=in_data['email'],
+                    ethnicity=in_data['ethnicity'])
+
+                student.save()
+            else:
+                student = Student.objects.get(student_id=in_data['student_id'], school=in_data['school'])
 
             section = Section.objects.get(id=in_data['section_id'])
             assessmevent = AssessEvent (
-                student = new_student,
+                student = student,
                 section = section,
                 date = datetime.datetime.now(),
                 location = in_data['location'],
@@ -104,14 +104,17 @@ def student_register(request):
 def record_assessment(request, assessmevent_id):
     if request.method == 'POST':
         assessmevent = AssessEvent.objects.get(id=assessmevent_id)
-        for item_name, value in request.POST.items():
-            new_response = Response(
-                assess_event = assessmevent,
-                item_name = item_name,
-                response = value,
-                submitted_at = datetime.datetime.now()
-                )
-            new_response.save()
+
+        # be sure to only record a single set of responses per assessmevent
+        if ( not Response.objects.filter(assess_event=assessmevent)):
+            for item_name, value in request.POST.items():
+                new_response = Response(
+                    assess_event = assessmevent,
+                    item_name = item_name,
+                    response = value,
+                    submitted_at = datetime.datetime.now()
+                    )
+                new_response.save()
         return render(request, 'assessment_complete.html')
     # this handler will be assessment agnostic - it will serve up the assessment passed in
     return HttpResponse('something went wrong')    

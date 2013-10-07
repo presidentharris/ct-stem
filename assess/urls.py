@@ -13,5 +13,5 @@ urlpatterns = patterns('',
     url(r'^student/status/$', views.student_status),
     url(r'^student/register/$', views.student_register),
     (r'^admin/', include(admin.site.urls)),
-
+		url(r'^.*', views.student_login),
 )
