@@ -98,7 +98,8 @@ def student_register(request):
             assessmevent.save()
             return render(request, 'sets/' + ASSESSMENTS[assessmevent.assessment_set], {'assessmevent': assessmevent})
         else:
-            return HttpResponse(form.errors)
+            return render(request, 'student_registration.html', {'form': form})
+            # return HttpResponse(form.errors)
 
 def record_assessment(request, assessmevent_id):
     if request.method == 'POST':

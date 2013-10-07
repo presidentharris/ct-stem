@@ -31,9 +31,9 @@
     <img src="/static/images/logo.png">
   </center>
 
-  {% if errors %}
-    <p style="color: red;">
-      Please correct the error{{ student_login_form.errors|pluralize }} below.
+  {% if form.errors %}
+    <p class="class-msg">
+      Please correct the error{{ form.errors|pluralize }} below.
     </p>
   {% endif %}
 
@@ -68,18 +68,34 @@
          <td class="label"><label for="first_name">First Name</label></td>
          <td  colspan="2">
 						{{form.first_name}}
+            <span class="class-msg">
+            {% for error in form.first_name.errors %}
+              {{ error }}
+            {% endfor %}
+          </span>
          </td>
       </tr>
       <tr>
          <td class="label"><label for="last_name">Last Name</label></td>
          <td  colspan="2">
          		{{form.last_name}}
+            <span class="class-msg">
+            {% for error in form.last_name.errors %}
+              {{ error }}
+            {% endfor %}
+          </span>
          </td>
       </tr>
       <tr>
         <td class="label"><label for="date_of_birth">Date of Birth</label></td>
         <td colspan="2">
-        	{{form.date_of_birth}}
+          {# {{form.date_of_birth.errors}} #}
+          {{form.date_of_birth}}
+          <span class="class-msg">
+            {% for error in form.date_of_birth.errors %}
+              {{ error }}
+            {% endfor %}
+          </span>
         </td>
       </tr>
       <tr>
@@ -98,21 +114,34 @@
         <td class="label"><label for="email">Email</label></td>
         <td colspan="2">
          	{{form.email}}
+          <span class="class-msg">
+            {% for error in form.email.errors %}
+              {{ error }}
+            {% endfor %}
+          </span>
         </td>
       </tr>
 			<tr>
-         <td class="label"><label for="entry.131054180">Race&nbsp;/&nbsp;Ethnicity</label></td>
-         <td colspan="2">(check all that apply)</td>
+        <td class="label"><label for="entry.131054180">Race&nbsp;/&nbsp;Ethnicity</label></td>
+        <td colspan="2">
+          (check all that apply)
+        </td>
      </tr>
      <tr>
          <td></td>
          <td>
+          {% for error in form.ethnicity.errors %}
+              <span class="class-msg">{{ error }}<br/></span>
+            {% endfor %}
             <input type="checkbox" class="ethnicity" name="race-ethnicity" value="asian">Asian American<br>
             <input type="checkbox" class="ethnicity" name="race-ethnicity" value="mexican">Mexican American or Chicano<br>
             <input type="checkbox" class="ethnicity" name="race-ethnicity" value="otherLatinAmerican">Other Latin American<br>
             <input type="checkbox" class="ethnicity" name="race-ethnicity" value="puertoRican">Puerto Rican<br>
          </td>
          <td>
+            {% for error in form.ethnicity.errors %}
+              <br/>
+            {% endfor %}
             <input type="checkbox" class="ethnicity" name="race-ethnicity" value="black">Black or African American<br>
             <input type="checkbox" class="ethnicity" name="race-ethnicity" value="nativeAmerican">Native American<br>
             <input type="checkbox" class="ethnicity" name="race-ethnicity" value="pacificIslander">Pacific Islander<br>

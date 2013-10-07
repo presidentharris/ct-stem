@@ -371,10 +371,14 @@ button:active {
 }
 
 .info-form input[type="text"], input[type="email"] {
-   width: 300px;
+   width: 290px;
+}
+
+.class-msg {
+   color: red;
 }
 
 select {
-   width: 314px;
+   width: 304px;
 }
 
