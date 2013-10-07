@@ -32,7 +32,7 @@
   </center>
 
   {% if form.errors %}
-    <p class="class-msg">
+    <p class="error-msg">
       Please correct the error{{ form.errors|pluralize }} below.
     </p>
   {% endif %}
@@ -68,7 +68,7 @@
          <td class="label"><label for="first_name">First Name</label></td>
          <td  colspan="2">
 						{{form.first_name}}
-            <span class="class-msg">
+            <span class="error-msg">
             {% for error in form.first_name.errors %}
               {{ error }}
             {% endfor %}
@@ -79,7 +79,7 @@
          <td class="label"><label for="last_name">Last Name</label></td>
          <td  colspan="2">
          		{{form.last_name}}
-            <span class="class-msg">
+            <span class="error-msg">
             {% for error in form.last_name.errors %}
               {{ error }}
             {% endfor %}
@@ -89,8 +89,8 @@
       <tr>
         <td class="label"><label for="date_of_birth">Date of Birth</label></td>
         <td colspan="2">
-          <input type="text" placeholder="mm/dd/yyyy" name="{{form.date_of_birth.name}}" value="{{form.date_of_birth.value}}"/>
-          <span class="class-msg">
+          <input type="text" placeholder="mm/dd/yyyy" name="{{form.date_of_birth.name}}" value="{% if form.date_of_birth.value %} {{form.date_of_birth.value}} {% endif %}"/>
+          <span class="error-msg">
             {% for error in form.date_of_birth.errors %}
               {{ error }}
             {% endfor %}
@@ -113,7 +113,7 @@
         <td class="label"><label for="email">Email</label></td>
         <td colspan="2">
          	{{form.email}}
-          <span class="class-msg">
+          <span class="error-msg">
             {% for error in form.email.errors %}
               {{ error }}
             {% endfor %}
@@ -130,7 +130,7 @@
          <td></td>
          <td>
           {% for error in form.ethnicity.errors %}
-              <span class="class-msg">{{ error }}<br/></span>
+              <span class="error-msg">{{ error }}<br/></span>
             {% endfor %}
             <input type="checkbox" class="ethnicity" name="race-ethnicity" value="asian">Asian American<br>
             <input type="checkbox" class="ethnicity" name="race-ethnicity" value="mexican">Mexican American or Chicano<br>

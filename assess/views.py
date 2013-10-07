@@ -29,14 +29,24 @@ def get_data(request, table):
 
 def student_status(request):
     errors = []
-    if 'student_id' not in request.POST:
-        errors.append('Please enter a valid student ID.')
-    if 'section' not in request.POST:
-        errors.append('Please select your current section')
+    if 'student_id' not in request.POST or not request.POST['student_id']:
+        errors.append('Please enter your student ID.')
+    if 'school' not in request.POST or not request.POST['school']:
+        errors.append('Please select your school.')
+    if 'teacher' not in request.POST or not request.POST['teacher']:
+        errors.append('Please select your teacher.')
+    if 'section' not in request.POST or not request.POST['section']:
+        errors.append('Please select your current section.')
+    if 'assessment_set' not in request.POST or not request.POST['assessment_set']: 
+        errors.append('Please select the assessment set you want to take.')
+    if 'location' not in request.POST or not request.POST['location']: 
+        errors.append('Please specifcy your current location.')
 
     if errors:
-        # figure out how to put errors on/in the request before REDIRECTING to student_login
-        return student_login(request)
+        #TODO: figure out how to reuse the student_login method
+        schools = Teacher.objects.values('school').distinct()
+        teachers = Teacher.objects.all().order_by("last_name")
+        return render(request, 'student_login.html', {'schools':schools, 'teachers':teachers, 'errors':errors})
 
     try:
         student_id = request.POST['student_id']

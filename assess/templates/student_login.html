@@ -40,9 +40,12 @@
     </center>
 
     {% if errors %}
-      <p style="color: red;">
-        Please correct the error{{ errors|pluralize }} below.
-      </p>
+      <ul>
+        {% for error in errors %}
+          <li><span class="error-msg">{{error}}</span></li>
+        {% endfor %}
+      </ul>
+      <!-- {{ e }} -->
     {% endif %}
        
     <form id="theForm" action="/student/status/" method="post">
