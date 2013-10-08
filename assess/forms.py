@@ -30,9 +30,9 @@ class StudentRegistrationForm(forms.Form):
 		def clean_date_of_birth(self):
 			dob = self.cleaned_data['date_of_birth']
 			if dob > datetime.datetime.today().date():
-			  raise forms.ValidationError("Birthday is in future")
+			  raise forms.ValidationError("Birthday is in the future")
 			if dob < datetime.date(1900, 1, 1):
-			  raise forms.ValidationError("Birthday is too early")
+			  raise forms.ValidationError("Birthday is too long ago")
 			return dob
 
 
