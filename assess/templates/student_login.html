@@ -13,10 +13,12 @@
         .done( function (data) {
           $('#' + data['table'])
             .prop('disabled', false)
-            .empty()
-            .append($('<option>').attr('value', '').append('--- Select ' + data['table'] + '---'));
+            .data("selectBox-selectBoxIt")
+            .remove()
+            .add({ value: '', text: '--- Select ' + data['table'] + ' ---' })
           $(data['values']).each(function(index, element) {
-            $('#' + data['table']).append($('<option>').attr('value', element[0]).append(element[1]));
+            console.log(data['table']);
+            $('#' + data['table']).data("selectBox-selectBoxIt").add({ value: element[0], text: element[1] });
           });
         });
     }
@@ -53,8 +55,8 @@
       
       <div class="prompt" style="margin:6px; padding 6px;">Student ID: <input type="text" name="student_id" size="8"/></div>
       
-      <select id="school" name="school" onChange="getData('/student/get_data/Teacher/', this)">
-        <option  value="" selected="selected">---Select School---</option>
+      <select id="school" name="school" class="selectBoxIt" onChange="getData('/student/get_data/Teacher/', this)">
+        <option value="" selected="selected">---Select School---</option>
           {% for school in schools %}
               <option value="{{school.school}}">{{school.school|capfirst}}</option>
           {% endfor %}
@@ -62,23 +64,23 @@
       
 
       
-      <select id="Teacher" name="teacher" onChange="getData('/student/get_data/Section/', this)" disabled>
-        <option  value="" selected="selected">---Select Teacher---</option>
+      <select id="Teacher" name="teacher" class="selectBoxIt" onChange="getData('/student/get_data/Section/', this)" disabled>
+        <option value="" selected="selected">---Select Teacher---</option>
       </select><br/>
 
-      <select id="Section" name="section" disabled>
-        <option  value="" selected="selected">--- Select Section ---</option>
+      <select id="Section" name="section" class="selectBoxIt" disabled>
+        <option value="" selected="selected">--- Select Section ---</option>
       </select><br/>
 
-      <select id="Assessment" name="assessment_set">
-        <option  value="" selected="selected">--- Select Assessment ---</option>
-        <option  value="PB">Purple Bugs</option>
-        <option  value="WARB">Warblers</option>
-        <option  value="HDI">Human Development Index</option>
-        <option  value="CPS1">Computational Problem Solving 1</option>
+      <select id="Assessment" name="assessment_set" class="selectBoxIt">
+        <option value="" selected="selected">--- Select Assessment ---</option>
+        <option value="PB">Purple Bugs</option>
+        <option value="WARB">Warblers</option>
+        <option value="HDI">Human Development Index</option>
+        <option value="CPS1">Computational Problem Solving 1</option>
       </select><br/>
 
-      <select id="location" name="location">
+      <select id="location" name="location" class="selectBoxIt">
         <option value="" selected="selected">--- Select Location ---</option>
         <option value="in_class">In Class</option>
         <option value="at_home">At Home</option>

@@ -12,7 +12,9 @@ class StudentRegistrationForm(forms.Form):
 		def __init__(self, *args, **kwargs):
 			super(StudentRegistrationForm, self).__init__(*args, **kwargs)
 			self.fields['grade'] = forms.ChoiceField(choices = [(9, '9th grade'), (10, '10th grade'), (11, '11th grade'), (12, '12th grade')])
+			self.fields['grade'].widget.attrs['class'] = 'selectBoxIt'
 			self.fields['sex'] = forms.ChoiceField(choices = [('M', 'Male'), ('F', 'Female'), ('other', 'Other')])
+			self.fields['sex'].widget.attrs['class'] = 'selectBoxIt'
 
 		student_id = forms.CharField()
 		school = forms.CharField()

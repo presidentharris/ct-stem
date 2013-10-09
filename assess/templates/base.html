@@ -12,6 +12,7 @@
 
 	{% load staticfiles %}   
 	<link rel="stylesheet" href="{% static "css/main.css" %}" type="text/css">
+	<link rel="stylesheet" href="{% static "css/selectBoxIt.css"%}" type="text/css">
 	<link rel="stylesheet" href="{% static "css/print.css"%}" type="text/css" media="print">
   <link rel="stylesheet" href="{% static "css/jquery-ui-1.8.14.custom.css"%}" type="text/css"> 
 	<link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Lora:400,400italic,700,700italic' type='text/css'>
@@ -19,6 +20,7 @@
 	{% block css %}{% endblock %}
 
 	<script type="text/javascript" src="{% static "js/main.js"%}"></script>
+	<script type="text/javascript" src="{% static "js/selectBoxIt.min.js"%}"></script>
 	<!--<script type="text/javascript" src="{% static "js/ct-stem.js"%}"></script>-->
 
 	<script type="text/javascript">
@@ -32,18 +34,26 @@
 			backPage();
 		}
 
-   function preSubmitLogic() {
+    function preSubmitLogic() {
       populateMCs();
-   }
+    }
 
-   // MCs == multiple choice inputs
-   function populateMCs() {
+    // MCs == multiple choice inputs
+    function populateMCs() {
       $('.check-one').each(function (index, el) {
         var inputNum = $(this).attr('input-num');
         var answer = $(this).children('.selected').attr('answer');
         $('#'+inputNum).val(answer);
       });
-   }
+		}
+
+		$(function() {
+	    $(".selectBoxIt").selectBoxIt({
+	    	autoWidth: false
+	    });
+	  });
+
+
 	</script>
 
 	{% block js %}{% endblock %}
