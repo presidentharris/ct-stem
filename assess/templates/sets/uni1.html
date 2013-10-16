@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+
+{% block title %}Computational Thinking in STEM - Universal Assessment 1{% endblock %}
+
+{% block css %}
+{% endblock %}
+
+{% block js %}
+
+<script type="text/javascript">
+   function localNextPageHandler() {
+      nextPageHandler();
+   }
+ </script>
+{% endblock %}
+
+{% block page-header%}CT in STEM - Universal Assessment 1{% endblock %}
+
+{% block body %}
+ 
+   <div class="page">
+		<form id="theForm" action="/assessment/record/{{assessmevent.id}}/" method="post">
+      
+         <div class="stimulus">
+         This computer models simulates the effect of cloud cover and carbon dioxide (CO2) on the temperature of earth. To start the simulation, click on the Play/Pause button. To run the simulation again, press the Restart button. A graph to the left of the simulation shows the global temperature over the time.
+         <br/><br/>
+         Try running the model a few times now. There are two sliders that adjust the level of cloud cover and carbon dioxide in the atmosphere. 
+         <br/><br/>
+         &lt;NetLogo Model goes here&gt;
+         <br/><br/>
+         In the model, the yellow lines represent sunlight. Some of the sunlight reflects off the earth’s surface while some of the sunlight is absorbed. The red dots represent heat energy that has been absorbed. Some of this heat energy is emitted back towards the atmosphere in the form of infrared (IR) light. The infrared light is show as red lines.
+      </div>
+   </div>
+
+   <div class="page">
+      &lt;NetLogo Model goes here&gt;
+
+      <div class="prompt">
+         <b>Item 1:</b> Set the cloud-coverage to 0% and CO2-amount to 0 and run the model. Let it run for at least 10,000 steps (you can speed up the model using the slider at the top of the model). Describe what happens to the temperature over time.
+      </div>
+      <textarea id="uni1_1" name="uni1_1"></textarea>      
+
+      <div class="prompt">
+         <b>Item 2:</b> Take a minute to experiment with different settings for the “CO2-amount” slider. What happens to the temperature if you increase the amount of CO2 in the model?
+      </div>
+      <textarea id="uni1_2" name="uni1_2"></textarea>      
+      <div class="prompt">
+         <b>Item 3:</b>What happens to the temperature if you add clouds to the model? 
+      </div>
+      <textarea id="uni1_3" name="uni1_3"></textarea>
+      <div class="prompt">
+         <b>Item 4:</b> Choose the best statement, based on your experiments:
+      </div>
+      <ol class="check-one" input-num="cps1_4">
+         <li answer="A">Clouds block IR light but not sunlight.</li>
+         <li answer="B">CO2 molecules block IR light but not sunlight.</li>
+         <li answer="C">Both clouds and CO2 molecules block IR light but not sunlight.</li>
+         <li answer="D">Both clouds and CO2 molecules block sunlight but not IR light.</li>
+      </ol>
+      <input id="cps1_4" type="text" dir="auto" value="" name="cps1_4" style="display:none;">
+   </div>
+
+   <div class="page">
+      &lt;NetLogo Model goes here&gt;
+      <div class="prompt">
+         <b>Item 5:</b> What is the highest earth temperature you can produce? What settings did you use to reach this temperature?
+      </div>
+      <textarea id="uni1_5" name="uni1_5"></textarea>
+      <div class="prompt">
+         <b>Item 6:</b> Watch a single ray of sunlight (yellow line). This is easier if you slow down the model using the slider at the top of the model.
+         <br/>
+         <b>A:</b> What happens to the ray of sunlight when it hits the earth?    
+      </div>
+      <textarea id="uni1_6a" name="uni1_6a"></textarea>
+      <div class="prompt">
+         <b>B:</b> Do all rays of sunlight follow similar paths?
+      </div>
+      <textarea id="uni1_6b" name="uni1_6b"></textarea>
+      <div class="prompt">
+         <b>Item 7:</b> All computational models are only approximations of reality. What are some of the simplifications this model makes that make it different from reality?
+      </div>
+      <textarea id="uni1_7" name="uni1_7"></textarea>
+   </div>
+
+<!-- ======================================================================= -->
+
+   <div class="page">
+      <center><h3>Heat Transfer in Metal Experiment</h3></center>
+      A materials scientist wants to understand how heat transfers through a metal bar. She attached four temperature sensors evenly along the length of the bar as shown in the picture. She then applied a heat source to one end of the bar.
+      <br/>
+      <center><img src="/static/images/uni1/heat_exp.jpg" style="height:146px;"></center>
+      She wrote this computer program to record temperature readings from the sensors:
+      <br/>
+      <pre style="width: 242px;margin-left:175px;">
+repeat forever:
+   value1 = readSensor(1)
+   value2 = readSensor(2)
+   value3 = readSensor(3)
+   value4 = readSensor(4)
+   print 1, value1, time
+   print 2, value2, time
+   print 3, value3, time
+   print 4, value4, time
+
+   pause 20 seconds</pre>
+
+      <div class="prompt">
+         <b>8:</b>Which of these output fragments was generated by her program?
+      </div>
+      <ol class="check-one two-columns" input-num="uni1_8">
+         <!-- yes the margin-left:0px needs to be there - otherwise the select buttons don't show -->
+            <li answer="A"><img src="/static/images/uni1/heat_exp_output1.jpg" style="margin-left:0px;"></li>
+            <li answer="B"><img src="/static/images/uni1/heat_exp_output2.jpg" style="margin-left:0px;"></li>
+            <li answer="C"><img src="/static/images/uni1/heat_exp_output3.jpg" style="margin-left:0px;"></li>
+            <li answer="D"><img src="/static/images/uni1/heat_exp_output4.jpg" style="margin-left:0px;"></li>
+      </ol>
+      <input id="uni1_8" type="text" dir="auto" value="" name="uni1_8" style="display:none;">
+      <div class="prompt">
+         <b>9:</b> The scientist now wants to make a graph of her data. Which of these graphs best shows how all of the sensor readings changed over time?
+      </div>
+      <ol class="check-one" input-num="uni1_9">
+         <!-- yes the margin-left:0px needs to be there - otherwise the select buttons don't show -->
+            <li answer="A"><img src="/static/images/uni1/heat_exp_graph1.jpg" style="margin-left:0px;"></li>
+            <li answer="B"><img src="/static/images/uni1/heat_exp_graph2.jpg" style="margin-left:0px;"></li>
+            <li answer="C"><img src="/static/images/uni1/heat_exp_graph3.jpg" style="margin-left:0px;"></li>
+            <li answer="D"><img src="/static/images/uni1/heat_exp_graph4.jpg" style="margin-left:0px;"></li>
+      </ol>
+      <input id="uni1_9" type="text" dir="auto" value="" name="uni1_9" style="display:none;">
+   </div>
+   <div class="page">
+      <div class="prompt">
+         <b>10:</b>The scientist now wants to repeat the experiment with six sensors instead of four. Which of the following programs should she use?
+      </div> 
+      <ol class="check-one" input-num="uni1_10">
+      <!-- yes the margin-left:0px needs to be there - otherwise the select buttons don't show -->
+         <li answer="A"><img src="/static/images/uni1/heat_exp_repeat1.jpg" style="margin-left:0px;"></li>
+         <li answer="B"><img src="/static/images/uni1/heat_exp_repeat2.jpg" style="margin-left:0px;"></li>
+         <li answer="C"><img src="/static/images/uni1/heat_exp_repeat3.jpg" style="margin-left:0px;"></li>
+         <li answer="D"><img src="/static/images/uni1/heat_exp_repeat4.jpg" style="margin-left:0px;"></li>
+      </ol>
+      <input id="uni1_10" type="text" dir="auto" value="" name="uni1_10" style="display:none;">
+      <div class="prompt">
+         <b>11:</b>Why did you choose this option?
+      </div>
+      <textarea id="uni1_11" name="uni1_11"></textarea>
+
+      <div class="prompt">
+         <b>12:</b>When the scientist ran her trial with six sensors, she noticed something strange with the third sensor. This graph shows the readings for sensors 1, 2, and 3.
+         <br/>
+         <img src="/static/images/uni1/heat_exp_err.jpg">
+         <br/>
+         Which explanation is most plausible?
+         <ol class="check-one" input-num="uni1_12">
+         <!-- yes the margin-left:0px needs to be there - otherwise the select buttons don't show -->
+            <li answer="A">Sensor 3 is working correctly. There is always noise in sensor readings.</li>
+            <li answer="B">Sensor 3 was accidentally disconnected before the trial started.</li>
+            <li answer="C">Sensor 3 broke after the trial finished.</li>
+            <li answer="D">Sensor 3 was accidentally disconnected during the trial.</li>
+         </ol>
+         <input id="uni1_12" type="text" dir="auto" value="" name="uni1_12" style="display:none;">
+      </div>
+   </div>
+
+ </form>
+ {% endblock %}

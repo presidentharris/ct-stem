@@ -6,7 +6,8 @@ from forms import StudentRegistrationForm
 import datetime
 import json
 
-ASSESSMENTS = {'PB' : 'purple_bugs.html', 'WARB' : 'warblers.html', 'HDI' : 'HDI.html', 'CPS1' : 'cps1.html'}
+ASSESSMENTS = {'UNI1':'uni1.html', 'CPS1' : 'cps1.html'}
+# 'PB' : 'purple_bugs.html', 'WARB' : 'warblers.html', 'HDI' : 'HDI.html', 
 
 def student_login(request):
     schools = Teacher.objects.values('school').distinct()

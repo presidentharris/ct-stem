@@ -33,12 +33,11 @@
 			<form id="theForm" action="/assessment/record/{{assessmevent.id}}/" method="post">
       <div class="stimulus">
          A climate scientist wrote this computer program to measure air temperatures
-         at a weather station.
-         <pre>
-   repeat 20 times:
-      pause-minutes(30)
-      record-temperature
-         </pre>
+         at a weather station:
+         <pre style="width:202px;">
+repeat 20 times:
+   pause-minutes(30)
+   record-temperature</pre>
       </div>
       <div class="prompt">
          <b>Item 1:</b> Which of these plots shows her measurements?
@@ -56,11 +55,10 @@
    <div class="page">
       <div class="stimulus">
          The data collected by the air temperature program is stored in a file called temperature-readings.dta. To analyze the data, the climate scientist wrote another program, shown below.
-         <pre>
+         <pre style="width:646px;">
 for-each temperature-data-point in temperature-readings.dta:
    if temperature-data-point &lt; 12&deg; AND temperature-data-point &gt; 11&deg;:
-      print temperature-data-point
-         </pre>
+      print temperature-data-point</pre>
       </div>
       <div class="prompt">
          <b>Item 2:</b> What does this program do?
@@ -78,7 +76,7 @@ for-each temperature-data-point in temperature-readings.dta:
    <div class="page">
       <div class="stimulus">
          To display the data in temperature-readings.dta in a graph, the climate scientist wrote the following program:
-         <pre>
+         <pre style="width:575px;">
 for-each temperature-data-point in temperature-readings.dta:
    if temperature-data-point &gt; 12&deg;:
       set plot-color red
@@ -86,8 +84,7 @@ for-each temperature-data-point in temperature-readings.dta:
       set plot-color blue
    else 
       set plot-color black
-   plot temperature-data-point
-         </pre>
+   plot temperature-data-point</pre>
       </div>
       <div class="prompt">
          <b>Item 3:</b> What plot does this program produce?
@@ -112,7 +109,7 @@ for-each temperature-data-point in temperature-readings.dta:
             left, or right.
             </p>
             The team started by writing this program to move their robot.
-            <pre>
+            <pre style="width:151px;">
    move-up
    move-right
    move-up
@@ -133,7 +130,7 @@ for-each temperature-data-point in temperature-readings.dta:
          
          <div class="stimulus">
             The team tried changing their program to this:
-            <pre>
+            <pre style="width:151px;">
    move-up
    move-right
    move-up
@@ -161,15 +158,15 @@ for-each temperature-data-point in temperature-readings.dta:
             The team of engineering students added sensors to their robot to help
             it avoid obstacles (shown as grey squares on the grid). Then they wrote
             this program:
-            <pre>
-   if obstacle-left then:
-      move-right
-   if obstacle-up then:
-      move-down
-   if obstacle-right then:
-      move-left
-   if obstacle-down then:
-      move-up</pre>
+            <pre style="width:292px;">
+if obstacle-left then:
+   move-right
+if obstacle-up then:
+   move-down
+if obstacle-right then:
+   move-left
+if obstacle-down then:
+   move-up</pre>
          </div>
          <div class="prompt">
             <b>Item 5a:</b> On which square will the robot stop?
@@ -186,15 +183,15 @@ for-each temperature-data-point in temperature-readings.dta:
          
          <div class="stimulus">
             The students then changed their program to this:
-            <pre>
-   if obstacle-left then:
-      move-right
-   else if obstacle-up then:
-      move-down
-   else if obstacle-right then:
-      move-left
-   else:
-      move-up</pre>
+            <pre style="width:262px;">
+if obstacle-left then:
+   move-right
+else if obstacle-up then:
+   move-down
+else if obstacle-right then:
+   move-left
+else:
+   move-up</pre>
          </div>
          <div class="prompt">
             <b>Item 5b:</b> Now where will the robot stop?
@@ -216,10 +213,10 @@ for-each temperature-data-point in temperature-readings.dta:
             <img src="/static/images/cps1/maze3.png" class="fixed-image" style="float: right; margin-left: 450px; width: 220px;position:fixed;">
             The students now want to make the robot move in a bigger
             world. They tried this program, but the robot ran into an obstacle (grey square).
-            <pre>
-   repeat forever:
-      move-up
-      move-right</pre>
+            <pre style="width:141px;">
+repeat forever:
+   move-up
+   move-right</pre>
          </div>
          <div class="prompt">
             <b>Item 6a:</b> Which obstacle did the robot hit first?
@@ -236,11 +233,11 @@ for-each temperature-data-point in temperature-readings.dta:
          
          <div class="stimulus">
             They tried a different program, but the robot ran into an obstacle again.
-            <pre>
-   repeat forever:
-      move-right
-      move-up
-      move-up</pre>
+            <pre style="width:141px;">
+repeat forever:
+   move-right
+   move-up
+   move-up</pre>
          </div>
          <div class="prompt">
             <b>Item 6b:</b> Which obstacle did the robot hit first this time?
@@ -256,11 +253,11 @@ for-each temperature-data-point in temperature-readings.dta:
          
          <div class="stimulus">
             They tried one more program, but the robot still hit an obstacle.
-            <pre>
-   repeat forever:
-      move-up
-      repeat-until obstacle-right:
-         move-right</pre>
+            <pre style="width:292px;">
+repeat forever:
+   move-up
+   repeat-until obstacle-right:
+      move-right</pre>
          </div>
          <div class="prompt">
             <b>Item 6c:</b> Which obstacle did the robot hit first this time? 
@@ -285,7 +282,7 @@ for-each temperature-data-point in temperature-readings.dta:
          <b>Item 7:</b>  Try changing this program to move the robot to the STAR. The commands the robot knows are listed on the right.
       </div>
       <div class="stimulus" style="float:right;margin-left:10px;margin-top:-7px;">
-         <pre style="padding: 10px; border: 1px solid black;">
+         <pre style="width:191px;">
    move-up
    move-left
    move-down
@@ -324,23 +321,23 @@ repeat-forever:
             <img src="/static/images/cps1/maze5.png" class="fixed-image" style="float: right; margin-left: 288px; width: 394px; position:fixed; margin-bottom: 12px;"><br>
             The team has now tried to get the robot to start avoiding obstacles with
             this program:
-            <pre>
-   define climb-stair-up:
-      move-up
-      move-right
+            <pre style="width:245px;">
+define climb-stair-up:
+   move-up
+   move-right
+   
+define climb-stair-down:
+   move-right
+   move-down
+   
+define walk-right:
+   if obstacle-right then:
+      climb-stair-up
+   else:
+      right
       
-   define climb-stair-down:
-      move-right
-      move-down
-      
-   define walk-right:
-      if obstacle-right then:
-         climb-stair-up
-      else:
-         right
-         
-   repeat forever:
-      walk-right</pre>
+repeat forever:
+   walk-right</pre>
          </div>
          <div class="prompt">
             <b>Item 8:</b> Which obstacle will the robot hit when it runs this program?
@@ -360,9 +357,9 @@ repeat-forever:
   <div class="page">
       <div style="width:289px;">
          <div class="stimulus">
-            <img src="/static/images/cps1/maze5.png" class="fixed-image" style="float: right; margin-left: 288px; width: 394px; position:fixed; margin-bottom: 12px;"><br>
+            <img src="/static/images/cps1/maze5.png" class="fixed-image" style="float: right; margin-left: 322px; width: 365px; position:fixed; margin-bottom: 12px;"><br>
             They tried changing their program:
-            <pre>
+            <pre style="width:282px;">
 define climb-stair-up:
    move-up
    move-right

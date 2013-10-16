@@ -382,3 +382,10 @@ select {
    width: 304px;
 }
 
+pre {
+   background: none repeat scroll 0 0 #DCDCDC; 
+   border: 1px solid rgba(0, 0, 0, 0.5); 
+   padding: 0.15in; 
+   line-height:125%
+}
+
