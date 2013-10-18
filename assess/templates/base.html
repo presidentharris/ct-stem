@@ -24,6 +24,12 @@
 	<!--<script type="text/javascript" src="{% static "js/ct-stem.js"%}"></script>-->
 
 	<script type="text/javascript">
+	// should we move these methods into ct-stem.js and just include that instead? maybe when this js gets a lot longer?
+
+		function getCurrentPageNum() {
+			return parseInt(parent.location.hash.substring(2));
+		}
+
 		function nextPageHandler() {
 			$('html, body').animate({ scrollTop: 0 });
 			nextPage();
@@ -32,6 +38,10 @@
 		function backPageHandler() {
 			$('html, body').animate({ scrollTop: 0 });
 			backPage();
+		}
+
+		function updateFooterPosition() {
+		  $('#footer').css('margin-top', $('#page' + (getCurrentPageNum() - 1)).innerHeight() +"px");
 		}
 
     function preSubmitLogic() {

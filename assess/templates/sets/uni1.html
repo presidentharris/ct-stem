@@ -3,6 +3,14 @@
 {% block title %}Computational Thinking in STEM - Universal Assessment 1{% endblock %}
 
 {% block css %}
+ <style type="text/css">
+   .netLogo-cc {
+      height:493px;
+      width:617px;
+      padding: 8px;
+      border: 1px solid rgba(0, 0, 0, 0.5);
+   }
+  </style>
 {% endblock %}
 
 {% block js %}
@@ -13,10 +21,10 @@
    }
 
    $(function() {
-      if (parent.location.hash.substring(2) == 1) {
-      alert(parent.location.hash.substring(2));
+      if (getCurrentPageNum() == 1) {
          $('#submit-and-finish-button').css('visibility', 'hidden');
       }
+      updateFooterPosition();
    });
 
  </script>
@@ -30,18 +38,34 @@
 		<form id="theForm" action="/assessment/record/{{assessmevent.id}}/" method="post">
       
          <div class="stimulus">
-         This computer models simulates the effect of cloud cover and carbon dioxide (CO<sub>2</sub>) on the temperature of earth. To start the simulation, click on the Play/Pause button. To run the simulation again, press the Restart button. A graph to the left of the simulation shows the global temperature over the time.
+         This computer models simulates the effect of cloud cover and carbon dioxide (CO<sub>2</sub>) on the temperature of earth. To start the simulation, click on the Play/Pause button. The CO<sub>2</sub> is shown as green and white molecules in the atmosphere. To run the simulation again, press the Restart button. A graph to the left of the simulation shows the global temperature over the time.
          <br/><br/>
          Try running the model a few times now. There are two sliders that adjust the level of cloud cover and carbon dioxide in the atmosphere. 
-         <br/><br/>
-         &lt;NetLogo Model goes here&gt;
-         <br/><br/>
+         <br/>
+         <iframe src="/static/netLogo/climate_change.html" class="netLogo-cc"></iframe>
+         <span onclick="$( '#webstart-instructions1' ).toggle( 'blind', function(){updateFooterPosition();});" style="cursor:pointer;float:right;font-size:12px;margin-top:-12px;text-decoration:underline;">If you do not see the model above, please click here</span><br/>
+         <div id="webstart-instructions1" style="display:none;padding-left:20px;line-height:135%;font-size:14px;">
+            Instead of viewing the model in the browser, you will open a new window to view it.</br>
+
+            To do so, please follow these steps: <br/>
+            &nbsp;&nbsp;1. Click <a href="pb1.jnlp">here</a> to download the model.<br/>
+            &nbsp;&nbsp;2. Click OK to begin the download.  It may take a minute or two.<br/>
+            &nbsp;&nbsp;3. You will be asked for permission to run the model, click 'allow'.<br/>
+            &nbsp;&nbsp;4. You should see a NetLogo icon, then the model will open.<br/>
+            &nbsp;&nbsp;5. Use this model to answer the questions 1 - 7 of this assessment then close it.<br/>
+            <br/>
+         </div>
+
+
+         <!--<div style="float:right;font-size:12px;margin-top:-12px;">Don't see a Model? or Model not working? click <a href="#">here</a></div>-->
+         
          In the model, the yellow lines represent sunlight. Some of the sunlight reflects off the earth’s surface while some of the sunlight is absorbed. The red dots represent heat energy that has been absorbed. Some of this heat energy is emitted back towards the atmosphere in the form of infrared (IR) light. The infrared light is show as red lines.
       </div>
    </div>
 
    <div class="page">
-      &lt;NetLogo Model goes here&gt;
+      <iframe src="/static/netLogo/climate_change.html" class="netLogo-cc"></iframe>
+      <div style="float:right;font-size:12px;margin-top:-12px;">Don't see a Model? or Model not working? click <a href="#">here</a></div>
 
       <div class="prompt">
          <b>Item 1:</b> Set the cloud-coverage to 0% and CO<sub>2</sub>-amount to 0 and run the model. Let it run for at least 10,000 steps (you can speed up the model using the slider at the top of the model). Describe what happens to the temperature over time.
@@ -69,7 +93,11 @@
    </div>
 
    <div class="page">
-      &lt;NetLogo Model goes here&gt;
+      <iframe src="/static/netLogo/climate_change.html" class="netLogo-cc"></iframe>
+
+
+
+      <div style="">Don't see a Model? or Model not working? click <a href="#">here</a></div>
       <div class="prompt">
          <b>Item 5:</b> What is the highest earth temperature you can produce? What settings did you use to reach this temperature?
       </div>
