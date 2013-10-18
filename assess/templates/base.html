@@ -47,19 +47,21 @@
       });
 		}
 
+
+		// before rendering page - pretty-ify the dropdown and load up the pagination system 
 		$(function() {
 	    $(".selectBoxIt").selectBoxIt({
 	    	autoWidth: false
 	    });
+
+	    startup();
 	  });
-
-
 	</script>
 
 	{% block js %}{% endblock %}
 
 </head>
-<body onload="startup()">
+<body>
   <div class="content">
 		<div id="header" class="ui-widget-header" style="border:none;height:53px;">
 	  {% block header %}

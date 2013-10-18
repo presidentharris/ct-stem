@@ -11,6 +11,14 @@
    function localNextPageHandler() {
       nextPageHandler();
    }
+
+   $(function() {
+      if (parent.location.hash.substring(2) == 1) {
+      alert(parent.location.hash.substring(2));
+         $('#submit-and-finish-button').css('visibility', 'hidden');
+      }
+   });
+
  </script>
 {% endblock %}
 
