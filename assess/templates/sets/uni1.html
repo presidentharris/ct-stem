@@ -22,7 +22,7 @@
 		<form id="theForm" action="/assessment/record/{{assessmevent.id}}/" method="post">
       
          <div class="stimulus">
-         This computer models simulates the effect of cloud cover and carbon dioxide (CO2) on the temperature of earth. To start the simulation, click on the Play/Pause button. To run the simulation again, press the Restart button. A graph to the left of the simulation shows the global temperature over the time.
+         This computer models simulates the effect of cloud cover and carbon dioxide (CO<sub>2</sub>) on the temperature of earth. To start the simulation, click on the Play/Pause button. To run the simulation again, press the Restart button. A graph to the left of the simulation shows the global temperature over the time.
          <br/><br/>
          Try running the model a few times now. There are two sliders that adjust the level of cloud cover and carbon dioxide in the atmosphere. 
          <br/><br/>
@@ -36,12 +36,12 @@
       &lt;NetLogo Model goes here&gt;
 
       <div class="prompt">
-         <b>Item 1:</b> Set the cloud-coverage to 0% and CO2-amount to 0 and run the model. Let it run for at least 10,000 steps (you can speed up the model using the slider at the top of the model). Describe what happens to the temperature over time.
+         <b>Item 1:</b> Set the cloud-coverage to 0% and CO<sub>2</sub>-amount to 0 and run the model. Let it run for at least 10,000 steps (you can speed up the model using the slider at the top of the model). Describe what happens to the temperature over time.
       </div>
       <textarea id="uni1_1" name="uni1_1"></textarea>      
 
       <div class="prompt">
-         <b>Item 2:</b> Take a minute to experiment with different settings for the “CO2-amount” slider. What happens to the temperature if you increase the amount of CO2 in the model?
+         <b>Item 2:</b> Take a minute to experiment with different settings for the “CO<sub>2</sub>-amount” slider. What happens to the temperature if you increase the amount of CO<sub>2</sub> in the model?
       </div>
       <textarea id="uni1_2" name="uni1_2"></textarea>      
       <div class="prompt">
@@ -53,9 +53,9 @@
       </div>
       <ol class="check-one" input-num="cps1_4">
          <li answer="A">Clouds block IR light but not sunlight.</li>
-         <li answer="B">CO2 molecules block IR light but not sunlight.</li>
-         <li answer="C">Both clouds and CO2 molecules block IR light but not sunlight.</li>
-         <li answer="D">Both clouds and CO2 molecules block sunlight but not IR light.</li>
+         <li answer="B">CO<sub>2</sub> molecules block IR light but not sunlight.</li>
+         <li answer="C">Both clouds and CO<sub>2</sub> molecules block IR light but not sunlight.</li>
+         <li answer="D">Both clouds and CO<sub>2</sub> molecules block sunlight but not IR light.</li>
       </ol>
       <input id="cps1_4" type="text" dir="auto" value="" name="cps1_4" style="display:none;">
    </div>
@@ -69,13 +69,17 @@
       <div class="prompt">
          <b>Item 6:</b> Watch a single ray of sunlight (yellow line). This is easier if you slow down the model using the slider at the top of the model.
          <br/>
-         <b>A:</b> What happens to the ray of sunlight when it hits the earth?    
       </div>
-      <textarea id="uni1_6a" name="uni1_6a"></textarea>
-      <div class="prompt">
-         <b>B:</b> Do all rays of sunlight follow similar paths?
+      <div  style="padding-left:33px;">
+         <div class="prompt">
+            <b>A:</b> What happens to the ray of sunlight when it hits the earth?    
+         </div>
+         <textarea id="uni1_6a" name="uni1_6a" style="width:597px;"></textarea>
+         <div class="prompt">
+            <b>B:</b> Do all rays of sunlight follow similar paths?
+         </div>
+         <textarea id="uni1_6b" name="uni1_6b" style="width:597px;"></textarea>
       </div>
-      <textarea id="uni1_6b" name="uni1_6b"></textarea>
       <div class="prompt">
          <b>Item 7:</b> All computational models are only approximations of reality. What are some of the simplifications this model makes that make it different from reality?
       </div>
@@ -118,37 +122,36 @@ repeat forever:
       <div class="prompt">
          <b>9:</b> The scientist now wants to make a graph of her data. Which of these graphs best shows how all of the sensor readings changed over time?
       </div>
-      <ol class="check-one" input-num="uni1_9">
+      <ol class="check-one two-columns" input-num="uni1_9">
          <!-- yes the margin-left:0px needs to be there - otherwise the select buttons don't show -->
-            <li answer="A"><img src="/static/images/uni1/heat_exp_graph1.jpg" style="margin-left:0px;"></li>
-            <li answer="B"><img src="/static/images/uni1/heat_exp_graph2.jpg" style="margin-left:0px;"></li>
-            <li answer="C"><img src="/static/images/uni1/heat_exp_graph3.jpg" style="margin-left:0px;"></li>
-            <li answer="D"><img src="/static/images/uni1/heat_exp_graph4.jpg" style="margin-left:0px;"></li>
+            <li answer="A" style="margin-left:-50px;"><img src="/static/images/uni1/heat_exp_graph1.jpg" style="margin-left:0px;height:174px;padding:.05in" class="blah"></li>
+            <li answer="B" style="margin-left:-50px;"><img src="/static/images/uni1/heat_exp_graph2.jpg" style="margin-left:0px;height:174px;padding:.05in" class="blah"></li>
+            <li answer="C"><img src="/static/images/uni1/heat_exp_graph3.jpg" style="margin-left:0px;height:174px;padding:.05in" class="blah"></li>
+            <li answer="D"><img src="/static/images/uni1/heat_exp_graph4.jpg" style="margin-left:0px;height:174px;padding:.05in" class="blah"></li>
       </ol>
       <input id="uni1_9" type="text" dir="auto" value="" name="uni1_9" style="display:none;">
    </div>
    <div class="page">
       <div class="prompt">
-         <b>10:</b>The scientist now wants to repeat the experiment with six sensors instead of four. Which of the following programs should she use?
+         <b>10:</b> The scientist now wants to repeat the experiment with six sensors instead of four. Which of the following programs should she use?
       </div> 
-      <ol class="check-one" input-num="uni1_10">
+      <ol class="check-one two-columns" input-num="uni1_10">
       <!-- yes the margin-left:0px needs to be there - otherwise the select buttons don't show -->
-         <li answer="A"><img src="/static/images/uni1/heat_exp_repeat1.jpg" style="margin-left:0px;"></li>
-         <li answer="B"><img src="/static/images/uni1/heat_exp_repeat2.jpg" style="margin-left:0px;"></li>
-         <li answer="C"><img src="/static/images/uni1/heat_exp_repeat3.jpg" style="margin-left:0px;"></li>
-         <li answer="D"><img src="/static/images/uni1/heat_exp_repeat4.jpg" style="margin-left:0px;"></li>
+         <li answer="A" style="margin-left:-40px;"><img src="/static/images/uni1/heat_exp_repeat1.jpg" style="margin-left:0px;height:252px;"></li>
+         <li answer="B" style="margin-left:-40px;"><img src="/static/images/uni1/heat_exp_repeat2.jpg" style="margin-left:0px;height:124px;"></li>
+         <li answer="C"><img src="/static/images/uni1/heat_exp_repeat3.jpg" style="margin-left:0px;height:252px;"></li>
+         <li answer="D"><img src="/static/images/uni1/heat_exp_repeat4.jpg" style="margin-left:0px;height:124px;"></li>
       </ol>
       <input id="uni1_10" type="text" dir="auto" value="" name="uni1_10" style="display:none;">
       <div class="prompt">
-         <b>11:</b>Why did you choose this option?
+         <b>11:</b> Why did you choose this option?
       </div>
       <textarea id="uni1_11" name="uni1_11"></textarea>
-
       <div class="prompt">
-         <b>12:</b>When the scientist ran her trial with six sensors, she noticed something strange with the third sensor. This graph shows the readings for sensors 1, 2, and 3.
+               <br/>
+         <b>12:</b> When the scientist ran her trial with six sensors, she noticed something strange with the third sensor. This graph shows the readings for sensors 1, 2, and 3.
          <br/>
-         <img src="/static/images/uni1/heat_exp_err.jpg">
-         <br/>
+         <center><img src="/static/images/uni1/heat_exp_err.jpg"></center>
          Which explanation is most plausible?
          <ol class="check-one" input-num="uni1_12">
          <!-- yes the margin-left:0px needs to be there - otherwise the select buttons don't show -->
