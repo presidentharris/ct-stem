@@ -1,20 +1,57 @@
 
 <!-- saved from url=(0034)http://localhost:9000/save-to-html -->
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></head>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<style type="text/css">
+.model-button {
+  background-color: #D3C8E3;
+  border-radius: 8px 8px 8px 8px;
+  box-shadow: 3px 3px 3px #555555;
+  cursor: pointer;
+  font-size: 11pt;
+  height: 44px;
+  margin: 13px;
+  text-align: center;
+  width: 80px;
+}
+</style>
+</head>
   <body onload="setup();">
 
-    <label>speed<input id="speed-slider" type="range" min="0" max="8" step=".01" style="width: 400px"></label>
-    ticks: <span id="tick-counter">77</span>
-    <br>
-    <label>cloud coverage <span id='cloud-label'>0</span>%<input id="cloud-slider" type="range" min="0" max="100" step="5" style="width: 150px" onchange="onCloudChange()" value="0"></label>
-    <label>CO2 amount <span id='co2-label'>300</span><input id="co2-slider" type="range" min="0" max="300" step="25" style="width: 150px" onchange="onCO2Change()" value="75"></label>
-    <br>
-    temperature: <span id="temp-monitor">0</span>
-    <br>
-    <input type="button" onclick="setup();" value="setup">
-    <input id="go-button" type="button" onclick="toggleGo();" value="go">
+    <div id='chart-div' style='width:300px; float: right;'></div>
 
-    <div class="view-container" style="width: 600px;"><div class="view-layers" style="width: 100%; position: relative;"><canvas width="588" height="372" style="width: 100%;"></canvas><canvas width="600" style="width: 100%; position: absolute; top: 0px; left: 0px;"></canvas></div></div>
+    <div>
+      <div style="width: 350px; border: 1px solid rgba(0, 0, 0, 0.5);padding:8px;margin:6px;text-align:center;">
+        <label>speed:<input id="speed-slider" type="range" min="0" max="8" step=".01" style="width: 225px;"></label>
+        ticks: <span id="tick-counter">77</span>
+      </div>
+      <div style="width: 350px; border: 1px solid rgba(0, 0, 0, 0.5);padding:8px;margin:6px;text-align:center;">
+        <span style="vertical-align:text-top">cloud coverage:</span>
+        <input id="cloud-slider" type="range" min="0" max="100" step="5" style="width: 150px" onchange="onCloudChange()" value="0">
+         <span id='cloud-label' style="width: 40px;">0%</span>
+      </div>
+      <div style="width: 350px; border: 1px solid rgba(0, 0, 0, 0.5);padding:8px;margin:6px;text-align:center;">
+        CO2 amount: <input id="co2-slider" type="range" min="0" max="300" step="25" style="width: 150px" onchange="onCO2Change()" value="100">
+        <span id='co2-label' style="width: 40px; display: inline-block;">100</span>
+      </div>
+      <div style="width: 350px; text-align:center;border: 1px solid rgba(0, 0, 0, 0.5); padding:8px;margin:6px;">
+        temperature: <span id="temp-monitor">0</span>
+      </div>
+      <div style="clear: both;"></div>
+  </div>
+    <div style="width: 565px; display: inline-block; float: right;">
+      <div class="view-container" style="width: 565px;">
+        <div class="view-layers" style="width: 100%; position: relative;">
+          <canvas width="588" height="372" style="width: 100%;"></canvas>
+          <canvas width="1764" height="1116" style="width: 100%; position: absolute; top: 0px; left: 0px;"></canvas>
+        </div>
+      </div>
+    </div>
+    <input type="button" onclick="setup();" class="model-button" value="Reset"><br/>
+    <input id="go-button" type="button"  class="model-button" onclick="toggleGo();" value="Start">
+
+    <div style="clear: both;"></div>
+
 
     <script type="text/javascript">
       var Cloner, Random, StrictMath, println, typeIsArray;
@@ -5168,9 +5205,10 @@ return 0;
 }
 };
 Globals.setGlobal(0,0)
-Globals.setGlobal(1,300)
+Globals.setGlobal(1,100)
     </script>
-
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
 
       var session     = new SessionLite(document.getElementsByClassName('view-container')[0])
@@ -5182,21 +5220,53 @@ Globals.setGlobal(1,300)
       var co2Slider   = document.getElementById('co2-slider');
       var co2Label    = document.getElementById('co2-label');
       var lastUpdate  = 0;
+      var chart       = null;
+      var data        = null;
+
+      google.load('visualization', '1', {packages:['corechart']});
+      google.setOnLoadCallback(drawPlot);
+
+      function drawPlot() {
+        chart = new google.visualization.LineChart(document.getElementById('chart-div'));
+        resetData();
+        setInterval(plot.bind(this, data), 100);
+      }
+
+      function resetData() {
+        data = new google.visualization.DataTable();
+        data.addColumn('number', 'Tick');
+        data.addColumn('number', 'Temperature');
+        data.setColumnProperty(0, 'type', 'number');
+        data.setColumnProperty(1, 'type', 'number');
+        chart.draw(data);
+      }
+
+      function plotPoint(tick, y) {
+        data.addRow([tick,y]);
+      }
+
+      function plot(data) {
+        var opts = {
+          backgroundColor: '#fcfdfd',
+          chartArea:{width:"80%"},
+          enableInteractivity: false,
+          legend: {position: 'top', textStyle: {color: 'blue', fontSize: 12}, alignment:'center'},
+          vAxis: {maxValue: 30}
+        };
+        chart.draw(data, opts);
+      }
 
       // If the HTML was saved in the non-default state, correct it.
       tickCounter.textContent = '0';
       tempMonitor.textContent = '0';
       cloudSlider.value       = 0;
-      cloudLabel.innerHTML    = 0;
-      co2Slider.value         = 300;
-      co2Label.innerHTML      = 300;
-      document.getElementById('go-button').value = 'go';
-
-      
-      //@ Adding values of sliders
+      cloudLabel.innerHTML    = 0 + '%';
+      co2Slider.value         = 100;
+      co2Label.innerHTML      = 100;
+      document.getElementById('go-button').value = 'Start';
 
       function onCloudChange() {
-         cloudLabel.innerHTML = cloudSlider.value;
+         cloudLabel.innerHTML = cloudSlider.value + '%';
       }
 
       function onCO2Change() {
@@ -5224,6 +5294,7 @@ Globals.setGlobal(1,300)
 
         for (var i=0; i < numUpdates; i++) {
           updateInterfaceGlobals();
+          plotPoint(world.ticks(), Number(Globals.getGlobal(4).toFixed(1)));
           GO();
         }
 
@@ -5241,8 +5312,9 @@ Globals.setGlobal(1,300)
       }
 
       function setup() {
-        SETUP();
         updateInterfaceGlobals();
+        if (data) data.removeRows(0,data.getNumberOfRows());
+        SETUP();
         session.update(collectUpdates());
         updateWidgets();
       }
@@ -5256,15 +5328,13 @@ Globals.setGlobal(1,300)
         var goButton = document.getElementById('go-button');
         if (runner < 0) {
           goForever();
-          goButton.value = "stop";
+          goButton.value = "Stop";
         } else {
           stop();
-          goButton.value = "go";
+          goButton.value = "Start";
         }
       }
 
     </script>
-
-  
 
 </body></html>
