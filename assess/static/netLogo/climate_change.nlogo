@@ -335,10 +335,10 @@ NIL
 1
 
 PLOT
-9
-212
-278
-423
+8
+143
+283
+380
 Global Temperature
 time
 temperature
@@ -353,10 +353,10 @@ PENS
 "default" 1.0 0 -2674135 true "" ""
 
 MONITOR
-184
-158
-277
-203
+189
+89
+282
+134
 NIL
 temperature
 1
@@ -387,7 +387,7 @@ CO2-amount
 CO2-amount
 0
 300
-300
+150
 25
 1
 NIL
@@ -798,7 +798,7 @@ Polygon -7500403 true true 270 75 225 30 30 225 75 270
 Polygon -7500403 true true 30 75 75 30 270 225 225 270
 
 @#$#@#$#@
-NetLogo 5.0.4
+NetLogo 5.0.5-RC1
 @#$#@#$#@
 setup add-cloud add-cloud add-cloud repeat 800 [ go ]
 @#$#@#$#@
