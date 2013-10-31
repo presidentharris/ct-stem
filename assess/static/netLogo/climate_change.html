@@ -17,42 +17,41 @@
 </style>
 </head>
   <body onload="setup();">
-
-    <div id='chart-div' style='width:300px; float: right;'></div>
-
-    <div>
-      <div style="width: 350px; border: 1px solid rgba(0, 0, 0, 0.5);padding:8px;margin:6px;text-align:center;">
-        <label>speed:<input id="speed-slider" type="range" min="0" max="8" step=".01" style="width: 225px;"></label>
-        ticks: <span id="tick-counter">77</span>
-      </div>
-      <div style="width: 350px; border: 1px solid rgba(0, 0, 0, 0.5);padding:8px;margin:6px;text-align:center;">
-        <span style="vertical-align:text-top">cloud coverage:</span>
-        <input id="cloud-slider" type="range" min="0" max="100" step="5" style="width: 150px" onchange="onCloudChange()" value="0">
-         <span id='cloud-label' style="width: 40px;">0%</span>
-      </div>
-      <div style="width: 350px; border: 1px solid rgba(0, 0, 0, 0.5);padding:8px;margin:6px;text-align:center;">
-        CO2 amount: <input id="co2-slider" type="range" min="0" max="300" step="25" style="width: 150px" onchange="onCO2Change()" value="100">
-        <span id='co2-label' style="width: 40px; display: inline-block;">100</span>
-      </div>
-      <div style="width: 350px; text-align:center;border: 1px solid rgba(0, 0, 0, 0.5); padding:8px;margin:6px;">
-        temperature: <span id="temp-monitor">0</span>
-      </div>
-      <div style="clear: both;"></div>
-  </div>
-    <div style="width: 565px; display: inline-block; float: right;">
-      <div class="view-container" style="width: 565px;">
-        <div class="view-layers" style="width: 100%; position: relative;">
-          <canvas width="588" height="372" style="width: 100%;"></canvas>
-          <canvas width="1764" height="1116" style="width: 100%; position: absolute; top: 0px; left: 0px;"></canvas>
+    <div style="height:575px;width:707px;padding: 8px;border: 1px solid rgba(0, 0, 0, 0.5);box-shadow: 3px 3px 10px #555;">
+      <div id='chart-div' style='width:300px; float: right;'></div>
+      <div>
+        <div style="width: 350px; border: 1px solid rgba(0, 0, 0, 0.5);padding:8px;margin:6px;text-align:center;">
+          <label>speed:<input id="speed-slider" type="range" min="0" max="8" step=".01" style="width: 225px;"></label>
+          ticks: <span id="tick-counter">77</span>
+        </div>
+        <div style="width: 350px; border: 1px solid rgba(0, 0, 0, 0.5);padding:8px;margin:6px;text-align:center;">
+          <span style="vertical-align:text-top">cloud coverage:</span>
+          <input id="cloud-slider" type="range" min="0" max="100" step="5" style="width: 150px" onchange="onCloudChange()" value="0">
+           <span id='cloud-label' style="width: 40px;">0%</span>
+        </div>
+        <div style="width: 350px; border: 1px solid rgba(0, 0, 0, 0.5);padding:8px;margin:6px;text-align:center;">
+          CO2 amount: <input id="co2-slider" type="range" min="0" max="300" step="25" style="width: 150px" onchange="onCO2Change()" value="100">
+          <span id='co2-label' style="width: 40px; display: inline-block;">100</span>
+        </div>
+        <div style="width: 350px; text-align:center;border: 1px solid rgba(0, 0, 0, 0.5); padding:8px;margin:6px;">
+          temperature: <span id="temp-monitor">0</span>
+        </div>
+        <div style="clear: both;"></div>
+    </div>
+      <div style="width: 565px; display: inline-block; float: right;">
+        <div class="view-container" style="width: 565px;">
+          <div class="view-layers" style="width: 100%; position: relative;">
+            <canvas width="588" height="372" style="width: 100%;"></canvas>
+            <canvas width="1764" height="1116" style="width: 100%; position: absolute; top: 0px; left: 0px;"></canvas>
+          </div>
         </div>
       </div>
+      <input type="button" onclick="setup();" class="model-button" value="Reset"><br/>
+      <input id="go-button" type="button"  class="model-button" onclick="toggleGo();" value="Start">
+
+      <div style="clear: both;"></div>
+
     </div>
-    <input type="button" onclick="setup();" class="model-button" value="Reset"><br/>
-    <input id="go-button" type="button"  class="model-button" onclick="toggleGo();" value="Start">
-
-    <div style="clear: both;"></div>
-
-
     <script type="text/javascript">
       var Cloner, Random, StrictMath, println, typeIsArray;
 
