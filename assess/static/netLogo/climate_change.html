@@ -47,7 +47,7 @@
         </div>
       </div>
       <input type="button" onclick="setup();" class="model-button" value="Reset"><br/>
-      <input id="go-button" type="button"  class="model-button" onclick="toggleGo();" value="Start">
+      <input id="go-button" type="button"  class="model-button" onclick="toggleGo();" value="Play">
 
       <div style="clear: both;"></div>
 
@@ -5241,7 +5241,9 @@ Globals.setGlobal(1,100)
       }
 
       function plotPoint(tick, y) {
-        data.addRow([tick,y]);
+        if (tick % 10 === 0) {
+          data.addRow([tick,y]);
+        }
       }
 
       function plot(data) {
@@ -5262,7 +5264,7 @@ Globals.setGlobal(1,100)
       cloudLabel.innerHTML    = 0 + '%';
       co2Slider.value         = 100;
       co2Label.innerHTML      = 100;
-      document.getElementById('go-button').value = 'Start';
+      document.getElementById('go-button').value = 'Play';
 
       function onCloudChange() {
          cloudLabel.innerHTML = cloudSlider.value + '%';
@@ -5327,10 +5329,10 @@ Globals.setGlobal(1,100)
         var goButton = document.getElementById('go-button');
         if (runner < 0) {
           goForever();
-          goButton.value = "Stop";
+          goButton.value = "Pause";
         } else {
           stop();
-          goButton.value = "Start";
+          goButton.value = "Play";
         }
       }
 

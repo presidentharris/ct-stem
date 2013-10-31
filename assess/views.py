@@ -10,7 +10,7 @@ ASSESSMENTS = {'UNI1':'uni1.html', 'CPS1' : 'cps1.html'}
 # 'PB' : 'purple_bugs.html', 'WARB' : 'warblers.html', 'HDI' : 'HDI.html', 
 
 def student_login(request):
-    schools = Teacher.objects.values('school').distinct()
+    schools = Teacher.objects.values("school").distinct().order_by("school")
     teachers = Teacher.objects.all().order_by("last_name")
     return render(request, 'student_login.html', {'schools':schools, 'teachers':teachers})
 
