@@ -46,11 +46,12 @@
           </div>
         </div>
       </div>
-      <input type="button" onclick="setup();" class="model-button" value="Reset"><br/>
-      <input id="go-button" type="button"  class="model-button" onclick="toggleGo();" value="Play">
-
+      <input type="button" onclick="setup();" class="model-button" value="Setup"><br/>
+      <input id="go-button" type="button"  class="model-button" onclick="toggleGo();" value="Go">
       <div style="clear: both;"></div>
-
+      <div class="powered-by" style="float:right;">
+        Powered by <a href="http://ccl.northwestern.edu/netlogo" target="_blank" style="text-decoration:none;cursor:pointer;color:black;">NetLogo <img src="netlogo-icon.jpg" height="20px;" style="vertical-align:bottom"/></a>
+      </div>
     </div>
     <script type="text/javascript">
       var Cloner, Random, StrictMath, println, typeIsArray;
@@ -5241,7 +5242,7 @@ Globals.setGlobal(1,100)
       }
 
       function plotPoint(tick, y) {
-        if (tick % 10 === 0) {
+        if (tick % 20 === 0) {
           data.addRow([tick,y]);
         }
       }
@@ -5265,7 +5266,7 @@ Globals.setGlobal(1,100)
       cloudLabel.innerHTML    = 0 + '%';
       co2Slider.value         = 100;
       co2Label.innerHTML      = 100;
-      document.getElementById('go-button').value = 'Play';
+      document.getElementById('go-button').value = 'Go';
 
       function onCloudChange() {
          cloudLabel.innerHTML = cloudSlider.value + '%';
@@ -5330,10 +5331,10 @@ Globals.setGlobal(1,100)
         var goButton = document.getElementById('go-button');
         if (runner < 0) {
           goForever();
-          goButton.value = "Pause";
+          goButton.value = "Stop";
         } else {
           stop();
-          goButton.value = "Play";
+          goButton.value = "Go";
         }
       }
 

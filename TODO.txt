@@ -1,5 +1,7 @@
 TODO:
 
- - alphabatiz schools, teachers, sections
+ - Next is hidden on login page
  - move assessment name, short name, and html file name into an object (as opposed to hard coded in a few places)
- - make a question object that joins to reponses
+ - make a question object in the DB that joins to reponses
+ - bring tortoise UI more inline w/ NetLogo
+ 
