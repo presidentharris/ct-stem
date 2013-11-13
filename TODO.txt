@@ -1,5 +1,7 @@
 TODO:
 
+ - add robots.txt to prevent being indexed
+ - add google analytics - becuase it's easy, free and possibly interesting
  - Next is hidden on login page
  - move assessment name, short name, and html file name into an object (as opposed to hard coded in a few places)
  - make a question object in the DB that joins to reponses
