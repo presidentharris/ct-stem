@@ -305,7 +305,7 @@ BUTTON
 12
 101
 45
-Restart
+Setup
 Setup
 NIL
 1
@@ -322,7 +322,7 @@ BUTTON
 12
 203
 45
-Play / Pause
+Go / Stop
 go
 T
 1
