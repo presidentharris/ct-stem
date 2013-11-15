@@ -130,3 +130,5 @@ def record_assessment(request, assessmevent_id):
     # this handler will be assessment agnostic - it will serve up the assessment passed in
     return HttpResponse('something went wrong')    
 
+def robots(request):
+    return(HttpResponse("User-agent: *\nDisallow: /"))

@@ -12,6 +12,7 @@ urlpatterns = patterns('',
     # url(r'^sets/finish/$', views.record_assessment),
     url(r'^student/status/$', views.student_status),
     url(r'^student/register/$', views.student_register),
+    url(r'^robots\.txt', views.robots),
     (r'^admin/', include(admin.site.urls)),
 		url(r'^.*', views.student_login),
 )
