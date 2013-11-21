@@ -5,12 +5,13 @@ Small
 	- get a new URL (ct-stem.northwestern.edu/assess/....)
 	- add logic to track what version of climate change model was used (primary vs. secondary)
 	- Next is hidden on login page (sometimes)
-	- bring tortoise UI more inline w/ NetLogo
-	- get data out of DB/admin into spreadsheet
+	- Add logic to display 'are you sure?' message when closing the window
  
  Medium
+  - make the js version of the climate change model the primary one - but figure out how to embed it only once
 	- bring ct-stem website inline with latest versino of everything (assessments and taxonomy)
 	- make a question object in the DB that joins to reponses
 	- move assessment name, short name, and html file name into an object (as opposed to hard coded in a few places)
+	- bring tortoise UI more inline w/ NetLogo
 
  Large

@@ -1,1 +1,225 @@
-PB
+{% extends "base.html" %}
+
+{% block title %}Purple Bugs{% endblock %}
+
+{% block css %}
+{% endblock %}
+
+{% block js %}
+
+<script type="text/javascript">
+	function localNextPageHandler() {
+      nextPageHandler();
+   }
+
+	if (Math.floor(Math.random()*2) == 1) {
+		$('#pseudocode').hide();
+		$('#saw_pseudo').val("false");
+	}
+	
+</script>
+{% endblock %}
+
+{% block page-header%}Purple Bugs{% endblock %}
+
+{% block body %}
+ 
+	<form id="theForm" action="/assessment/record/{{assessmevent.id}}/" method="post">
+	 <div class="page">
+      <div class="stimulus">
+				Imagine a field full of purple bugs that are wandering around and eating grass. 
+				If a bug finds enough to eat, it will eventually reproduce and create a new bug. 
+				But, if a bug can't find enough to eat, it will die of starvation. 
+				This image shows a picture of the bugs in the field. 
+				The green squares are patches of grass that can be eaten by the bugs. 
+				If a square is white, the grass has already been eaten and is in the process of re-growing. 
+				<br/><br/> 
+				<center><image src="/static/images/pb/bugs.jpg" alt="bugs image"/></center>
+				<center><span style="font-family: times new roman;font-size: 16px;">Figure 1. Purple bugs eating grass.</span></center> 
+				<br/>
+				For the following questions, you will use a computer simulation that models the relationship between the 
+				bugs and the grass that they eat. To use the model, first click the setup button. Click on the Play/Pause 
+				button to see the bugs move around the world, eat grass, and reproduce. The model will run for 1000 steps before 
+				ending. You can run it again by clicking the Setup button again followed by the Play/Pause button. 
+				To the left of the simulation is a graph showing the total number of bugs and the total amount of grass. 
+				<br/><br/>
+				<center><image src="/static/images/pb/bugs-model.jpg" alt="bugs model image" border="1px;" style="margin-left:-36px;"/></center>
+				<center><span style="font-family: times new roman;font-size: 16px;">Figure 2. A picture of the purple bug simulation you will be using for these questions</span></center> 
+			</div>
+		</div>
+		<div class="page">
+			<div class="stimulus">
+				Below is the first Purple Bugs model. Try running the model a few times by clicking Setup then Play/Pause. Let it run for at least 1000 steps. 
+			</div>
+			<label class="ss-q-help">To make the model run faster (or slower), use the slider located just above the model.</label>
+			<br/>
+			[[ TORTOISE VERSION OF THE MODEL GOES HERE ]]
+
+			<span onclick="$( '#webstart-instructions1' ).toggle( 'blind', function(){updateFooterPosition();});" style="cursor:pointer;float:right;font-size:12px;margin-top:-12px;text-decoration:underline;">If you do not see the model above, please click here.</span><br/>
+    	<div id="webstart-instructions1" style="display:none;padding-left:20px;line-height:135%;font-size:14px;">
+        <br/>
+        Instead of viewing the model in the browser, you will open a new window to view it.</br>
+        To do so, please follow these steps: <br/>
+       <pre style="font-size:10.5pt;line-height:100%">
+1. Click <a href="/static/netLogo/pb.jnlp">here</a> to download the model.<br/>
+2. Click OK to begin the download.  It may take a minute or two.<br/>
+3. You will be asked for permission to run the model, click 'allow'.<br/>
+4. You should see a NetLogo icon, then the model will open.<br/>
+5. Use this model to answer questions 1 - 5 of this assessment.</pre>
+      </div>
+      <br/>
+			<div class="prompt">
+        <b>Item 1: </b>Describe what happens to the number of bugs over time:
+      </div>
+      <textarea id="pb_1" name="pb_1" style="width:597px;"></textarea>
+			<div class="prompt">
+        <b>Item 2: </b>Describe what happens to the amount of grass over time:
+      </div>
+      <textarea id="pb_2" name="pb_2" style="width:597px;"></textarea>
+			<div class="prompt">
+        <b>Item 3: </b>Describe the relationship between the amount of grass and the number of bugs:
+      </div>
+      <textarea id="pb_3" name="pb_3" style="width:597px;"></textarea>
+		<br/><br/>
+		</div>
+
+
+		<div class="page">
+			<div class="stimulus">
+				We have added a new button to our model called &ldquo;Burn&rdquo;. Clicking on the Burn button simulates a fire in which 50% of the grass is burned away. <br/>
+				Try clicking the Burn button while the model is running. You can click the button as many times as you want. 
+			</div>
+			<label class="ss-q-help">To make the model run faster (or slower), use the slider located just above the model.</label>
+			<br/>
+			[[ TORTOISE VERSION OF THE MODEL GOES HERE ]]
+
+			<span onclick="$( '#webstart-instructions2' ).toggle( 'blind', function(){updateFooterPosition();});" style="cursor:pointer;float:right;font-size:12px;margin-top:-12px;text-decoration:underline;">If you do not see the model above, please click here.</span><br/>
+    	<div id="webstart-instructions2" style="display:none;padding-left:20px;line-height:135%;font-size:14px;">
+        <br/>
+        Instead of viewing the model in the browser, you will open a new window to view it.</br>
+        To do so, please follow these steps: <br/>
+       <pre style="font-size:10.5pt;line-height:100%">
+1. Click <a href="/static/netLogo/pb.jnlp">here</a> to download the model.<br/>
+2. Click OK to begin the download.  It may take a minute or two.<br/>
+3. You will be asked for permission to run the model, click 'allow'.<br/>
+4. You should see a NetLogo icon, then the model will open.<br/>
+5. Use this model to answer questions 1 - 5 of this assessment.</pre>
+      </div>
+      <br/>
+
+			<div class="prompt">
+        <b>Item 4a: </b>What happens to the number of bugs after fire burns away half of the grass?
+      </div>
+      <textarea id="pb_4a" name="pb_4a" style="width:597px;"></textarea>
+			<div class="prompt">
+        <b>Item 4b: </b>Why do you think this happens? 
+      </div>
+      <textarea id="pb_4b" name="pb_4b" style="width:597px;"></textarea>
+			<div class="prompt">
+        <b>Item 5: </b>What do you think will happen to the number of bugs if a fire burned away 90% of the grass instead of 50%?
+      </div>
+      <textarea id="pb_5" name="pb_5" style="width:597px;"></textarea>
+		<br/><br/>
+		</div>
+		
+
+		<div class="page">
+			<div class="stimulus">
+				This model is the same as model 2 with the addition of a slider that allows you to control how much of the grass will be burned each time the Burn button is clicked.
+			</div>
+			To make the model run faster (or slower), use the slider located just above the model.
+			<br/>
+			[[ TORTOISE VERSION OF THE MODEL GOES HERE ]]
+
+			<span onclick="$( '#webstart-instructions3' ).toggle( 'blind', function(){updateFooterPosition();});" style="cursor:pointer;float:right;font-size:12px;margin-top:-12px;text-decoration:underline;">If you do not see the model above, please click here.</span><br/>
+    	<div id="webstart-instructions3" style="display:none;padding-left:20px;line-height:135%;font-size:14px;">
+        <br/>
+        Instead of viewing the model in the browser, you will open a new window to view it.</br>
+        To do so, please follow these steps: <br/>
+       <pre style="font-size:10.5pt;line-height:100%">
+1. Click <a href="/static/netLogo/pb.jnlp">here</a> to download the model.<br/>
+2. Click OK to begin the download.  It may take a minute or two.<br/>
+3. You will be asked for permission to run the model, click 'allow'.<br/>
+4. You should see a NetLogo icon, then the model will open.<br/>
+5. Use this model to answer questions 1 - 5 of this assessment.</pre>
+      </div>
+      <br/>
+
+			<div class="prompt">
+         <b>Item 6: </b> Change the <b>grass-to-burn</b> slider to 90% and run the model, hitting the Burn button once as it runs. What happened to the number of bugs in the model?
+      </div>
+      <ol class="check-one" input-num="pb_6">
+         <li answer="A">The number of bugs was permanently reduced.</li>
+         <li answer="B">The bugs all died because there wasn&rsquo;t enough food to go around.</li>
+         <li answer="C">The number of bugs went down at first, but eventually returned to a similar number as before the fire.</li>
+         <li answer="D">There was no change to the number of bugs in the model.</li>
+      </ol>
+      <input id="pb_6" type="text" dir="auto" value="" name="pb_6" style="display:none;">
+			
+			<div class="prompt"><b>Item 7: </b> The models you have been using were written using a programming language. That means a person wrote out a sequence of steps for the computer to follow to create these simulations. Below, write instructions that could be followed by a computer to simulate fire burning away some of the grass. These steps do not need to be written in a programming language, but can just explain what the simulation should do for each step.
+			</div>
+			<div id="pseudocode">
+				For example, steps for controlling just the bugs in this model could look like this: 
+					<ol style="margin-top: 0px;">
+						<li>Ask the bugs to move a little</li>
+						<li>Check to see if the bug has eaten grass recently; if it has not, have it die</li>
+						<li>Check to see if a bug is on grass, if so, have it eat a little grass</li>
+						<li>If a bug has eaten a lot of grass, have it reproduce</li>
+						<li>Repeat from step 1</li>
+					</ol>
+			</div>
+			<textarea id="pb_7" name="pb_7" style="width:597px;"></textarea>
+		<br/><br/>
+	</div>
+
+	<div class="page">
+			<div class="stimulus">
+				This version of the model has an amount-of-grassland slider that controls how much of the land can grow grass. If the slider is set to 0%, no grass will grow in the model; if it is set to 100%, every square can grow grass.
+				<br/><br/>
+				Take a minute to experiment with different settings for the slider. Every time you change the value of the slider, you will need to click the Setup button again to reset the model for the change to take effect.
+			</div>
+			<br/>
+			[[ TORTOISE VERSION OF THE MODEL GOES HERE ]]
+
+			<span onclick="$( '#webstart-instructions4' ).toggle( 'blind', function(){updateFooterPosition();});" style="cursor:pointer;float:right;font-size:12px;margin-top:-12px;text-decoration:underline;">If you do not see the model above, please click here.</span><br/>
+    	<div id="webstart-instructions4" style="display:none;padding-left:20px;line-height:135%;font-size:14px;">
+        <br/>
+        Instead of viewing the model in the browser, you will open a new window to view it.</br>
+        To do so, please follow these steps: <br/>
+       <pre style="font-size:10.5pt;line-height:100%">
+1. Click <a href="/static/netLogo/pb.jnlp">here</a> to download the model.<br/>
+2. Click OK to begin the download.  It may take a minute or two.<br/>
+3. You will be asked for permission to run the model, click 'allow'.<br/>
+4. You should see a NetLogo icon, then the model will open.<br/>
+5. Use this model to answer questions 1 - 5 of this assessment.</pre>
+      </div>
+      <br/>
+
+			<div class="prompt">
+        <b>Item 8a: </b>Please describe what happens in the model if only 20% of the land can grow grass:
+      </div>
+      <textarea id="pb_8a" name="pb_8a" style="width:597px;"></textarea>
+			<div class="prompt">
+        <b>Item 8b: </b>Why do you think this happens? 
+      </div>
+      <textarea id="pb_8b" name="pb_8b" style="width:597px;"></textarea>
+			<div class="prompt">
+        <b>Item 9: </b>Set the amount-of-grassland slider to 100% and run the model. Now change the slider to 60%, click Setup and run the model again. Please describe what happens to the bugs when the slider is at 60% compared to 100%?
+      </div>
+      <textarea id="pb_9" name="pb_9" style="width:597px;"></textarea>
+      <div class="prompt">
+        <b>Item 10: </b>If you set the amount-of-grassland slider to 0% all of the bugs die. What steps would you take to figure out the lowest value the slider can be so that there are still bugs alive after 1000 steps have passed?
+      </div>
+      <textarea id="pb_10" name="pb_10" style="width:597px;"></textarea>
+      <div class="prompt">
+        <b>Item 11: </b>What is the smallest value for amount-of-grassland you found that could keep bugs alive for 1000 steps?
+      </div>
+      <input id="pb_11" name="pb_11" size="6"></input>
+		</div>
+
+	<!-- hidden inputs for recording information about the browser -->
+	<input id="browser" type="text" dir="auto" value="" name="browser" style="display:none;" />
+	<input id="saw_pseudo" type="text" dir="auto" value="true" name="saw_pseudo" style="display:none;" />
+
+ </form>
+ {% endblock %}
