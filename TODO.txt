@@ -1,6 +1,7 @@
 TODO:
 
 Small
+	- images disappear when going backwards in CPS1
 	- add google analytics - becuase it's easy, free and possibly interesting
 	- get a new URL (ct-stem.northwestern.edu/assess/....)
 	- add logic to track what version of climate change model was used (primary vs. secondary)

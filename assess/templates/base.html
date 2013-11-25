@@ -32,11 +32,13 @@
 		}
 
 		function nextPageHandler() {
+			{% block customNextPageHandler %} {% endblock %}
 			$('html, body').animate({ scrollTop: 0 });
 			nextPage();
 		}
 
 		function backPageHandler() {
+		{% block customBackPageHandler %} {% endblock %}
 			$('html, body').animate({ scrollTop: 0 });
 			backPage();
 		}
@@ -76,12 +78,12 @@
   <div class="content">
 		<div id="header" class="ui-widget-header" style="border:none;height:53px;">
 	  {% block header %}
-	      <button id="top-back-button" class="back-button" onclick="backPage();">&#x25C4; BACK</button>
+	      <button id="top-back-button" class="back-button" onclick="backPageHandler();">&#x25C4; BACK</button>
 	      <span class="page-header-text">
 		      {% block page-header%}{% endblock %}
 		      <span id="page-number" style="padding-left:15px;">Page 1</span>
 		    </span>
-	      <button id="top-next-button" class="next-button" onclick="localNextPageHandler();return false;">NEXT &#x25BA;</button>
+	      <button id="top-next-button" class="next-button" onclick="nextPageHandler();return false;">NEXT &#x25BA;</button>
 	  {% endblock %}
 		</div>
 	
@@ -90,8 +92,8 @@
 	  {% block footer %}
 			<div id="footer" class="ui-widget-header" style="border:none;height:88px;">
 		  	<div style="height:88px;">
-		  		<button id="bottom-back-button" class="back-button" onclick="backPage();">&#x25C4; BACK</button>
-		      <button id="bottom-next-button" class="next-button" onclick="localNextPageHandler();return false;">NEXT &#x25BA;</button>
+		  		<button id="bottom-back-button" class="back-button" onclick="backPageHandler();">&#x25C4; BACK</button>
+		      <button id="bottom-next-button" class="next-button" onclick="nextPageHandler();return false;">NEXT &#x25BA;</button>
 		      <button id="submit-and-finish-button" class="submit-and-finish-button" type="submit" onclick="if(confirm('Are you sure you want to submit your answers?\nThere are still more questions to answer.')){preSubmitLogic();$('#theForm').submit();} else {return false;}">Submit &amp; Finish</button>
 		      <button id="submit-button" class="submit-button" type="submit" onclick="preSubmitLogic();$('#theForm').submit();return true;" style="visibility:hidden;" name="submit" value="Submit">Submit</buton>
 			</div>

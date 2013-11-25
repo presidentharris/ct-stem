@@ -6,23 +6,20 @@
 <link rel="stylesheet" href="/static/css/codemirror.css">
 {% endblock %}
 
-{% block js %}
-<script src="/static/js/codemirror.js"></script>
-
-<script type="text/javascript">
-   function localNextPageHandler() {
-      // ineligant hack to get the fixed position images to face after their page has been viewed
-      // all attempts at elegance failed - sigh
-      $('.fixed-image').each(
-         function (index, el){
-            if ($(this).parents(".page").css("left") == '0px'){
-               $(this).fadeOut("slow");
-            }
+{% block customNextPageHandler %}
+   // ineligant hack to get the fixed position images to face after their page has been viewed
+   // all attempts at elegance failed - sigh
+   $('.fixed-image').each(
+      function (index, el){
+         if ($(this).parents(".page").css("left") == '0px'){
+            $(this).fadeOut("slow");
          }
-      );
-      nextPageHandler();
-   }
- </script>
+      }
+   );
+{% endblock %}
+
+{% block js %}
+   <script src="/static/js/codemirror.js"></script>
 {% endblock %}
 
 {% block page-header%}Computational Problem Solving{% endblock %}

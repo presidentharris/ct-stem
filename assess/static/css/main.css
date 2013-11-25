@@ -389,3 +389,11 @@ pre {
    line-height:125%
 }
 
+.help-text {
+   display: block;   
+   color: #505050;   
+   margin: .1em 0 .25em 0; 
+   font-family: Arial,sans-serif; 
+   font-size: 0.8em;
+}
+

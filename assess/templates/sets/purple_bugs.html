@@ -3,14 +3,37 @@
 {% block title %}Purple Bugs{% endblock %}
 
 {% block css %}
+ <style type="text/css">
+   .pb-tortoise-frame {
+      height:375px;
+      width:715px;
+      padding: 8px;
+      border: 1px solid rgba(0, 0, 0, 0.5);
+      box-shadow: 3px 3px 10px #555;
+      margin-left:-50px;
+   }
+ </style>
+{% endblock %}
+
+{% block customNextPageHandler %}
+refreshIFrames(curr_page + 1);
+{% endblock %}
+
+{% block customBackPageHandler %}
+if (curr_page > 1) {
+	refreshIFrames(curr_page);	
+}
 {% endblock %}
 
 {% block js %}
 
 <script type="text/javascript">
-	function localNextPageHandler() {
-      nextPageHandler();
-   }
+  function refreshIFrames(loadModel) {
+  	// clear all frames
+    $('iframe').each (function (id, el) { $(el).attr('src', "#");});
+    // load desired frame
+    $('#pb-frame' + loadModel).attr('src', '/static/netLogo/pb' + (loadModel) + '.html');
+  }
 
 	if (Math.floor(Math.random()*2) == 1) {
 		$('#pseudocode').hide();
@@ -38,22 +61,17 @@
 				<center><span style="font-family: times new roman;font-size: 16px;">Figure 1. Purple bugs eating grass.</span></center> 
 				<br/>
 				For the following questions, you will use a computer simulation that models the relationship between the 
-				bugs and the grass that they eat. To use the model, first click the setup button. Click on the Play/Pause 
-				button to see the bugs move around the world, eat grass, and reproduce. The model will run for 1000 steps before 
-				ending. You can run it again by clicking the Setup button again followed by the Play/Pause button. 
-				To the left of the simulation is a graph showing the total number of bugs and the total amount of grass. 
-				<br/><br/>
-				<center><image src="/static/images/pb/bugs-model.jpg" alt="bugs model image" border="1px;" style="margin-left:-36px;"/></center>
-				<center><span style="font-family: times new roman;font-size: 16px;">Figure 2. A picture of the purple bug simulation you will be using for these questions</span></center> 
+				bugs and the grass that they eat. The model and first questions begin on the next page.
 			</div>
 		</div>
 		<div class="page">
-			<div class="stimulus">
-				Below is the first Purple Bugs model. Try running the model a few times by clicking Setup then Play/Pause. Let it run for at least 1000 steps. 
-			</div>
-			<label class="ss-q-help">To make the model run faster (or slower), use the slider located just above the model.</label>
 			<br/>
-			[[ TORTOISE VERSION OF THE MODEL GOES HERE ]]
+			<div class="stimulus">
+				Below is the first Purple Bugs model. Click on the Go button to see the bugs move around the world, eat grass, and reproduce. The model will run for 1000 steps before ending. You can run it again by clicking the Setup button again followed by the Go button. To the left of the simulation is a graph showing the total number of bugs and the total amount of grass. 				 
+			</div>
+			<label class="help-text">To make the model run faster (or slower), use the speed slider.</label>
+
+			<iframe id="pb-frame1" src="#" class="pb-tortoise-frame"></iframe>
 
 			<span onclick="$( '#webstart-instructions1' ).toggle( 'blind', function(){updateFooterPosition();});" style="cursor:pointer;float:right;font-size:12px;margin-top:-12px;text-decoration:underline;">If you do not see the model above, please click here.</span><br/>
     	<div id="webstart-instructions1" style="display:none;padding-left:20px;line-height:135%;font-size:14px;">
@@ -83,15 +101,14 @@
 		<br/><br/>
 		</div>
 
-
 		<div class="page">
 			<div class="stimulus">
 				We have added a new button to our model called &ldquo;Burn&rdquo;. Clicking on the Burn button simulates a fire in which 50% of the grass is burned away. <br/>
 				Try clicking the Burn button while the model is running. You can click the button as many times as you want. 
 			</div>
-			<label class="ss-q-help">To make the model run faster (or slower), use the slider located just above the model.</label>
 			<br/>
-			[[ TORTOISE VERSION OF THE MODEL GOES HERE ]]
+
+			<iframe id="pb-frame2" src="#" class="pb-tortoise-frame"></iframe>
 
 			<span onclick="$( '#webstart-instructions2' ).toggle( 'blind', function(){updateFooterPosition();});" style="cursor:pointer;float:right;font-size:12px;margin-top:-12px;text-decoration:underline;">If you do not see the model above, please click here.</span><br/>
     	<div id="webstart-instructions2" style="display:none;padding-left:20px;line-height:135%;font-size:14px;">
@@ -129,7 +146,7 @@
 			</div>
 			To make the model run faster (or slower), use the slider located just above the model.
 			<br/>
-			[[ TORTOISE VERSION OF THE MODEL GOES HERE ]]
+			<iframe id="pb-frame3" src="#" class="pb-tortoise-frame"></iframe>
 
 			<span onclick="$( '#webstart-instructions3' ).toggle( 'blind', function(){updateFooterPosition();});" style="cursor:pointer;float:right;font-size:12px;margin-top:-12px;text-decoration:underline;">If you do not see the model above, please click here.</span><br/>
     	<div id="webstart-instructions3" style="display:none;padding-left:20px;line-height:135%;font-size:14px;">
@@ -179,7 +196,7 @@
 				Take a minute to experiment with different settings for the slider. Every time you change the value of the slider, you will need to click the Setup button again to reset the model for the change to take effect.
 			</div>
 			<br/>
-			[[ TORTOISE VERSION OF THE MODEL GOES HERE ]]
+			<iframe id="pb-frame4" src="#" class="pb-tortoise-frame"></iframe>
 
 			<span onclick="$( '#webstart-instructions4' ).toggle( 'blind', function(){updateFooterPosition();});" style="cursor:pointer;float:right;font-size:12px;margin-top:-12px;text-decoration:underline;">If you do not see the model above, please click here.</span><br/>
     	<div id="webstart-instructions4" style="display:none;padding-left:20px;line-height:135%;font-size:14px;">
@@ -212,7 +229,7 @@
       </div>
       <textarea id="pb_10" name="pb_10" style="width:597px;"></textarea>
       <div class="prompt">
-        <b>Item 11: </b>What is the smallest value for amount-of-grassland you found that could keep bugs alive for 1000 steps?
+        <b>Item 11: </b>What is the smallest value you can set the amount-of-grassland slider to and still keep some bugs alive for 1000 steps?
       </div>
       <input id="pb_11" name="pb_11" size="6"></input>
 		</div>
