@@ -67,7 +67,7 @@ class AssessEventAdmin(admin.ModelAdmin):
 			if not has_header:
 				writer.writerow(header_pt1 + item_names)
 				has_header = True
-			writer.writerow(a_info)
+			writer.writerow([unicode(a).encode("utf-8") for a in a_info])
 		response['Content-Disposition'] = 'attachment; filename="responses.csv"'
 
 		return response
