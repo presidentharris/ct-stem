@@ -1,5 +1,6 @@
 <html><head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <link rel="stylesheet" href="/static/css/tortoise.css" type="text/css">
 
 </head>
@@ -15,20 +16,24 @@
         </div>
       </div>
 
-      <div style="width:323px;">
+      <div style="width:323px;margin-top:-13px;">
         <input onclick="doSetup();" value="Setup" type="button" class="model-button">
         <input id="go-button" onclick="toggleGo();" value="Go" type="button" class="model-button" style="margin-left:3px;">
         <input id="burn-button" onclick="startFire();" value="Burn" type="button" class="model-button" style="margin-left:3px;">
       </div>
       
-      <div class="slider" style="width:334px; margin: 6px 6px 6px 0px;">
+      <div class="slider" style="width:334px; margin: 0px 6px 6px 0px;">
         <label style="padding-bottom:3px;">speed:<input id="speed-slider" type="range" min="0" max="8" step=".01" style="width: 200px;" value="4"></label>
         ticks: <span id="tick-counter">0</span>
+      </div>      
+      <div class="slider" style="width:334px; margin: 6px 6px 6px 0px;">
+        <label style="padding-bottom:3px;">grass-to-burn:<input id="grass-to-burn-slider" type="range" min="0" max="100" step="1" style="width: 187px;" value="50" onchange="$('#grass-to-burn-counter').html(this.value);Globals.setGlobal(0, this.value)"></label>
+        <span id="grass-to-burn-counter">50</span>%
       </div>
 
       <div id='chart-div' style='width:350px; border: 1px solid rgba(0, 0, 0, 0.5);'></div>
 
-      <div id="powered-by-wrapper" style="margin: 10px 0px -33px 536px;">
+      <div id="powered-by-wrapper" style="margin: -28px 0px -15px 536px;">
         <a href="http://ccl.northwestern.edu/netlogo/" target="_blank">
           <img style="vertical-align: middle;" alt="NetLogo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAANcSURBVHjarJRdaFxFFMd/M/dj7252uxubKms+bGprVyIVbNMWWqkQqtLUSpQWfSiV+oVFTcE3DeiDgvoiUSiCYLH2oVoLtQ+iaaIWWtE2FKGkkSrkq5svN+sm7ma/7p3x4W42lEbjQw8MM8yc87/nzPnNFVprbqWJXyMyXuMqx1Ni6N3ny3cX8tOHNLoBUMvESoFI2Xbs4zeO1lzREpSrMSNS1zkBDv6uo1/noz1H7mpvS4SjprAl2AZYEqzKbEowBAgBAkjPKX2599JjT7R0bj412D0JYNplPSBD1G2SmR/e6u1ikEHG2vYiGxoJmxAyIGSCI8GpCItKimtvl2JtfGujDNkX6epuAhCjNeAZxM1ocPy2Qh4toGQ5DLU+ysiuA2S3P0KgJkjAgEAlQylAA64CG/jlUk6//ng4cNWmLK0yOPNMnG99Rs9LQINVKrD+wmke7upg55PrWP3eYcwrlykpKCkoelDy/HVegQhoABNAepbACwjOt72gZkJhypX70YDWEEklue+rbnYc2MiGp1upPfYReiJJUUG58gFXu4udch1wHcjFIgy0HyIjb2yvBpT2F6t+6+f+D15lW8c9JDo7iPSdgVIRLUqL2AyHDQAOf9hfbqxvMF98eT3RuTS1avHyl+Stcphe2chP9+4k/t3RbXVl3W+Ws17FY56/w3VcbO/koS/eZLoAqrQMxADZMTYOfwpwoWjL4+bCYcgssMqGOzPD6CIkZ/3SxTJ0ayFIN6/BnBrZb2XdE1JUgkJWkfrUNRJnPyc16zsbgPyXIUJBpvc+y89nk/S8/4nek3NPGeBWMwzGvhUPnP6RubRLwfODlqqx3LSCyee2MnlwMwA2RwgO5qouVcHmksUdJweYyi8hZkrUjgT5t/ejNq0jBsSqNWsKyT9uFtxw7Bs585d3g46KOeT2bWHmtd14KyP+5mzqpsYU3OyioACMhGiqPTMocsrHId9cy9BLDzKxq8X3ctMwlV6yKSHL4fr4dd0DeQBTBUgUkvpE1kVPbqkX117ZzuSaFf4zyfz5n9A4lk0yNU7vyb7jTy1kmFGipejKvh6h9n0W995ZPTu227hqmCz33xXgFV1v9NzI96NfjndWt7XWCB/7BSICFWL+j3lAofpCtfYFb6X9MwCJZ07mUsXRGwAAAABJRU5ErkJggg==">
           <span style="font-size: 16px;">powered by NetLogo</span>
