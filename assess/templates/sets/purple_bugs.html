@@ -35,10 +35,14 @@ if (curr_page > 1) {
     $('#pb-frame' + loadModel).attr('src', '/static/netLogo/pb' + (loadModel) + '.html');
   }
 
-	if (Math.floor(Math.random()*2) == 1) {
-		$('#pseudocode').hide();
-		$('#saw_pseudo').val("false");
-	}
+	$(function() {
+      if (getCurrentPageNum() == 1) {
+         $('#submit-and-finish-button').css('visibility', 'hidden');
+      }
+      updateFooterPosition();
+
+      $('#browser').val(navigator.userAgent);    
+   });
 	
 </script>
 {% endblock %}
@@ -163,7 +167,7 @@ if (curr_page > 1) {
       <br/>
 
 			<div class="prompt">
-         <b>Item 6: </b> Change the <b>grass-to-burn</b> slider to 90% and run the model, hitting the Burn button once as it runs. What happened to the number of bugs in the model?
+         <b>Item 6: </b> Change the <b>Grass to burn</b> slider to 90% and run the model, hitting the Burn button once as it runs. What happened to the number of bugs in the model?
       </div>
       <ol class="check-one" input-num="pb_6">
          <li answer="A">The number of bugs was permanently reduced.</li>
@@ -191,7 +195,7 @@ if (curr_page > 1) {
 
 	<div class="page">
 			<div class="stimulus">
-				This version of the model has an amount-of-grassland slider that controls how much of the land can grow grass. If the slider is set to 0%, no grass will grow in the model; if it is set to 100%, every square can grow grass.
+				This version of the model has an <b>Amount of grassland</b> slider that controls how much of the land can grow grass. If the slider is set to 0%, no grass will grow in the model; if it is set to 100%, every square can grow grass.
 				<br/><br/>
 				Take a minute to experiment with different settings for the slider. Every time you change the value of the slider, you will need to click the Setup button again to reset the model for the change to take effect.
 			</div>
@@ -236,7 +240,6 @@ if (curr_page > 1) {
 
 	<!-- hidden inputs for recording information about the browser -->
 	<input id="browser" type="text" dir="auto" value="" name="browser" style="display:none;" />
-	<input id="saw_pseudo" type="text" dir="auto" value="true" name="saw_pseudo" style="display:none;" />
-
+	
  </form>
  {% endblock %}
