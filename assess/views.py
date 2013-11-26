@@ -63,7 +63,6 @@ def student_status(request):
             )
         assessmevent.save()
 
-        # how are we going to decide which assessment student should take? Maybe an intermediate page that says: hi {{name}} welcome back, please choose the assessment you'd like to take.
         return render(request, 'sets/' + ASSESSMENTS[assessmevent.assessment_set], {'assessmevent': assessmevent})
 
     except Student.DoesNotExist:
@@ -73,7 +72,8 @@ def student_status(request):
         return render(request, 'student_registration.html', {'form': registration_form, 'section': section})
     except Exception as e:
         errors.append("An error occured, please verify your information and try again.")
-        return render(request, 'student_login.html', {'errors': errors, 'e':e})
+        schools = Teacher.objects.values("school").distinct().order_by("school")
+        return render(request, 'student_login.html', {'errors': errors, 'e':e, 'schools':schools})
 
 def student_register(request):
     if request.method == 'POST':
