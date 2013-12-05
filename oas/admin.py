@@ -50,7 +50,7 @@ class AssessEventAdmin(admin.ModelAdmin):
 	def export_responses(modeladmin, request, queryset):
 		response = HttpResponse(content_type='text/csv')
 		writer = csv.writer(response)
-		header_pt1 = ['school', 'teacher f_name', 'teacher l_name', 'section name', 'subject', 'section', 'student ID', 'student fname', 'student lname', 'grade', 'sex', 'dob', 'ethnicity', 'assessment date', 'assessment set', 'location']
+		header_pt1 = ['assess DB ID', 'school', 'teacher f_name', 'teacher l_name', 'section name', 'subject', 'section', 'student DB-ID', 'student school ID', 'student fname', 'student lname', 'grade', 'sex', 'dob', 'ethnicity', 'assessment date', 'assessment set', 'location']
 
 		has_header = False
 
@@ -58,7 +58,7 @@ class AssessEventAdmin(admin.ModelAdmin):
 			t = a.section.teacher
 			sec = a.section
 			st = a.student
-			a_info = [t.school, t.first_name, t.last_name, sec.name, sec.subject, sec.section, st.student_id, st.first_name, st.last_name, st.grade, st.sex, st.dob, st.ethnicity, a.date, a.assessment_set, a.location ]
+			a_info = [a.id, t.school, t.first_name, t.last_name, sec.name, sec.subject, sec.section, st.id, st.student_id, st.first_name, st.last_name, st.grade, st.sex, st.dob, st.ethnicity, a.date, a.assessment_set, a.location ]
 			responses = Response.objects.filter(assess_event=a).order_by("item_name")
 			item_names = []
 			for r in responses:
