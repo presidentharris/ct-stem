@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html lang="en">
 <head>
-  <title>{% block title %}{% endblock %}</title>
+  <title>{% block title %}{{assessment.name}}{% endblock %}</title>
 
 	<meta charset="utf-8">
 	<meta name="apple-mobile-web-app-capable" content="yes">
@@ -52,6 +52,7 @@
 		}
 
     function preSubmitLogic() {
+    	{% block preSubmitLogic %} {% endblock %}
       populateMCs();
     }
 
@@ -84,7 +85,7 @@
 	  {% block header %}
 	      <button id="top-back-button" class="back-button" onclick="backPageHandler();">&#x25C4; BACK</button>
 	      <span class="page-header-text">
-		      {% block page-header%}{% endblock %}
+		      {% block page-header%}{{assessment.name}}{% endblock %}
 		      <span id="page-number" style="padding-left:15px;">Page 1</span>
 		    </span>
 	      <button id="top-next-button" class="next-button" onclick="nextPageHandler();return false;">NEXT &#x25BA;</button>

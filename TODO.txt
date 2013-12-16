@@ -1,7 +1,6 @@
 TODO:
 
 Small
-  - figure out how to export Javier Munoz (with an ennyay)
 	- images disappear when going backwards in CPS1
 	- add google analytics - becuase it's easy, free and possibly interesting
 	- get a new URL (ct-stem.northwestern.edu/assess/....)
@@ -10,10 +9,8 @@ Small
 	- Add logic to display 'are you sure?' message when closing the window
  
  Medium
-  - make the js version of the climate change model the primary one - but figure out how to embed it only once
 	- bring ct-stem website inline with latest versino of everything (assessments and taxonomy)
-	- make a question object in the DB that joins to reponses
-	- move assessment name, short name, and html file name into an object (as opposed to hard coded in a few places)
 	- bring tortoise UI more inline w/ NetLogo
 
  Large
+	- make a question object in the DB that joins to reponses

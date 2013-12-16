@@ -1,1 +1,372 @@
-WARB
+{% extends "base.html" %}
+
+
+{% block css %}
+	<link type="text/css" href="/static/css/jquery.dataTables.css"  rel="stylesheet" />
+
+ <style type="text/css">
+   .pb-tortoise-frame {
+      height:375px;
+      width:715px;
+      padding: 8px;
+      border: 1px solid rgba(0, 0, 0, 0.5);
+      box-shadow: 3px 3px 10px #555;
+      margin-left:-50px;
+   }
+
+   #dataTable1_length select, #dataTable2_length select, #dataTable3_length  select{
+   	width: 59px;
+   }
+
+ </style>
+{% endblock %}
+
+{% block customNextPageHandler %}
+{% endblock %}
+
+{% block customBackPageHandler %}
+{% endblock %}
+
+
+{% block preSubmitLogic %}
+	// record the responses to warb_6 before submitting the form
+	data_entered = ''
+	$('.entry_table1').each( function () { data_entered += $(this).val() + "_"; });
+	data_entered += '|';
+	$('.entry_table2').each( function () { data_entered += $(this).val() + "_"; });
+	data_entered += '|';
+	$('.entry_table3').each( function () { data_entered += $(this).val() + "_"; });
+	$('#warb_6').val(data_entered);
+
+	// disable the inputs from the dataTables
+	[1, 2, 3].forEach(function(el) {
+    $('#dataTable' + el + '_length select').prop('disabled', 'disabled');
+  });
+    
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript" src="/static/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript" src="/static/js/warbler_charts.js"></script>
+
+<script type="text/javascript">
+	function switchGraph(sel, class_str) {
+		$.each([1, 2, 3, 4, 5], function (index, value) {
+			siteGraph = "#" + class_str + value;
+			if (sel == value) {
+				$(siteGraph).show();
+			} else {
+				$(siteGraph).hide();
+			}
+		});
+	}
+
+	$(function() {
+		$('#dataTable1').dataTable({
+			"bProcessing": true,
+			"sAjaxSource": '/static/data/warbler_table_data_with_errs.json',
+			"fnDrawCallback": updateFooterPosition
+		});
+		
+		$('#dataTable2').dataTable({
+			"bProcessing": true,
+			"sAjaxSource": '/static/data/warbler_table_data_with_errs.json',
+			"fnDrawCallback": updateFooterPosition
+		});
+
+		$('#dataTable3').dataTable({
+			"bProcessing": true,
+			"sAjaxSource": '/static/data/warbler_table_data.json',
+			"fnDrawCallback": updateFooterPosition
+		});
+
+    if(getCurrentPageNum() == 1) {
+      $('#submit-and-finish-button').css('visibility', 'hidden');
+    }
+
+    $('#browser').val(navigator.userAgent);    
+   });
+	
+</script>
+{% endblock %}
+
+
+{% block body %}
+ 
+	<form id="theForm" action="/assessment/record/{{assessmevent.id}}/" method="post">
+	  <div class="page">
+      <div class="stimulus">
+				For several years a team of scientists, lead by Dr. Maria Gomez, have been tracking a type of a small bird called the Woodland Warbler. Scientists are concerned because the size of the Warbler population has been steadily decreasing year after year. Here are some of the things that scientists know about warblers: they are hunted by hawks; they are sensitive to changes in the environment; they eat spiders and insects.
+				<br/><br/> 
+				<center><image src="/static/images/warblers/yellow-warbler.jpg" alt="warbler image"/></center>
+				<center><span style="font-family: times new roman;font-size: 16px;">Figure 1. The yellow woodland warbler, a rare bird species.</span></center> 
+				<br/>
+				Dr. Gomez is trying to understand why the population is decreasing by collecting data at several different woodland sites. Your job is to use their data to identify possible reasons for the decline.
+			</div>
+		</div>
+
+		<div class="page">
+			
+			<div class="stimulus">
+				<div>The below table is similar to a spreadsheet, it shows the data that have been collected so far.</div>
+				<label class="help-text">To sort the data click on a column name or type in the Filter field.</label>
+
+				<div class="dataTable-wrapper">
+				<table cellpadding="0" cellspacing="0" border="0" class="display" id="dataTable1">
+					<thead>
+						<tr>
+							<th class = "sorting" width="20%">Year</th>
+							<th width="20%">Warbler Population</th>
+							<th class = "sorting" width="20%">Hawk Numbers</th>
+							<th width="20%">Pollution Index</th>
+							<th width="20%">Rainfall (mm)</th>
+							<th width="20%">Measurement<br/>Site</th>
+						</tr>
+					</thead>
+					<tbody>
+						
+					</tbody>
+					<tfoot>
+						<tr>
+							<th>Year</th>
+							<th>Warbler Population</th>
+							<th>Hawk Numbers</th>
+							<th>Pollution Index</th>
+							<th>Rainfall (mm)</th>
+							<th>Measurement Site</th>
+						</tr>
+					</tfoot>
+				</table>
+				</div>
+				<div style="padding-top:14px;">Using this table, please answer the following questions:</div>
+			</div>
+			<div class="prompt">
+        <b>Item 1: </b> Looking at the table, what variables have the scientists collected data for?
+      </div>
+      <textarea id="warb_1" name="warb_1" style="width:597px;"></textarea>
+			<div class="prompt">
+        <b>Item 2: </b> In what years did scientists collect data?
+      </div>
+      <textarea id="warb_2" name="warb_2" style="width:597px;"></textarea>
+			<div class="prompt">
+        <b>Item 3: </b> List the sites that the scientists have collected data from:
+      </div>
+      <textarea id="warb_3" name="warb_3" style="width:597px;"></textarea>
+		</div>
+
+		<div class="page">
+			<div class="stimulus">
+				Use this table to answer the questions below.
+				<div class="dataTable-wrapper">
+					<table cellpadding="0" cellspacing="0" border="0" class="display" id="dataTable2">
+						<thead>
+							<tr>
+								<th class = "sorting" width="20%">Year</th>
+								<th width="25%">Warbler Population</th>
+								<th class = "sorting" width="25%">Hawk Numbers</th>
+								<th width="25%">Pollution Index</th>
+								<th width="25%">Rainfall (mm)</th>
+								<th width="25%">Measurement<br/>Site</th>
+							</tr>
+						</thead>
+						<tbody>
+							
+						</tbody>
+						<tfoot>
+							<tr>
+								<th>Year</th>
+								<th>Warbler Population</th>
+								<th>Hawk Numbers</th>
+								<th>Pollution Index</th>
+								<th>Rainfall (mm)</th>
+								<th>Measurement Site</th>
+							</tr>
+						</tfoot>
+					</table>
+				</div>			 
+			</div>
+
+			<div class="prompt">
+        <b>Item 4: </b> There are some inconsistencies with the data in this table above that will cause problems for analyzying the data with a computer. Describe at least three problems in the table:
+      </div>
+      <textarea id="warb_4" name="warb_4" style="width:597px;"></textarea>
+			<div class="prompt">
+        <b>Item 5: </b> Having just looked for inconsistencies in a data set with 200 entries, what could you do to find similar problems in a data set with 2 million entries?
+      </div>
+      <textarea id="warb_5" name="warb_5" style="width:597px;"></textarea>
+			<br/>
+			Three new entries have been submitted to Dr. Gomez reporting some recently collected measurements:
+			<div class="prompt">
+				<div style="font-family: courier;font-size: 0.7em;border:solid 1px;padding:4px;line-height:145%">
+					<div style="padding:.7em;border-color:black;">
+						<div style="float:right;width:401px;">
+							<div style="float:right;">
+								<center>#3</center> 
+								Date: May 4th, 2012<br/>
+								Time: 9:24 AM<br/>
+								Number of warblers: 76<br/>
+								Number of hawks: 65<br/>
+								Rainfall: 6.3 cm<br/>
+								PI = 146<br/>
+								Measurement site = Englewood<br/>
+							</div>
+							<div style="float:left;">
+								<center>#2</center> 
+								Date: August 15th, 2012<br/> 
+								Number of warblers: 39<br/>
+								Number of hawks: 32<br/>
+								Rainfall: 9.1 cm<br/>
+								PI = 192<br/>
+								Temperature = 81 Fahrenheit<br/>
+								Measurement site = M. Grove<br/>
+
+							</div>
+						</div>	
+						<div >
+								<center>#1</center> 
+								Date: 6/3/2012<br/>
+								Number of warblers: 45<br/>
+								Number of hawks: 14<br/>
+								Rainfall: 34 mm<br/>
+								Pollution Index = 137<br/>
+								Temperature = 66 F<br/>
+								Measurement site = Oak Lawn<br/>
+						</div>
+					</div>
+				</div>
+        <b>Item 6: </b> Input the data from the box into the entries below so that it is consistent with the table above.
+        <table style="line-height:100%;margin-left:-20px;">
+					<tr>
+						<td align="center"></td>
+						<td align="center">Year</td>
+						<td align="center">Warbler<br/>Population</td>
+						<td align="center">Hawk<br/>Numbers</td>
+						<td align="center">Pollution<br/>Index</td>
+						<td align="center">Rainfall<br/>(mm)</td>
+						<td align="center">Measurement<br/>Site</td>
+					</tr>
+					<tr>
+						<td><div style="width:60px">Entry 1:</div></td>
+						<td><input type="text" class="entry_table1" size="11"/></td>
+						<td><input type="text" class="entry_table1" size="11"/></td>
+						<td><input type="text" class="entry_table1" size="11"/></td>
+						<td><input type="text" class="entry_table1" size="11"/></td>
+						<td><input type="text" class="entry_table1" size="11"/></td>
+						<td><input type="text" class="entry_table1" size="11"/></td>
+					</tr>
+					<tr>
+						<td>Entry 2:</td>
+						<td><input type="text" class="entry_table2" size="11"/></td>
+						<td><input type="text" class="entry_table2" size="11"/></td>
+						<td><input type="text" class="entry_table2" size="11"/></td>
+						<td><input type="text" class="entry_table2" size="11"/></td>
+						<td><input type="text" class="entry_table2" size="11"/></td>
+						<td><input type="text" class="entry_table2" size="11"/></td>
+					</tr>
+					<tr>
+						<td>Entry 3:</td>
+						<td><input type="text" class="entry_table3" size="11"/></td>
+						<td><input type="text" class="entry_table3" size="11"/></td>
+						<td><input type="text" class="entry_table3" size="11"/></td>
+						<td><input type="text" class="entry_table3" size="11"/></td>
+						<td><input type="text" class="entry_table3" size="11"/></td>
+						<td><input type="text" class="entry_table3" size="11"/></td>
+					</tr>
+				</table>
+      </div>
+      <textarea id="warb_6" name="warb_6" style="display:none;"></textarea>
+		</div>
+
+		<div class="page">
+			<br/>
+			<div class="stimulus">
+				Dr. Gomez has cleaned up the table and generated a new table. Using this table, please answer the following questions.
+				<div class="dataTable-wrapper">
+					<table cellpadding="0" cellspacing="0" border="0" class="display" id="dataTable3">
+						<thead>
+							<tr>
+								<th class = "sorting" width="20%">Year</th>
+								<th width="25%">Warbler Population</th>
+								<th class = "sorting" width="25%">Hawk Numbers</th>
+								<th width="25%">Pollution Index</th>
+								<th width="25%">Rainfall (mm)</th>
+								<th width="25%">Measurement<br/>Site</th>
+							</tr>
+						</thead>
+						<tbody>
+							
+						</tbody>
+						<tfoot>
+							<tr>
+								<th>Year</th>
+								<th>Warbler Population</th>
+								<th>Hawk Numbers</th>
+								<th>Pollution Index</th>
+								<th>Rainfall (mm)</th>
+								<th>Measurement Site</th>
+							</tr>
+						</tfoot>
+					</table>
+				</div> 				 
+			</div>
+			<div class="prompt">
+        <b>Item 7a: </b>What are the maximum and minimum values for the air pollution index in this data set?
+      </div>
+      <textarea id="warb_7a" name="warb_7a" style="width:597px;"></textarea>
+			<div class="prompt">
+        <b>Item 7b: </b>How did you figure this out?
+      </div>
+      <textarea id="warb_7b" name="warb_7b" style="width:597px;"></textarea>
+			<div class="prompt">
+        <b>Item 8a: </b>In 2006, which of the five sites had the largest total number of hawks observed?
+      </div>
+      <textarea id="warb_8a" name="warb_8a" style="width:597px;"></textarea>
+      <div class="prompt">
+        <b>Item 8b: </b>What steps did you take to figure this out? 
+      </div>
+      <textarea id="warb_8b" name="warb_8b" style="width:597px;"></textarea>
+		</div>
+
+		<div class="page">
+			<div class="stimulus">
+				Below is a graphs for each of the 5 measurement locations created using the data from this project.				 
+			</div>
+			<label class="help-text">Use the dropdown to view different sites.</label>
+			<div id="warbler_explorer" style="width:740px;height:350px;padding:8px;margin-left:-55px;">
+				<div>
+					<div style="float:right;">
+						<div id="all_factors_site_1" ></div>
+						<div id="all_factors_site_2" style="display:none;"></div>
+						<div id="all_factors_site_3" style="display:none;"></div>
+						<div id="all_factors_site_4" style="display:none;"></div>
+						<div id="all_factors_site_5" style="display:none;"></div>
+					</div>
+					<div style="padding-top:12px;">
+						Select site:
+						<select id="site-picker" style="width:125px;" onchange="switchGraph(this.selectedIndex + 1, 'all_factors_site_');">
+							<option value="all_factors_site_1">Highland Park</option>
+							<option value="all_factors_site_2">Morton Grove</option>
+							<option value="all_factors_site_3">Elmhurst</option>
+							<option value="all_factors_site_4">Oak Lawn</option>
+							<option value="all_factors_site_5">Englewood</option>
+						</select>
+					</div>
+				</div>
+			</div>
+
+			<div class="prompt">
+        <b>Item 9a: </b>What do you think is the cause of the decline in the number of warblers?
+      </div>
+      <textarea id="warb_9a" name="warb_9a" style="width:597px;"></textarea>
+			<div class="prompt">
+        <b>Item 9b: </b>How did you come to this conclusion?
+      </div>
+      <textarea id="warb_9b" name="warb_9b" style="width:597px;"></textarea>
+		</div>
+
+	<!-- hidden inputs for recording information about the browser -->
+	<input id="browser" type="text" dir="auto" value="" name="browser" style="display:none;" />
+	
+ </form>
+ {% endblock %}

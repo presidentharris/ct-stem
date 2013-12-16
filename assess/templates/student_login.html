@@ -47,7 +47,8 @@
           <li><span class="error-msg">{{error}}</span></li>
         {% endfor %}
       </ul>
-      <!-- {{ e }} -->
+      <!-- ERROR:
+      {{ e }} -->
     {% endif %}
        
     <form id="theForm" action="/student/status/" method="post">
@@ -74,13 +75,11 @@
 
       <select id="Assessment" name="assessment_set" class="selectBoxIt">
         <option value="" selected="selected">--- Select Assessment ---</option>
-        <option value="CPS1">Computational Problem Solving 1</option>
-        <option value="PB">Purple Bugs</option>
-        <!--
-        <option value="WARB">Warblers</option>
-        <option value="HDI">Human Development Index</option> 
-        -->
-        <option value="UNI1">Universal CT-STEM Assessment 1</option>
+
+        {% for assessment in assessments %}
+            <option value="{{assessment.id}}">{{assessment.name}}</option>
+        {% endfor %}
+
       </select><br/>
 
       <select id="location" name="location" class="selectBoxIt">

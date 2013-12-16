@@ -5,14 +5,17 @@ from forms import StudentRegistrationForm
 
 import datetime
 import json
+import collections
 
-ASSESSMENTS = {'UNI1':'uni1.html', 'CPS1' : 'cps1.html', 'PB' : 'purple_bugs.html', }
-# 'WARB' : 'warblers.html', 'HDI' : 'HDI.html', 
+Assessment = collections.namedtuple('Assessment', ['id', 'name', 'url'])
+ASSESSMENTS = {'CPS1': Assessment(id='CPS1', name='Computational Problem Solving 1', url='cps1.html'),'PB': Assessment(id='PB', name='Purple Bugs', url='purple_bugs.html'), 'UNI1': Assessment(id='UNI1', name='Universal CT-STEM Assessment 1', url='uni1.html'),'WARB': Assessment(id='WARB', name='Warblers', url='warblers.html'),}
+# 'HDI': Assessment(id='HDI', name='Human Development Index', url='HDI.html'),
+
 
 def student_login(request):
     schools = Teacher.objects.values("school").distinct().order_by("school")
     teachers = Teacher.objects.all().order_by("last_name")
-    return render(request, 'student_login.html', {'schools':schools, 'teachers':teachers})
+    return render(request, 'student_login.html', {'schools':schools, 'teachers':teachers, 'assessments': sorted(ASSESSMENTS.values(), cmp=lambda x,y: cmp(x.name, y.name))})
 
 def get_data(request, table):
     if 'filter' in request.GET:
@@ -47,7 +50,7 @@ def student_status(request):
         #TODO: figure out how to reuse the student_login method
         schools = Teacher.objects.values('school').distinct()
         teachers = Teacher.objects.all().order_by("last_name")
-        return render(request, 'student_login.html', {'schools':schools, 'teachers':teachers, 'errors':errors})
+        return render(request, 'student_login.html', {'schools':schools, 'teachers':teachers, 'errors':errors, 'assessments': sorted(ASSESSMENTS.values(), cmp=lambda x,y: cmp(x.name, y.name))})
 
     try:
         student_id = request.POST['student_id']
@@ -63,7 +66,7 @@ def student_status(request):
             )
         assessmevent.save()
 
-        return render(request, 'sets/' + ASSESSMENTS[assessmevent.assessment_set], {'assessmevent': assessmevent})
+        return render(request, 'sets/' + ASSESSMENTS[assessmevent.assessment_set].url, {'assessment': ASSESSMENTS[assessmevent.assessment_set], 'assessmevent': assessmevent})
 
     except Student.DoesNotExist:
         registration_form = StudentRegistrationForm(
@@ -73,7 +76,7 @@ def student_status(request):
     except Exception as e:
         errors.append("An error occured, please verify your information and try again.")
         schools = Teacher.objects.values("school").distinct().order_by("school")
-        return render(request, 'student_login.html', {'errors': errors, 'e':e, 'schools':schools})
+        return render(request, 'student_login.html', {'errors': errors, 'e':e, 'schools':schools, 'assessments': sorted(ASSESSMENTS.values(), cmp=lambda x,y: cmp(x.name, y.name))})
 
 def student_register(request):
     if request.method == 'POST':
@@ -107,7 +110,7 @@ def student_register(request):
                 assessment_set = in_data['assessment_set']
                 )
             assessmevent.save()
-            return render(request, 'sets/' + ASSESSMENTS[assessmevent.assessment_set], {'assessmevent': assessmevent})
+            return render(request, 'sets/' + ASSESSMENTS[assessmevent.assessment_set][1], {'assessment': ASSESSMENTS[assessmevent.assessment_set], 'assessmevent': assessmevent})
         else:
             return render(request, 'student_registration.html', {'form': form})
             # return HttpResponse(form.errors)
