@@ -21,9 +21,8 @@
 <script type="text/javascript">
    function refreshIFrames(loadFrame) {
       // clear all frames
-      $('iframe').each (function (id, el) { $(el).attr('src', "#");});
+      $('iframe').each (function (id, el) { $(el).attr('src', "");});
       // load desired frame
-      console.log('loaded' + getCurrentPageNum())
       $('#uni1-frame' + loadFrame).attr('src', '/static/netLogo/climate_change.html');
    }
 
@@ -32,7 +31,7 @@
          $('#submit-and-finish-button').css('visibility', 'hidden');
       }
       updateFooterPosition();
-      refreshIFrames(1);
+      refreshIFrames(getCurrentPageNum());
 
       $('#browser').val(navigator.userAgent);    
    });
@@ -42,11 +41,10 @@
 
 {% block customNextPageHandler %}
 refreshIFrames(getCurrentPageNum() + 1);
-console.log(getCurrentPageNum() + 1);
 {% endblock %}
 
 {% block customBackPageHandler %}
-refreshIFrames(getCurrentPageNum()); 
+refreshIFrames(getCurrentPageNum() - 1); 
 {% endblock %}
 
 {% block page-header%}CT in STEM - Universal Assessment 1{% endblock %}
@@ -59,7 +57,7 @@ refreshIFrames(getCurrentPageNum());
          <center><h3>Exploring Climate Change</h3></center>
          <div class="stimulus">
          These questions use a computer model that simulates the effect of cloud cover and carbon dioxide (CO<sub>2</sub>) on the temperature of earth. To run the simulation, click on the <b>Setup</b> to get the model setup. Then click on the <b>Go / Stop </b> button to start the model. The CO<sub>2</sub> is shown as green and white molecules in the atmosphere. To run the simulation again, press the Setup button. A graph above the simulation shows the global temperature over the time. You can change the speed of the model with the slider at the top of the model.
-         <iframe id="uni1-frame1" src="#" class="uni1-tortoise-frame"></iframe>
+         <iframe id="uni1-frame1" src="" class="uni1-tortoise-frame"></iframe>
          <span onclick="$( '#webstart-instructions1' ).toggle( 'blind', function(){updateFooterPosition();});" style="cursor:pointer;float:right;font-size:12px;margin-top:-12px;text-decoration:underline;">If you do not see the model above, please click here.</span><br/>
          <div id="webstart-instructions1" style="display:none;padding-left:20px;line-height:135%;font-size:14px;">
          You can download and run a version of the model by following these steps:
@@ -78,7 +76,7 @@ refreshIFrames(getCurrentPageNum());
 
    <div class="page">
       Using the climate change model to answer the questions below.
-      <iframe id="uni1-frame2" src="#" class="uni1-tortoise-frame"></iframe>
+      <iframe id="uni1-frame2" src="" class="uni1-tortoise-frame"></iframe>
       <span onclick="$( '#webstart-instructions2' ).toggle( 'blind', function(){updateFooterPosition();});" style="cursor:pointer;float:right;font-size:12px;margin-top:-12px;text-decoration:underline;">If you do not see the model above, please click here.</span><br/>
       <div id="webstart-instructions2" style="display:none;padding-left:20px;line-height:135%;font-size:14px;">
       You can download and run a version of the model by following these steps:
@@ -128,7 +126,7 @@ refreshIFrames(getCurrentPageNum());
    </div>
 
    <div class="page">
-      <iframe id="uni1-frame3" src="#" class="uni1-tortoise-frame"></iframe>
+      <iframe id="uni1-frame3" src="" class="uni1-tortoise-frame"></iframe>
       <span onclick="$( '#webstart-instructions3' ).toggle( 'blind', function(){updateFooterPosition();});" style="cursor:pointer;float:right;font-size:12px;margin-top:-12px;text-decoration:underline;">If you do not see the model above, please click here.</span><br/>
       <div id="webstart-instructions3" style="display:none;padding-left:20px;line-height:135%;font-size:14px;">
       You can download and run a version of the model by following these steps:
