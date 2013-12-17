@@ -4,3 +4,5 @@ lib
 .Python
 *.pyc
 *.sublime*
+staticfiles
+*how_to_add_static_files.txt

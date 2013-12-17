@@ -1,7 +1,8 @@
 # Django settings for assess project.
 import os.path
 
-DEBUG = True
+# DEBUG = False
+DEBUG = bool(os.environ.get('DJANGO_DEBUG', ''))
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -83,6 +84,7 @@ STATIC_ROOT = 'staticfiles'
 STATIC_URL = '/static/'
 
 # new static config stuff added for heroku/django stuff
+
 import os
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 STATICFILES_DIRS = (
