@@ -2,9 +2,7 @@ TODO:
 	- create new CE21 login page
 
 Small
-  - make sorting arrows on warblers table darker
 	- Issue w/ lots of empty records gettings saved before an actual record
-	- are we not recording start time?
 	- images disappear when going backwards in CPS1
 	- add google analytics - becuase it's easy, free and possibly interesting
 	- get a new URL (ct-stem.northwestern.edu/assess/....)
