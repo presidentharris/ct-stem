@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "sets/set-base.html" %}
 
 {% block title %}Computational Thinking in STEM - Universal Assessment 1{% endblock %}
 
@@ -16,7 +16,7 @@
   </style>
 {% endblock %}
 
-{% block js %}
+{% block set-js %}
 
 <script type="text/javascript">
    function refreshIFrames(loadFrame) {
@@ -32,8 +32,6 @@
       }
       updateFooterPosition();
       refreshIFrames(getCurrentPageNum());
-
-      $('#browser').val(navigator.userAgent);    
    });
 
  </script>
@@ -49,10 +47,9 @@ refreshIFrames(getCurrentPageNum() - 1);
 
 {% block page-header%}CT in STEM - Universal Assessment 1{% endblock %}
 
-{% block body %}
+{% block set-body %}
    <div class="page">
 		<form id="theForm" action="/assessment/record/{{assessmevent.id}}/" method="post">
-         <input id="version" type="text" dir="auto" value="uni_1 v1.0" name="version" style="display:none;">
 
          <center><h3>Exploring Climate Change</h3></center>
          <div class="stimulus">
@@ -232,9 +229,5 @@ repeat forever:
    </div>
 
    <!-- hidden inputs for recording information about the browser -->
-   <input id="browser" type="text" dir="auto" value="" name="browser" style="display:none;">
    <input id="opened_WS" type="text" dir="auto" value="false" name="opened_WS" style="display:none;">
-
-
- </form>
  {% endblock %}

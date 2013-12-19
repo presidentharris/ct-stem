@@ -9,8 +9,6 @@ google.load('visualization', '1.0', {'packages':['corechart']});
 
 // Set a callback to run when the Google Visualization API is loaded.
 google.setOnLoadCallback(doitQ9);
-google.setOnLoadCallback(drawGoogleCharts);
-
 
 // -------------------------------------------------------------------------------------------- //
 // -------------------------------- QUESTION 13 ----------------------------------------------- //

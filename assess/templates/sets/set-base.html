@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block js %}
+	<script type="text/javascript">
+	// should we move these methods into ct-stem.js and just include that instead? maybe when this js gets a lot longer?
+
+		function getCurrentPageNum() {
+			return parseInt(parent.location.hash.substring(2));
+		}
+
+		function nextPageHandler() {
+			{% block customNextPageHandler %} {% endblock %}
+			$('html, body').animate({ scrollTop: 0 });
+			nextPage();
+		}
+
+		function backPageHandler() {
+		{% block customBackPageHandler %} {% endblock %}
+			$('html, body').animate({ scrollTop: 0 });
+			backPage();
+		}
+
+    function preSubmitLogic() {
+    	{% block preSubmitLogic %} {% endblock %}
+      populateMCs();
+      formSubmitted = true;
+    }
+
+    // MCs == multiple choice inputs
+    function populateMCs() {
+      $('.check-one').each(function (index, el) {
+        var inputNum = $(this).attr('input-num');
+        var answer = $(this).children('.selected').attr('answer');
+        $('#'+inputNum).val(answer);
+      });
+		}
+
+		var formSubmitted = false;
+		$(window).on('beforeunload',function() {
+			if (!formSubmitted) {
+		    return "You have not yet submitted your answers. Are you sure you want to leave the page?";
+			}
+		});
+
+		$(function() {
+		  $('#browser').val(navigator.userAgent); 
+		});
+
+	</script>
+
+	{% block set-js %}{% endblock %}
+
+{% endblock %}
+
+  {% block header %}
+      <button id="top-back-button" class="back-button" onclick="backPageHandler();">&#x25C4; BACK</button>
+      <span class="page-header-text">
+	      {% block page-header%}{{assessment.name}}{% endblock %}
+	      <span id="page-number" style="padding-left:15px;">Page 1</span>
+	    </span>
+      <button id="top-next-button" class="next-button" onclick="nextPageHandler();return false;">NEXT &#x25BA;</button>
+  {% endblock %}
+
+	{% block body %}
+		<form id="theForm" action="/assessment/record/{{assessmevent.id}}/" method="post">
+			
+			{% block set-body %} {% endblock %}
+
+		  <input id="browser" type="text" dir="auto" value="" name="browser" style="display:none;" />
+		  <input id="version" type="text" dir="auto" value="{{assessment.current_version}}" name="version" style="display:none;">
+		</form>
+
+	{% endblock %}
+
+  {% block footer %}
+	  		<button id="bottom-back-button" class="back-button" onclick="backPageHandler();">&#x25C4; BACK</button>
+	      <button id="bottom-next-button" class="next-button" onclick="nextPageHandler();return false;">NEXT &#x25BA;</button>
+	      <button id="submit-and-finish-button" class="submit-and-finish-button" type="submit" onclick="if(confirm('Are you sure you want to submit your answers?\nThere are still more questions to answer.')){preSubmitLogic();$('#theForm').submit();} else {return false;}">Submit &amp; Finish</button>
+	      <button id="submit-button" class="submit-button" type="submit" onclick="preSubmitLogic();$('#theForm').submit();return true;" style="visibility:hidden;" name="submit" value="Submit">Submit</buton>
+  {% endblock %}

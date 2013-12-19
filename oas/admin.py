@@ -45,7 +45,7 @@ class StudentAdmin(admin.ModelAdmin):
 class AssessEventAdmin(admin.ModelAdmin):
 	list_display = ('section', 'assessment_set', 'student', 'date')
 	list_filter = ('date', 'assessment_set', 'section')
-	actions = ['export_responses']
+	actions = ['export_responses', 'export_assess_events']
 
 	def export_responses(modeladmin, request, queryset):
 		response = HttpResponse(content_type='text/csv')
@@ -64,8 +64,35 @@ class AssessEventAdmin(admin.ModelAdmin):
 			for r in responses:
 				item_names.append(r.item_name)
 				a_info.append(r.response)
+			if len(responses) > 0: 
+				a_info.append(responses[0].submitted_at)
+				if not has_header:
+					writer.writerow(header_pt1 + item_names + ['submitted_at'])
+					has_header = True
+				writer.writerow([unicode(a).encode("utf-8") for a in a_info])
+		response['Content-Disposition'] = 'attachment; filename="responses.csv"'
+
+		return response
+
+	def export_assess_events(modeladmin, request, queryset):
+		response = HttpResponse(content_type='text/csv')
+		writer = csv.writer(response)
+		header = ['assess DB ID', 'school', 'teacher f_name', 'teacher l_name', 'section name', 'subject', 'section', 'student DB-ID', 'student school ID', 'student fname', 'student lname', 'grade', 'sex', 'dob', 'ethnicity', 'assessment date', 'assessment set', 'location', 'has_responses']
+
+		has_header = False
+
+		for a in queryset:
+			t = a.section.teacher
+			sec = a.section
+			st = a.student
+			a_info = [a.id, t.school, t.first_name, t.last_name, sec.name, sec.subject, sec.section, st.id, st.student_id, st.first_name, st.last_name, st.grade, st.sex, st.dob, st.ethnicity, a.date, a.assessment_set, a.location ]
+			responses = Response.objects.filter(assess_event=a).order_by("item_name")
+			if len(responses) > 0: 
+				a_info.append('true')
+			else:
+				a_info.append('false')
 			if not has_header:
-				writer.writerow(header_pt1 + item_names)
+				writer.writerow(header)
 				has_header = True
 			writer.writerow([unicode(a).encode("utf-8") for a in a_info])
 		response['Content-Disposition'] = 'attachment; filename="responses.csv"'

@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "sets/set-base.html" %}
 
 
 {% block css %}
@@ -21,13 +21,6 @@
  </style>
 {% endblock %}
 
-{% block customNextPageHandler %}
-{% endblock %}
-
-{% block customBackPageHandler %}
-{% endblock %}
-
-
 {% block preSubmitLogic %}
 	// record the responses to warb_6 before submitting the form
 	data_entered = ''
@@ -45,13 +38,15 @@
     
 {% endblock %}
 
-{% block js %}
+{% block set-js %}
 <script type="text/javascript" src="/static/js/jquery.dataTables.js"></script>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type="text/javascript" src="/static/js/warbler_charts.js"></script>
 
 <script type="text/javascript">
 	function switchGraph(sel, class_str) {
+		$('#warb_9a_2').val("site dropdown was changed");
+
 		$.each([1, 2, 3, 4, 5], function (index, value) {
 			siteGraph = "#" + class_str + value;
 			if (sel == value) {
@@ -81,20 +76,15 @@
 			"fnDrawCallback": updateFooterPosition
 		});
 
-    if(getCurrentPageNum() == 1) {
-      $('#submit-and-finish-button').css('visibility', 'hidden');
-    }
+	  if(getCurrentPageNum() == 1) {
+	    $('#submit-and-finish-button').css('visibility', 'hidden');
+	  }
+	});
+	</script>
 
-    $('#browser').val(navigator.userAgent);    
-   });
-	
-</script>
 {% endblock %}
 
-
-{% block body %}
- 
-	<form id="theForm" action="/assessment/record/{{assessmevent.id}}/" method="post">
+{% block set-body %} 
 	  <div class="page">
       <div class="stimulus">
 				For several years a team of scientists, lead by Dr. Maria Gomez, have been tracking a type of a small bird called the Woodland Warbler. Scientists are concerned because the size of the Warbler population has been steadily decreasing year after year. Here are some of the things that scientists know about warblers: they are hunted by hawks; they are sensitive to changes in the environment; they eat spiders and insects.
@@ -109,7 +99,7 @@
 		<div class="page">
 			
 			<div class="stimulus">
-				<div>The below table is similar to a spreadsheet, it shows the data that have been collected so far.</div>
+				<div>The table below is similar to an interactive spreadsheet. It contains the 200 data entries that have been collected so far.</div>
 				<label class="help-text">To sort the data click on a column name or type in the Filter field.</label>
 
 				<div class="dataTable-wrapper">
@@ -188,7 +178,7 @@
 			</div>
 
 			<div class="prompt">
-        <b>Item 4: </b> There are some inconsistencies with the data in this table above that will cause problems for analyzying the data with a computer. Describe at least three problems in the table:
+        <b>Item 4: </b> There are some inconsistencies with the data in this table that will cause problems for analyzying the data with a computer. Describe at least three problems in the table:
       </div>
       <textarea id="warb_4" name="warb_4" style="width:597px;"></textarea>
 			<div class="prompt">
@@ -196,7 +186,7 @@
       </div>
       <textarea id="warb_5" name="warb_5" style="width:597px;"></textarea>
 			<br/>
-			Three new entries have been submitted to Dr. Gomez reporting some recently collected measurements:
+			Three new table entries have recently been reported to Dr. Gomez:
 			<div class="prompt">
 				<div style="font-family: courier;font-size: 0.7em;border:solid 1px;padding:4px;line-height:145%">
 					<div style="padding:.7em;border-color:black;">
@@ -281,7 +271,7 @@
 		<div class="page">
 			<br/>
 			<div class="stimulus">
-				Dr. Gomez has cleaned up the table and generated a new table. Using this table, please answer the following questions.
+				Dr. Gomez has fixed the inconsistencies and generated a new table:
 				<div class="dataTable-wrapper">
 					<table cellpadding="0" cellspacing="0" border="0" class="display" id="dataTable3">
 						<thead>
@@ -311,11 +301,11 @@
 				</div> 				 
 			</div>
 			<div class="prompt">
-        <b>Item 7a: </b>What are the maximum and minimum values for the air pollution index in this data set?
+        <b>Item 7a: </b>What are the maximum and minimum values for the pollution index in this data set?
       </div>
       <textarea id="warb_7a" name="warb_7a" style="width:597px;"></textarea>
 			<div class="prompt">
-        <b>Item 7b: </b>How did you figure this out?
+        <b>Item 7b: </b>What steps did you follow to figure this out?
       </div>
       <textarea id="warb_7b" name="warb_7b" style="width:597px;"></textarea>
 			<div class="prompt">
@@ -330,7 +320,7 @@
 
 		<div class="page">
 			<div class="stimulus">
-				Below is a graphs for each of the 5 measurement locations created using the data from this project.				 
+				This page shows a graph for each of the five measurements locations created using the data from this project.
 			</div>
 			<label class="help-text">Use the dropdown to view different sites.</label>
 			<div id="warbler_explorer" style="width:740px;height:350px;padding:8px;margin-left:-55px;">
@@ -366,7 +356,5 @@
 		</div>
 
 	<!-- hidden inputs for recording information about the browser -->
-	<input id="browser" type="text" dir="auto" value="" name="browser" style="display:none;" />
-	
- </form>
+	<input id="warb_9a_2" type="text" dir="auto" value="site dropdown was NOT changed" name="warb_9a_2" style="display:none;" />
  {% endblock %}
