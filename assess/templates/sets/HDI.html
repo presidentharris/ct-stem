@@ -1,1 +1,253 @@
-HDI
+{% extends "sets/set-base.html" %}
+
+{% block css %} 
+   <style type="text/css">
+      .mograph {
+         width: 600px;
+         height: 320px;
+         padding: 20px;
+         background-color: white;
+         margin: 25px 0;
+         background-position: 20px 20px;
+         background-repeat: no-repeat;
+      }
+   </style>
+{% endblock %}
+
+
+{% block set-js %}
+	<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+	<script type="text/javascript" src="/static/js/HDI.js"></script>
+
+	<script type="text/javascript">
+   $(function() {
+      if (getCurrentPageNum() == 1) {
+         $('#submit-and-finish-button').css('visibility', 'hidden');
+      }
+      updateFooterPosition();
+    });
+
+	</script>
+
+{% endblock %}
+
+
+{% block set-body %}
+
+   <div class="page">
+   	 <h2>The Human Development Index</h2>
+      <p>
+         <img src="figures/world.png" style="float: right; width: 200px; margin-left: 20px;">
+         There are 196 countries in the world, and the quality of life for people in
+         these contries can vary dramatically. Every year the United Nations ranks
+         countries according to health, education, and living standards. These
+         rankings are combined into a single measure of societal well being called the
+         Human Development Index (HDI).
+      </p>
+      
+      <h2>HDI Visualization</h2>
+      <p>
+         Two important factors that contribute to a country's Human Development
+         Index are life expectancy (how long a person is expected to live) and
+         income per person (how much money a person earns in a year). The graph
+         below allows you to explore these measures for six different countries
+         over a period of 60 years from 1950 to 2010.
+      </p>
+      <div id="hdi1" class="mograph" style="background-image: url('/static/images/HDI/hdi5.png');background-size: 600px 320px;"></div>
+      <!-- <button onclick="alert(chart4.getState());">Get State</button> -->
+      
+      <p>
+         This chart is interactive. Try changing the data being graphed on the x- or y-axis
+         and then pressing the play button. Click on all the different components of the graph, 
+         including the axes, the time slider at the bottom of the graph, the tabs at the top-right of the graph, and 
+         the data in the graph (bars, lines, bubbles). Take a minute to experiment with the
+         graph, and then press the next button. 
+      </p>
+   </div>
+
+   <div class="page">
+
+      <div class="stimulus">
+         <ul>
+            <li>The play button at the bottom of this graph will animate the data over time.</li>
+            <li>Click on the y-axis label to change the type of data that is displayed.</li>
+            <li>Click on any of the bars to see the country that it represents.</li>
+         </ul>
+      </div>
+      
+      <div id="hdi2" class="mograph" style="background-image: url('/static/images/HDI/hdi2.png');background-size: 600px 320px;"></div>
+      
+      <div class="prompt">
+         <b>Item 1a:</b> Based on the graph, which of these countries had a
+         life expectancy of over 60 in 1960? <i>Check all that apply.</i>
+      </div>
+      <ol class="check-all three-columns" input-num="HDI_1a">
+         <li answer="Brazil">Brazil</li>
+         <li answer="China">China</li>
+         <li answer="France">France</li>
+         <li answer="India">India</li>
+         <li answer="Japan">Japan</li>
+         <li answer="USA">USA</li>
+      </ol>
+      <input id="HDI_1a" type="text" dir="auto" value="" name="HDI_1a" style="display:none;">
+      
+      <div class="prompt">
+         <b>Item 1b:</b> Which of these countries had a popluation over 1 billion people
+         in 2010? <i>Check all that apply.</i>
+      </div>
+      <ol class="check-all three-columns" input-num="HDI_1b">
+         <li answer="Brazil">Brazil</li>
+         <li answer="China">China</li>
+         <li answer="France">France</li>
+         <li answer="India">India</li>
+         <li answer="Japan">Japan</li>
+         <li answer="USA">USA</li>
+      </ol>
+      <input id="HDI_1b" type="text" dir="auto" value="" name="HDI_1b" style="display:none;">
+
+      <div class="prompt">
+         <b>Item 1c:</b> In what year did income per person first exceed
+         $20,000 in the United States? 
+      </div>
+      <ol class="check-one three-columns" input-num="HDI_1c">
+         <li answer="1954">1954</li>
+         <li answer="1964">1964</li>
+         <li answer="1974">1974</li>
+         <li answer="1984">1984</li>
+         <li answer="1994">1994</li>
+         <li answer="2004">2004</li>
+      </ol>
+      <input id="HDI_1c" type="text" dir="auto" value="" name="HDI_1c" style="display:none;">
+   </div>
+
+   <div class="page">
+      
+      <div class="stimulus">
+         Click on the x- or y-axis to change the data that the graph
+         tracks over time. The values are: population, income per person, and
+         life expectancy. 
+      </div>
+      
+      <div id="hdi3" class="mograph" style="background-image: url('/static/images/HDI/hdi3.png');background-size: 600px 320px;"></div>
+      
+      <div class="prompt">
+         <b>Item 2a:</b>
+         Based on the graph, which of the following assumptions could be true?
+      </div>
+         
+      <ol class="check-one" input-num="HDI_2a">
+         <li answer="A">As a country's income increases, it's population also increases.</li>
+         <li answer="B">Life expectancy is generally increasing over time.</li>
+         <li answer="C">As a country's life expectancy increases, it's population also increases.</li>
+         <li answer="D">As a country's income increases, it's life exectancy also increases.</li>
+      </ol>
+      <input id="HDI_2a" type="text" dir="auto" value="" name="HDI_2a" style="display:none;">
+
+      
+      <div class="prompt">
+         <b>Item 2b:</b>
+         Based on the graph, which of the following assumptions could be true?
+      </div>
+         
+      <ol class="check-one" input-num="HDI_2b">
+         <li answer="A">In 1966, China and Brazil had roughly the same life expectancy.</li>
+         <li answer="B">People in Japan are happier than people in Brazil.</li>
+         <li answer="C">Having a large population is the biggest factor affecting life expectancy.</li>
+         <li answer="D">All of the countries have experienced a steady increase in life expectancy.</li>
+      </ol>
+      <input id="HDI_2b" type="text" dir="auto" value="" name="HDI_2b" style="display:none;">
+
+   </div>
+   
+   <div class="page">
+      
+      <div class="stimulus">
+         Here is a different view of the same information for six countries from
+         1950 to 2010. Use the graph to answer the following questions.
+         <b>Remember that you can click on the y-axis label to change the data
+         being graphed.</b>
+      </div>
+      <div id="hdi4" class="mograph" style="background-image: url('/static/images/HDI/hdi4.png');background-size: 600px 320px;"></div>
+      
+      <div class="prompt">
+         <b>Item 3a:</b> In the late 1950s and early 1960s China went through the
+         <i>Cultural Revolution</i> that dramatically changed life in that country.
+         Based on the graph, which factor was most affected by this event?
+      </div>
+      
+      <ol class="check-one three-columns" input-num="HDI_3a">
+         <li answer="Life exp">Life expectancy</li>
+         <li answer="Population">Population</li>
+         <li answer="worker prod">Worker productivity</li>
+         <li answer="Income">Income per person</li>
+      </ol>
+      <input id="HDI_3a" type="text" dir="auto" value="" name="HDI_3a" style="display:none;">
+
+      <div class="prompt">
+         <b>Item 3b:</b> In 2008 and 2009 there was a global economic crisis that
+         caused people around the world to lose money. According to this graph,
+         which three countries were affected the most?
+      </div>
+
+      <ol class="check-all three-columns blah" input-num="HDI_3b">
+         <li answer="Brazil">Brazil</li>
+         <li answer="China">China</li>
+         <li answer="France">France</li>
+         <li answer="India">India</li>
+         <li answer="Japan">Japan</li>
+         <li answer="USA">USA</li>
+      </ol>
+      <input id="HDI_3b" type="text" dir="auto" value="" name="HDI_3b" style="display:none;">
+   </div> 
+      
+<!-- ======================================================================= -->
+   <div class="page">
+      
+      <div id="hdi5" class="mograph" style="background-image: url('/static/images/HDI/hdi5.png');background-size: 600px 320px;"></div>
+
+      <div class="stimulus">
+         Consider the following two statements:<br>
+         <b>Statement 1:</b> "The population of India will increase the most in the next 10 years."
+         <b>Statement 2:</b> "An increase in life expectancy does not necessarily mean there will be
+         an increase in a country's population."
+      </div>
+      <br/>
+      <div class="prompt">
+         <b>Item 4a:</b> Which type of graph is best for supporting Statement 1?
+      </div>
+      <ol class="check-one three-columns" input-num="HDI_4a">
+         <li answer="bubble">Bubble chart
+         <img src="/static/images/HDI/bubble-chart.png" style="width: 102px;"></li>
+         <li answer="line">Line graph
+         <img src="/static/images/HDI/line-chart.png" style="width: 102px;"></li>
+         <li answer="bar">Bar chart
+         <img src="/static/images/HDI/bar-chart.png" style="width: 102px;"></li>
+      </ol>
+      <input id="HDI_4a" type="text" dir="auto" value="" name="HDI_4a" style="display:none;">
+      
+      <div class="prompt">
+         <b>Item 4b:</b> Why would you use this type of graph to support Statement 1?
+      </div>
+      <textarea name="HDI_4b" rows="6" cols="100" id="HDI_4b"></textarea>
+      
+      <br/><br/>
+      <div class="prompt">
+         <b>Item 5a:</b> Which type of graph is best for supporting Statement 2?
+      </div>
+      <ol class="check-one three-columns" input-num="HDI_5a">
+         <li answer="bubble">Bubble chart
+         <img src="/static/images/HDI/bubble-chart.png" style="width: 102px;"></li>
+         <li answer="line">Line graph
+         <img src="/static/images/HDI/line-chart.png" style="width: 102px;"></li>
+         <li answer="bar">Bar chart
+         <img src="/static/images/HDI/bar-chart.png" style="width: 102px;"></li>
+      </ol>
+      <input id="HDI_5a" type="text" dir="auto" value="" name="HDI_5a" style="display:none;">
+
+      <div class="prompt">
+         <b>Item 5b:</b> Why would you use this type of graph to support Statement 2?
+      </div>
+      <textarea name="HDI_5b" rows="6" cols="100" id="HDI_5b"></textarea>
+
+   </div>
+   {% endblock %}

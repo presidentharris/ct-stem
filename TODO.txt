@@ -6,13 +6,10 @@ Small
 	- images disappear when going backwards in CPS1
 	- add google analytics - becuase it's easy, free and possibly interesting
 	- get a new URL (ct-stem.northwestern.edu/assess/....)
-	- add logic to track what version of climate change model was used (primary vs. secondary)
 	- Next is hidden on login page (sometimes)
-	- Add logic to display 'are you sure?' message when closing the window
- 
+	
  Medium
-	- bring ct-stem website inline with latest versino of everything (assessments and taxonomy)
 	- bring tortoise UI more inline w/ NetLogo
 
  Large
-	- make a question object in the DB that joins to reponses
+	- make a question object in the DB that joins to reponses in DB

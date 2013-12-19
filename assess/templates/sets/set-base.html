@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% block title %}{{assessment.name}}{% endblock %}
+
 {% block js %}
 	<script type="text/javascript">
 	// should we move these methods into ct-stem.js and just include that instead? maybe when this js gets a lot longer?
@@ -28,12 +30,15 @@
 
     // MCs == multiple choice inputs
     function populateMCs() {
-      $('.check-one').each(function (index, el) {
+      $('.check-one, .check-all').each(function (index, el) {
         var inputNum = $(this).attr('input-num');
-        var answer = $(this).children('.selected').attr('answer');
+        var answer = "";
+        $(this).children('.selected').each (function (index, el) {
+          answer += $(this).attr('answer') + ' ';
+         });
         $('#'+inputNum).val(answer);
       });
-		}
+   	}
 
 		var formSubmitted = false;
 		$(window).on('beforeunload',function() {

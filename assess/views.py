@@ -10,11 +10,11 @@ import collections
 Assessment = collections.namedtuple('Assessment', ['id', 'name', 'url', 'current_version'])
 ASSESSMENTS = {
     'CPS1': Assessment(id='CPS1', name='Computational Problem Solving 1', url='cps1.html', current_version='1.0'),
+    'HDI': Assessment(id='HDI', name='Human Development Index', url='HDI.html', current_version='1.0'),
     'PB': Assessment(id='PB', name='Purple Bugs', url='purple_bugs.html', current_version='1.0'), 
     'UNI1': Assessment(id='UNI1', name='Universal CT-STEM Assessment 1', url='uni1.html', current_version='1.0'),
     'WARB': Assessment(id='WARB', name='Warblers', url='warblers.html', current_version='1.0'), 
     }
-     # 'HDI': Assessment(id='HDI', name='Human Development Index', url='HDI.html', current_version='1.0'),
 
 
 def student_login(request):
