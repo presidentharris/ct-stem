@@ -67,7 +67,7 @@ function handleHDIChartResponse(response) {
   chart4.draw(view, opts);
   
   chart5 = new google.visualization.MotionChart(document.getElementById('hdi5'));
-  opts["state"] = '{"xZoomedIn":false,"iconKeySettings":[],"yZoomedDataMin":0,"yZoomedIn":false,"orderedByY":false,"colorOption":"_UNIQUE_COLOR","yLambda":1,"time":"2010","xZoomedDataMin":-631152000000,"sizeOption":"_UNISIZE","iconType":"BUBBLE","showTrails":false,"playDuration":15000,"yZoomedDataMax":100,"xAxisOption":"2","yAxisOption":"3","uniColorForNonSelected":false,"duration":{"timeUnit":"Y","multiplier":1},"orderedByX":false,"nonSelectedAlpha":0.4,"xLambda":1,"dimensions":{"iconDimensions":["dim0"]},"xZoomedDataMax":1262304000000}';
+  opts["state"] = '{"xZoomedIn":false,"iconKeySettings":[],"yZoomedDataMin":0,"yZoomedIn":false,"orderedByY":false,"colorOption":"_UNIQUE_COLOR","yLambda":1,"time":"1950","xZoomedDataMin":-631152000000,"sizeOption":"_UNISIZE","iconType":"BUBBLE","showTrails":false,"playDuration":15000,"yZoomedDataMax":100,"xAxisOption":"2","yAxisOption":"3","uniColorForNonSelected":false,"duration":{"timeUnit":"Y","multiplier":1},"orderedByX":false,"nonSelectedAlpha":0.4,"xLambda":1,"dimensions":{"iconDimensions":["dim0"]},"xZoomedDataMax":1262304000000}';
   opts['showChartButtons'] = true;
   chart5.draw(view, opts);
 }
