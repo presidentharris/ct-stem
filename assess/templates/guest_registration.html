@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% block title %}CT-STEM Guest Login{% endblock %}
+
+{% block js %}
+  <script type="text/javascript">
+    function getData(url, select) {
+      $.ajax( {
+        url: url,
+        dataType : 'json',
+        data: {'filter': select.value} 
+      })
+        .done( function (data) {
+          $('#' + data['table'])
+            .prop('disabled', false)
+            .data("selectBox-selectBoxIt")
+            .remove()
+            .add({ value: '', text: '--- Select ' + data['table'] + ' ---' })
+          $(data['values']).each(function(index, element) {
+            console.log(data['table']);
+            $('#' + data['table']).data("selectBox-selectBoxIt").add({ value: element[0], text: element[1] });
+          });
+        });
+    }
+  </script>
+{% endblock %}
+
+
+{% block header %}
+  <span class="page-header-text">CT-STEM Guest Login </span>
+  <button class="next-button" onclick="$('#theForm').submit()">NEXT &#x25BA;</button>
+{% endblock %}
+
+
+{% block body %}
+  <div class="page">
+    <center>
+    {# <h1 style="font-size: 40pt;">CT-STEM</h1> #}
+      <h2>Computational Thinking in<br/>Science, Technology, Engineering, and Mathematics</h2>
+      <img src="/static/images/logo.png">
+    </center>
+
+    <div style="padding:10px;">
+      Before taking our assessment, please provide the following information.
+    </div>
+
+    {% if form.errors %}
+      <p class="error-msg" style="padding:6px; margin:6px;">
+        Please correct the error{{ form.errors|pluralize }} below.
+      </p>
+        <!-- ERROR:
+        {{ e }} -->
+    {% endif %}
+       
+    <form id="theForm" action="/guest/register/" method="post">
+      <div style="margin:10px;height:515px;">
+
+        <table class="info-form" style="width:621px;">      
+          <tr>
+            <td class="label"><label for="assessment">Assessment</label></td>
+            <td colspan="2">
+              
+              <select id="Assessment" name="assessment_set" class="selectBoxIt">
+                <option value="">--- Select Assessment ---</option>
+
+                {% for assessment in assessments %}
+                    <option value="{{assessment.id}}" {% if form.assessment_set.value == assessment.id %}selected="selected"{% endif %}>{{assessment.name}}</option>
+                {% endfor %}
+
+              </select>
+            </td>
+          </tr>
+          <tr>
+             <td class="label"><label for="first_name">First Name</label></td>
+             <td  colspan="2">
+                {{form.first_name}}
+                <span class="error-msg">
+                {% for error in form.first_name.errors %}
+                  {{ error }}
+                {% endfor %}
+              </span>
+             </td>
+          </tr>
+          <tr>
+             <td class="label"><label for="last_name">Last Name</label></td>
+             <td  colspan="2">
+                {{form.last_name}}
+                <span class="error-msg">
+                {% for error in form.last_name.errors %}
+                  {{ error }}
+                {% endfor %}
+              </span>
+             </td>
+          </tr>
+          <tr>
+             <td class="label"><label for="first_name">School/Affiliation:</label></td>
+             <td  colspan="2">
+                {{form.school}}
+             </td>
+          </tr>
+          <tr>
+            <td class="label"><label for="date_of_birth">Date of Birth</label></td>
+            <td colspan="2">
+              <input type="text" placeholder="mm/dd/yyyy" name="{{form.date_of_birth.name}}" value="{% if form.date_of_birth.value %} {{form.date_of_birth.value}} {% endif %}"/>
+              <span class="error-msg">
+                {% for error in form.date_of_birth.errors %}
+                  {{ error }}
+                {% endfor %}
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td class="label"><label for="email">Email</label></td>
+            <td colspan="2">
+              {{form.email}}
+              <span class="error-msg">
+                {% for error in form.email.errors %}
+                  {{ error }}
+                {% endfor %}
+              </span>
+            </td>
+          </tr>
+          <tr>
+            <td class="label"><label for="comments">Comments</label></td>
+            <td colspan="2">
+              {{form.ethnicity}}
+            </td>
+        </table>
+      </div>
+    </form>
+
+    <div class="logos">
+       <img src="/static/images/northwestern.png" style="width: 70px; margin: 20px;">
+       <img src="/static/images/NSF.png" style="width: 70px; margin: 20px;">
+    </div>
+    
+    <div class="sponsor-info">
+       This work is supported by the National Science Foundation under grant
+       CNS-1138461 and is covered by <br>Northwestern University IRB Study STU00058570.
+    </div>
+  </div>  
+
+{% endblock %}
+{% block footer %}
+  <div id="footer" class="ui-widget-header" style="border:none;height:53px;">
+    <button class="next-button" onclick="$('#theForm').submit()">NEXT &#x25BA;</button>
+  </div>
+  
+{% endblock %}
+

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from oas.models import Student, Section, Teacher, AssessEvent, Response
-from forms import StudentRegistrationForm
+from forms import StudentRegistrationForm, GuestRegistrationForm
 
 import datetime
 import json
@@ -119,6 +119,55 @@ def student_register(request):
         else:
             return render(request, 'student_registration.html', {'form': form})
             # return HttpResponse(form.errors)
+
+def guest_login(request):
+
+    registration_form = GuestRegistrationForm(
+        initial={
+            'assessment_set': request.GET.get('assessment')
+        })
+
+    return render(request, 'guest_registration.html', {'form': registration_form, 'assessments': sorted(ASSESSMENTS.values(), cmp=lambda x,y: cmp(x.name, y.name))})
+
+def guest_register(request):
+    if request.method == 'POST':
+        form = GuestRegistrationForm(request.POST)
+        if form.is_valid():
+            in_data = form.cleaned_data
+
+            # for guests - make the email address the natural key (to keep for getting guest dups)
+            if ( not Student.objects.filter(email=in_data['email'], student_id='GUEST')):
+                student = Student(
+                        student_id='GUEST',
+                        first_name=in_data['first_name'],
+                        last_name=in_data['last_name'],
+                        grade='0',
+                        sex='-',
+                        dob=in_data['date_of_birth'],
+                        school=in_data['school'],
+                        email=in_data['email'],
+                        ethnicity=in_data['ethnicity'])
+            else:
+                student = Student.objects.get(email=in_data['email'], student_id='GUEST')
+
+            student.save()
+
+            section = Section.objects.get(name='Guest Section')
+
+            assessmevent = AssessEvent (
+                student = student,
+                section = section,
+                date = datetime.datetime.now(),
+                location = 'guest',
+                assessment_set = in_data['assessment_set']
+                )
+
+            assessmevent.save()
+            return render(request, 'sets/' + ASSESSMENTS[assessmevent.assessment_set].url, {'assessment': ASSESSMENTS[assessmevent.assessment_set], 'assessmevent': assessmevent})
+        else:
+            return render(request, 'guest_registration.html', {'form': form, 'assessments': sorted(ASSESSMENTS.values(), cmp=lambda x,y: cmp(x.name, y.name))})
+
+    return render(request, 'guest_registration.html', {'form': GuestRegistrationForm(), 'assessments': sorted(ASSESSMENTS.values(), cmp=lambda x,y: cmp(x.name, y.name))})
 
 def record_assessment(request, assessmevent_id):
     if request.method == 'POST':

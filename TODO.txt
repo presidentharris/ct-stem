@@ -1,5 +1,6 @@
 TODO:
 	- create new CE21 login page
+	- Add student info export logic
 
 Small
 	- Issue w/ lots of empty records gettings saved before an actual record

@@ -361,7 +361,7 @@ button:active {
    text-align: right;
 }
 
-.info-form input[type="text"], input[type="email"], select {
+.info-form input[type="text"], .info-form input[type="email"], .info-form textarea, .info-form select {
    font-family: sans-serif;
    padding: 6px;
    margin: 6px;

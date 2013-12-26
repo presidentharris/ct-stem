@@ -8,6 +8,28 @@ class StudentLoginForm(forms.Form):
 		# teacher = forms.CharField()
 		# section = forms.CharField()
 
+class GuestRegistrationForm(forms.Form):
+		def __init__(self, *args, **kwargs):
+			super(GuestRegistrationForm, self).__init__(*args, **kwargs)
+			self.fields['assessment_set'].widget.attrs['class'] = 'selectBoxIt'
+			self.fields['ethnicity'].widget.attrs['style'] = 'height:46px;width:289px;'
+
+		first_name = forms.CharField()
+		last_name = forms.CharField()
+		school = forms.CharField(max_length=50)
+		date_of_birth = forms.DateField(widget=forms.widgets.DateInput(format="%m/%d/%Y")) 
+		email = forms.EmailField()
+		assessment_set = forms.CharField()
+		ethnicity = forms.CharField(widget=forms.Textarea,max_length=200)
+
+		def clean_date_of_birth(self):
+			dob = self.cleaned_data['date_of_birth']
+			if dob > datetime.datetime.today().date():
+			  raise forms.ValidationError("Birthday is in the future")
+			if dob < datetime.date(1900, 1, 1):
+			  raise forms.ValidationError("Birthday is too long ago")
+			return dob
+
 class StudentRegistrationForm(forms.Form):
 		def __init__(self, *args, **kwargs):
 			super(StudentRegistrationForm, self).__init__(*args, **kwargs)
