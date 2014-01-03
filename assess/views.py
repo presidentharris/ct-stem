@@ -140,14 +140,15 @@ def guest_register(request):
             in_data = form.cleaned_data
 
             # for guests - make the email address the natural key (to keep for getting guest dups)
-            if ( not Student.objects.filter(email=in_data['email'], student_id='GUEST')):
+            #   yes this conditional is goofy, but it needs to be due to falsy-ness of strings and filter method
+            if ( not in_data['email'] or not Student.objects.filter(email=in_data['email'], student_id='GUEST')):
                 student = Student(
                         student_id='GUEST',
                         first_name=in_data['first_name'],
                         last_name=in_data['last_name'],
                         grade='0',
                         sex='-',
-                        dob=in_data['date_of_birth'],
+                        dob=datetime.date.today(),
                         school=in_data['school'],
                         email=in_data['email'],
                         ethnicity=in_data['ethnicity'])

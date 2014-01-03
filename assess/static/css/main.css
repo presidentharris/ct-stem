@@ -397,3 +397,8 @@ pre {
    font-size: 0.8em;
 }
 
+.required:after { 
+   color: red;
+   content:" *"; 
+}
+

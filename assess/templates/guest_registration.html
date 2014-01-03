@@ -49,15 +49,15 @@
         Please correct the error{{ form.errors|pluralize }} below.
       </p>
         <!-- ERROR:
-        {{ e }} -->
+        {{ form.errors }} -->
     {% endif %}
        
     <form id="theForm" action="/guest/register/" method="post">
-      <div style="margin:10px;height:515px;">
+      <div style="margin:10px;height:454px;">
 
-        <table class="info-form" style="width:621px;">      
+        <table class="info-form" style="width:623px;">      
           <tr>
-            <td class="label"><label for="assessment">Assessment</label></td>
+            <td class="label"><label for="assessment" class="required">Assessment</label></td>
             <td colspan="2">
               
                     <select id="Assessment" name="assessment_set" class="selectBoxIt">
@@ -67,6 +67,11 @@
                           <option value="{{assessment.id}}" {% if is_ipad %} {{assessment.ipad_compatible}} {% endif %}>{{assessment.name}}</option>
                       {% endfor %}
                     </select>
+                    <span class="error-msg">
+                      {% for error in form.assessment_set.errors %}
+                        {{ error }}
+                      {% endfor %}
+                    </span>
             </td>
           </tr>
           {% if is_ipad %}
@@ -78,7 +83,7 @@
           </tr>
           {% endif %}
           <tr>
-             <td class="label"><label for="first_name">First Name</label></td>
+             <td class="label"><label for="first_name" class="required">First Name</label></td>
              <td  colspan="2">
                 {{form.first_name}}
                 <span class="error-msg">
@@ -89,7 +94,7 @@
              </td>
           </tr>
           <tr>
-             <td class="label"><label for="last_name">Last Name</label></td>
+             <td class="label"><label for="last_name" class="required">Last Name</label></td>
              <td  colspan="2">
                 {{form.last_name}}
                 <span class="error-msg">
@@ -104,17 +109,6 @@
              <td  colspan="2">
                 {{form.school}}
              </td>
-          </tr>
-          <tr>
-            <td class="label"><label for="date_of_birth">Date of Birth</label></td>
-            <td colspan="2">
-              <input type="text" placeholder="mm/dd/yyyy" name="{{form.date_of_birth.name}}" value="{% if form.date_of_birth.value %} {{form.date_of_birth.value}} {% endif %}"/>
-              <span class="error-msg">
-                {% for error in form.date_of_birth.errors %}
-                  {{ error }}
-                {% endfor %}
-              </span>
-            </td>
           </tr>
           <tr>
             <td class="label"><label for="email">Email</label></td>
