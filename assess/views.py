@@ -11,8 +11,8 @@ Assessment = collections.namedtuple('Assessment', ['id', 'name', 'url', 'current
 ASSESSMENTS = {
     'CPS1': Assessment(id='CPS1', name='Computational Problem Solving 1', url='cps1.html', current_version='1.0', ipad_compatible=''),
     'HDI': Assessment(id='HDI', name='Human Development Index', url='HDI.html', current_version='1.0', ipad_compatible='disabled'),
-    'PB': Assessment(id='PB', name='Purple Bugs', url='purple_bugs.html', current_version='1.0', ipad_compatible=''), 
-    'UNI1': Assessment(id='UNI1', name='Universal CT-STEM Assessment 1', url='uni1.html', current_version='1.0', ipad_compatible=''),
+    'PB': Assessment(id='PB', name='Purple Bugs', url='purple_bugs.html', current_version='1.0', ipad_compatible='disabled'), 
+    'UNI1': Assessment(id='UNI1', name='Universal CT-STEM Assessment 1', url='uni1.html', current_version='1.0', ipad_compatible='disabled'),
     'WARB': Assessment(id='WARB', name='Warblers', url='warblers.html', current_version='1.0', ipad_compatible=''), 
     }
 
