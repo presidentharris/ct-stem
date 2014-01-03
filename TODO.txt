@@ -5,8 +5,7 @@ TODO:
 Small
 	- Issue w/ lots of empty records gettings saved before an actual record
 	- images disappear when going backwards in CPS1
-	- add google analytics - becuase it's easy, free and possibly interesting
-	- get a new URL (ct-stem.northwestern.edu/assess/....)
+	- get a new URL (ct-stem.northwestern.edu/assess/....) -> update google analytics after doing this
 	- Next is hidden on login page (sometimes)
 	
  Medium

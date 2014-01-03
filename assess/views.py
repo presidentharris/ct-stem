@@ -54,11 +54,14 @@ def student_status(request):
     if 'location' not in request.POST or not request.POST['location']: 
         errors.append('Please specifcy your current location.')
 
+    ua = request.META.get('HTTP_USER_AGENT', '').lower()
+    is_ipad = ua.find("ipad") > 0
+
     if errors:
         #TODO: figure out how to reuse the student_login method
         schools = Teacher.objects.values('school').distinct()
         teachers = Teacher.objects.all().order_by("last_name")
-        return render(request, 'student_login.html', {'schools':schools, 'teachers':teachers, 'errors':errors, 'assessments': sorted(ASSESSMENTS.values(), cmp=lambda x,y: cmp(x.name, y.name))})
+        return render(request, 'student_login.html', {'schools':schools, 'teachers':teachers, 'errors':errors, 'assessments': sorted(ASSESSMENTS.values(), cmp=lambda x,y: cmp(x.name, y.name)), 'is_ipad': is_ipad})
 
     try:
         student_id = request.POST['student_id']
@@ -84,7 +87,7 @@ def student_status(request):
     except Exception as e:
         errors.append("An error occured, please verify your information and try again.")
         schools = Teacher.objects.values("school").distinct().order_by("school")
-        return render(request, 'student_login.html', {'errors': errors, 'e':e, 'schools':schools, 'assessments': sorted(ASSESSMENTS.values(), cmp=lambda x,y: cmp(x.name, y.name))})
+        return render(request, 'student_login.html', {'errors': errors, 'e':e, 'schools':schools, 'assessments': sorted(ASSESSMENTS.values(), cmp=lambda x,y: cmp(x.name, y.name)), 'is_ipad': is_ipad})
 
 def student_register(request):
     if request.method == 'POST':
@@ -126,6 +129,7 @@ def student_register(request):
 def guest_login(request):
     ua = request.META.get('HTTP_USER_AGENT', '').lower()
     is_ipad = ua.find("ipad") > 0
+    
     registration_form = GuestRegistrationForm(
         initial={
             'assessment_set': request.GET.get('assessment')

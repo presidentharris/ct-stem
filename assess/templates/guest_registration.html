@@ -59,12 +59,11 @@
           <tr>
             <td class="label"><label for="assessment" class="required">Assessment</label></td>
             <td colspan="2">
-              
                     <select id="Assessment" name="assessment_set" class="selectBoxIt">
-                      <option value="" selected="selected">--- Select Assessment ---</option>
+                      <option value="">--- Select Assessment ---</option>
 
                       {% for assessment in assessments %}
-                          <option value="{{assessment.id}}" {% if is_ipad %} {{assessment.ipad_compatible}} {% endif %}>{{assessment.name}}</option>
+                          <option value="{{assessment.id}}" {% if is_ipad %} {{assessment.ipad_compatible}} {% endif %} {%if assessment.id == form.assessment_set.value %}selected="selected" {% endif %}>{{assessment.name}}</option>
                       {% endfor %}
                     </select>
                     <span class="error-msg">
