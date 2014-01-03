@@ -7,20 +7,23 @@ import datetime
 import json
 import collections
 
-Assessment = collections.namedtuple('Assessment', ['id', 'name', 'url', 'current_version'])
+Assessment = collections.namedtuple('Assessment', ['id', 'name', 'url', 'current_version', 'ipad_compatible'])
 ASSESSMENTS = {
-    'CPS1': Assessment(id='CPS1', name='Computational Problem Solving 1', url='cps1.html', current_version='1.0'),
-    'HDI': Assessment(id='HDI', name='Human Development Index', url='HDI.html', current_version='1.0'),
-    'PB': Assessment(id='PB', name='Purple Bugs', url='purple_bugs.html', current_version='1.0'), 
-    'UNI1': Assessment(id='UNI1', name='Universal CT-STEM Assessment 1', url='uni1.html', current_version='1.0'),
-    'WARB': Assessment(id='WARB', name='Warblers', url='warblers.html', current_version='1.0'), 
+    'CPS1': Assessment(id='CPS1', name='Computational Problem Solving 1', url='cps1.html', current_version='1.0', ipad_compatible=''),
+    'HDI': Assessment(id='HDI', name='Human Development Index', url='HDI.html', current_version='1.0', ipad_compatible='disabled'),
+    'PB': Assessment(id='PB', name='Purple Bugs', url='purple_bugs.html', current_version='1.0', ipad_compatible=''), 
+    'UNI1': Assessment(id='UNI1', name='Universal CT-STEM Assessment 1', url='uni1.html', current_version='1.0', ipad_compatible=''),
+    'WARB': Assessment(id='WARB', name='Warblers', url='warblers.html', current_version='1.0', ipad_compatible=''), 
     }
 
 
 def student_login(request):
+    ua = request.META.get('HTTP_USER_AGENT', '').lower()
+    is_ipad = ua.find("ipad") > 0
+
     schools = Teacher.objects.values("school").distinct().order_by("school")
     teachers = Teacher.objects.all().order_by("last_name")
-    return render(request, 'student_login.html', {'schools':schools, 'teachers':teachers, 'assessments': sorted(ASSESSMENTS.values(), cmp=lambda x,y: cmp(x.name, y.name))})
+    return render(request, 'student_login.html', {'schools':schools, 'teachers':teachers, 'assessments': sorted(ASSESSMENTS.values(), cmp=lambda x,y: cmp(x.name, y.name)), 'is_ipad': is_ipad})
 
 def get_data(request, table):
     if 'filter' in request.GET:
@@ -121,13 +124,14 @@ def student_register(request):
             # return HttpResponse(form.errors)
 
 def guest_login(request):
-
+    ua = request.META.get('HTTP_USER_AGENT', '').lower()
+    is_ipad = ua.find("ipad") > 0
     registration_form = GuestRegistrationForm(
         initial={
             'assessment_set': request.GET.get('assessment')
         })
 
-    return render(request, 'guest_registration.html', {'form': registration_form, 'assessments': sorted(ASSESSMENTS.values(), cmp=lambda x,y: cmp(x.name, y.name))})
+    return render(request, 'guest_registration.html', {'form': registration_form, 'assessments': sorted(ASSESSMENTS.values(), cmp=lambda x,y: cmp(x.name, y.name)), 'is_ipad':is_ipad})
 
 def guest_register(request):
     if request.method == 'POST':

@@ -60,16 +60,23 @@
             <td class="label"><label for="assessment">Assessment</label></td>
             <td colspan="2">
               
-              <select id="Assessment" name="assessment_set" class="selectBoxIt">
-                <option value="">--- Select Assessment ---</option>
+                    <select id="Assessment" name="assessment_set" class="selectBoxIt">
+                      <option value="" selected="selected">--- Select Assessment ---</option>
 
-                {% for assessment in assessments %}
-                    <option value="{{assessment.id}}" {% if form.assessment_set.value == assessment.id %}selected="selected"{% endif %}>{{assessment.name}}</option>
-                {% endfor %}
-
-              </select>
+                      {% for assessment in assessments %}
+                          <option value="{{assessment.id}}" {% if is_ipad %} {{assessment.ipad_compatible}} {% endif %}>{{assessment.name}}</option>
+                      {% endfor %}
+                    </select>
             </td>
           </tr>
+          {% if is_ipad %}
+          <tr>
+            <td/>
+            <td colspan="2">
+              <div id="disabled-on-ipad" style="padding-left:10px;margin-top:-12px;font-size:11px;">Unavailable assessment sets do not work on iPads</div>
+            </td>
+          </tr>
+          {% endif %}
           <tr>
              <td class="label"><label for="first_name">First Name</label></td>
              <td  colspan="2">
@@ -112,7 +119,6 @@
           <tr>
             <td class="label"><label for="email">Email</label></td>
             <td colspan="2">
-              {# {{form.email}} #}
               <input id="id_email" type="email" name="email">
               <span class="error-msg">
                 {% for error in form.email.errors %}

@@ -34,6 +34,8 @@
 		  $('#footer').css('margin-top', $('#page' + (getCurrentPageNum() - 1)).innerHeight() +"px");
 		}
 
+    var IS_IPAD = navigator.userAgent.match(/iPad/i) != null;
+
 		// before rendering page - pretty-ify the dropdown and load up the pagination system 
 		$(function() {
 	    $(".selectBoxIt").selectBoxIt({

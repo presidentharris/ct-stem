@@ -25,6 +25,10 @@
          $('#submit-and-finish-button').css('visibility', 'hidden');
       }
       updateFooterPosition();
+
+      if (IS_IPAD) {
+         $('#ipad-warning').show();
+      }
     });
 
 	</script>
@@ -35,9 +39,14 @@
 {% block set-body %}
 
    <div class="page">
-   	 <h2>The Human Development Index</h2>
+      <p id="ipad-warning" style="display:none;">
+         Note: The intearactive visualizations in this assessment <b>do not work on iPads</b><br/>
+         If you are on an iPad, please select an alternate assessment set.
+      </p>
+
+      <h2>The Human Development Index</h2>
       <p>
-         <img src="figures/world.png" style="float: right; width: 200px; margin-left: 20px;">
+         <img src="/static/images/HDI/world.png" style="float: right; width: 200px; margin-left: 20px;">
          There are 196 countries in the world, and the quality of life for people in
          these contries can vary dramatically. Every year the United Nations ranks
          countries according to health, education, and living standards. These
