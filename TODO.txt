@@ -1,5 +1,4 @@
 TODO:
-	- create new CE21 login page
 	- Add student info export logic
 
 Small
@@ -11,6 +10,8 @@ Small
 	
  Medium
 	- bring tortoise UI more inline w/ NetLogo
+	- add logic for duplicate assessments - if a student already has a record for that assessment - put in an interstitial page asking 'are you sure?'
 
  Large
 	- make a question object in the DB that joins to reponses in DB
+	- upgrade to django 1.6 (so you can use the emailInput widget)

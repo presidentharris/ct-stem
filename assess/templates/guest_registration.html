@@ -112,7 +112,8 @@
           <tr>
             <td class="label"><label for="email">Email</label></td>
             <td colspan="2">
-              {{form.email}}
+              {# {{form.email}} #}
+              <input id="id_email" type="email" name="email">
               <span class="error-msg">
                 {% for error in form.email.errors %}
                   {{ error }}
