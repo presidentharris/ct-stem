@@ -244,6 +244,7 @@ button, .submit-button, .submit-and-finish-button {
    font-family: 'Helvetica Neue', sans-serif;
    font-weight: 800;
    font-size: 12pt;
+   cursor: pointer
 }
 
 button:hover, .submit-button:hover, .submit-and-finish-button:hover {

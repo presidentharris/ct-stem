@@ -129,7 +129,7 @@ def student_register(request):
 def guest_login(request):
     ua = request.META.get('HTTP_USER_AGENT', '').lower()
     is_ipad = ua.find("ipad") > 0
-    
+
     registration_form = GuestRegistrationForm(
         initial={
             'assessment_set': request.GET.get('assessment')
@@ -179,6 +179,9 @@ def guest_register(request):
     return render(request, 'guest_registration.html', {'form': GuestRegistrationForm(), 'assessments': sorted(ASSESSMENTS.values(), cmp=lambda x,y: cmp(x.name, y.name))})
 
 def record_assessment(request, assessmevent_id):
+    ua = request.META.get('HTTP_USER_AGENT', '').lower()
+    is_ipad = ua.find("ipad") > 0
+        
     if request.method == 'POST':
         assessmevent = AssessEvent.objects.get(id=assessmevent_id)
 
@@ -192,9 +195,27 @@ def record_assessment(request, assessmevent_id):
                     submitted_at = datetime.datetime.now()
                     )
                 new_response.save()
-        return render(request, 'assessment_complete.html')
-    # this handler will be assessment agnostic - it will serve up the assessment passed in
+
+        return render(request, 'assessment_complete.html', {'assessmevent_id':assessmevent_id, 'assessments': sorted(ASSESSMENTS.values(), cmp=lambda x,y: cmp(x.name, y.name)), 'is_ipad':is_ipad})
     return HttpResponse('something went wrong')    
+
+def continuation_assessment(request):
+    if request.method == 'POST':
+        old_assessmevent_id = request.POST['assessmevent_id']
+        old_assessmevent = AssessEvent.objects.get(id=old_assessmevent_id)
+
+        new_assessmevent = AssessEvent (
+                student = old_assessmevent.student,
+                section = old_assessmevent.section,
+                date = datetime.datetime.now(),
+                location = old_assessmevent.location,
+                assessment_set = request.POST['assessment_set']
+                )
+        new_assessmevent.save() 
+        return render(request, 'sets/' + ASSESSMENTS[new_assessmevent.assessment_set].url, {'assessment': ASSESSMENTS[new_assessmevent.assessment_set], 'assessmevent': new_assessmevent})
+
+    return HttpResponse('something went wrong')    
+
 
 def robots(request):
     return(HttpResponse("User-agent: *\nDisallow: /"))

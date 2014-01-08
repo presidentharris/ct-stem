@@ -7,13 +7,37 @@
 {% endblock %}
 
 {% block body %}
-<div class="page">
+<div class="page" id="complete-page" style="700px;">
 	<center>
     <h3>Thank You. You have completed the activity.<br/>You may now close this window.</h3>
-		<br/>
+
+	  <div style="cursor:pointer;" onclick="$('#new-assess').toggle();$('#footer').css('margin-top', $('#complete-page').innerHeight() +'px');">Click here to take another assessment</div>
+	  <div id="new-assess" style="display:none;">
+		  <form id="theForm" action="/assessment/continuation/" method="post">
+	  		<input type="hidden" name="assessmevent_id" value="{{assessmevent_id}}" />
+		  	<select id="Assessment" name="assessment_set" class="selectBoxIt">
+          <option value="">--- Select Assessment ---</option>
+
+          {% for assessment in assessments %}
+              <option value="{{assessment.id}}" {% if is_ipad %} {{assessment.ipad_compatible}} {% endif %} {%if assessment.id == form.assessment_set.value %}selected="selected" {% endif %}>{{assessment.name}}</option>
+          {% endfor %}
+        </select>
+        <span class="error-msg">
+          {% for error in form.assessment_set.errors %}
+            {{ error }}
+          {% endfor %}
+        </span>
+        <br/>
+        <div style="border-radius: 10px;background: url('images/ui-bg_gloss-wave_55_666699_500x100.png') repeat-x scroll 50% 50% #666699;width:69px;">
+	        <button name="start-btn">start</button>
+	      </div>
+		  </form>
+		</div>
     <h3>Computational Thinking in Science, Technology,<br/>Engineering, and Mathematics</h3>
 		<img src="/static/images/logo.png">
   </center>
+		<br/><br/><br/><br/><br/>
+
 	<div class="logos" style="bottom:35px;">
 	   <img src="/static/images/northwestern.png" style="width: 70px; margin: 20px;">
 	   <img src="/static/images/NSF.png" style="width: 70px; margin: 20px;">
@@ -24,10 +48,4 @@
 	   CNS-1138461 and is covered by <br>Northwestern University IRB Study STU00058570.
 	</div>
 	</div> 
-{% endblock %}
-
-{% block footer %}
-  <div id="footer" class="ui-widget-header" style="border:none;height:53px;">
-  </div>
-  
 {% endblock %}
