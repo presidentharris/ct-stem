@@ -41,6 +41,20 @@ class SectionAdmin(admin.ModelAdmin):
 class StudentAdmin(admin.ModelAdmin):
   list_display = ('first_name', 'last_name', 'school', 'student_id')
   list_filter = ('school',)
+  actions = ['export_students']
+
+  def export_students(studentadmin, request, queryset):
+		response = HttpResponse(content_type='text/csv')
+
+		writer = UnicodeWriter(response)
+		writer.writerow(['Student DB ID', 'student ID', 'f_name', 'l_name', 'grade', 'sex', 'school', 'email', 'ethnicity/comments'])
+
+		for stu in queryset:
+			stu_info = [stu.id, stu.student_id, stu.first_name, stu.last_name, stu.grade, stu.sex, stu.school, stu.email] + stu.ethnicity.rsplit('|')
+			writer.writerow(stu_info)
+
+		response['Content-Disposition'] = 'attachment; filename="students.csv"'
+		return response
 
 class AssessEventAdmin(admin.ModelAdmin):
 	list_display = ('section', 'assessment_set', 'student', 'date')
