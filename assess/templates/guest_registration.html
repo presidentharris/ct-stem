@@ -107,6 +107,11 @@
              <td class="label"><label for="first_name">School/Affiliation:</label></td>
              <td  colspan="2">
                 {{form.school}}
+                <span class="error-msg">
+                {% for error in form.school.errors %}
+                  {{ error }}
+                {% endfor %}
+              </span>
              </td>
           </tr>
           <tr>
@@ -124,6 +129,11 @@
             <td class="label"><label for="comments">Comments</label></td>
             <td colspan="2">
               {{form.ethnicity}}
+              <span class="error-msg">
+                {% for error in form.ethnicity.errors %}
+                  {{ error }}
+                {% endfor %}
+              </span>
             </td>
         </table>
       </div>
