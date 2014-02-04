@@ -1,54 +1,49 @@
 
-<!-- saved from url=(0034)http://localhost:9000/save-to-html -->
-<html><head>
 
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-<link rel="stylesheet" href="/static/css/tortoise.css" type="text/css">
+    <!-- <link rel="stylesheet" href="/static/css/tortoise.css" type="text/css"> -->
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script>useGoogleGraph = true</script>
+    
+<style type="text/css">
+  .slider {
+    position: absolute; 
+    font-size: 11pt; 
+    width: 292px; 
+    height: 33px; 
+    border:1px solid rgba(0, 0, 0, 0.5); 
+    margin:6px; 
+    padding:8px;
+  }
+</style>
 
-</head>
-  <body onload="setup();">
-    <div >
-      <div id='chart-div' style='width:300px; float: right;'></div>
-      <div>
-        <div class="slider">
-          <label>speed:<input id="speed-slider" type="range" min="0" max="8" step=".01" style="width: 225px;"></label>
-          ticks: <span id="tick-counter">0</span>
-        </div>
-        <div class="slider">
-          <span style="vertical-align:text-top">cloud coverage:</span>
-          <input id="cloud-slider" type="range" min="0" max="100" step="5" style="width: 150px" onchange="onCloudChange()" value="0">
-           <span id='cloud-label' style="width: 40px;">0%</span>
-        </div>
-        <div class="slider">
-          CO2 amount: <input id="co2-slider" type="range" min="0" max="300" step="25" style="width: 150px" onchange="onCO2Change()" value="100">
-          <span id='co2-label' style="width: 40px; display: inline-block;">100</span>
-        </div>
-        <div class="slider">
-          temperature: <span id="temp-monitor">0</span>
-        </div>
-        <div style="clear: both;"></div>
+  </head>
+  <body onLoad="setup();">
+
+
+  <div class="slider" style="top: 4px;left: 11px;">
+    <input id="speed-slider" type="range" min=0 max=8 step=.01 style="width: 95%"></input>
+    <div style="float:right">ticks: <span id="tick-counter"></span></div>
+    <div>speed</div>
+  </div>
+
+    <div class='view-container' style="position:relative"></div>
+
+    <div id="powered-by-wrapper" style="position:absolute;margin: 565px 0px 0px 498px;">
+      <a href="http://ccl.northwestern.edu/netlogo/">
+        <img style="vertical-align: middle;" alt="NetLogo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAANcSURBVHjarJRdaFxFFMd/M/dj7252uxubKms+bGprVyIVbNMWWqkQqtLUSpQWfSiV+oVFTcE3DeiDgvoiUSiCYLH2oVoLtQ+iaaIWWtE2FKGkkSrkq5svN+sm7ma/7p3x4W42lEbjQw8MM8yc87/nzPnNFVprbqWJXyMyXuMqx1Ni6N3ny3cX8tOHNLoBUMvESoFI2Xbs4zeO1lzREpSrMSNS1zkBDv6uo1/noz1H7mpvS4SjprAl2AZYEqzKbEowBAgBAkjPKX2599JjT7R0bj412D0JYNplPSBD1G2SmR/e6u1ikEHG2vYiGxoJmxAyIGSCI8GpCItKimtvl2JtfGujDNkX6epuAhCjNeAZxM1ocPy2Qh4toGQ5DLU+ysiuA2S3P0KgJkjAgEAlQylAA64CG/jlUk6//ng4cNWmLK0yOPNMnG99Rs9LQINVKrD+wmke7upg55PrWP3eYcwrlykpKCkoelDy/HVegQhoABNAepbACwjOt72gZkJhypX70YDWEEklue+rbnYc2MiGp1upPfYReiJJUUG58gFXu4udch1wHcjFIgy0HyIjb2yvBpT2F6t+6+f+D15lW8c9JDo7iPSdgVIRLUqL2AyHDQAOf9hfbqxvMF98eT3RuTS1avHyl+Stcphe2chP9+4k/t3RbXVl3W+Ws17FY56/w3VcbO/koS/eZLoAqrQMxADZMTYOfwpwoWjL4+bCYcgssMqGOzPD6CIkZ/3SxTJ0ayFIN6/BnBrZb2XdE1JUgkJWkfrUNRJnPyc16zsbgPyXIUJBpvc+y89nk/S8/4nek3NPGeBWMwzGvhUPnP6RubRLwfODlqqx3LSCyee2MnlwMwA2RwgO5qouVcHmksUdJweYyi8hZkrUjgT5t/ejNq0jBsSqNWsKyT9uFtxw7Bs585d3g46KOeT2bWHmtd14KyP+5mzqpsYU3OyioACMhGiqPTMocsrHId9cy9BLDzKxq8X3ctMwlV6yKSHL4fr4dd0DeQBTBUgUkvpE1kVPbqkX117ZzuSaFf4zyfz5n9A4lk0yNU7vyb7jTy1kmFGipejKvh6h9n0W995ZPTu227hqmCz33xXgFV1v9NzI96NfjndWt7XWCB/7BSICFWL+j3lAofpCtfYFb6X9MwCJZ07mUsXRGwAAAABJRU5ErkJggg=="/>
+        <span style="font-size: 16px;">powered by NetLogo</span>
+      </a>
     </div>
-      <div style="width: 565px; display: inline-block; float: right;">
-        <div class="view-container" style="width: 565px;">
-          <div class="view-layers" style="width: 100%; position: relative;">
-            <canvas width="588" height="372" style="width: 100%;"></canvas>
-            <canvas width="1764" height="1116" style="width: 100%; position: absolute; top: 0px; left: 0px;"></canvas>
-          </div>
-        </div>
-      </div>
-      <input type="button" onclick="setup();" class="model-button" value="Setup"><br/>
-      <input id="go-button" type="button"  class="model-button" onclick="toggleGo();" value="Go">
-      <div style="clear: both;"></div>
-      <div id="powered-by-wrapper" style="margin: 0px 0px -33px 515px;">
-        <a href="http://ccl.northwestern.edu/netlogo/">
-          <img style="vertical-align: middle;" alt="NetLogo" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAANcSURBVHjarJRdaFxFFMd/M/dj7252uxubKms+bGprVyIVbNMWWqkQqtLUSpQWfSiV+oVFTcE3DeiDgvoiUSiCYLH2oVoLtQ+iaaIWWtE2FKGkkSrkq5svN+sm7ma/7p3x4W42lEbjQw8MM8yc87/nzPnNFVprbqWJXyMyXuMqx1Ni6N3ny3cX8tOHNLoBUMvESoFI2Xbs4zeO1lzREpSrMSNS1zkBDv6uo1/noz1H7mpvS4SjprAl2AZYEqzKbEowBAgBAkjPKX2599JjT7R0bj412D0JYNplPSBD1G2SmR/e6u1ikEHG2vYiGxoJmxAyIGSCI8GpCItKimtvl2JtfGujDNkX6epuAhCjNeAZxM1ocPy2Qh4toGQ5DLU+ysiuA2S3P0KgJkjAgEAlQylAA64CG/jlUk6//ng4cNWmLK0yOPNMnG99Rs9LQINVKrD+wmke7upg55PrWP3eYcwrlykpKCkoelDy/HVegQhoABNAepbACwjOt72gZkJhypX70YDWEEklue+rbnYc2MiGp1upPfYReiJJUUG58gFXu4udch1wHcjFIgy0HyIjb2yvBpT2F6t+6+f+D15lW8c9JDo7iPSdgVIRLUqL2AyHDQAOf9hfbqxvMF98eT3RuTS1avHyl+Stcphe2chP9+4k/t3RbXVl3W+Ws17FY56/w3VcbO/koS/eZLoAqrQMxADZMTYOfwpwoWjL4+bCYcgssMqGOzPD6CIkZ/3SxTJ0ayFIN6/BnBrZb2XdE1JUgkJWkfrUNRJnPyc16zsbgPyXIUJBpvc+y89nk/S8/4nek3NPGeBWMwzGvhUPnP6RubRLwfODlqqx3LSCyee2MnlwMwA2RwgO5qouVcHmksUdJweYyi8hZkrUjgT5t/ejNq0jBsSqNWsKyT9uFtxw7Bs585d3g46KOeT2bWHmtd14KyP+5mzqpsYU3OyioACMhGiqPTMocsrHId9cy9BLDzKxq8X3ctMwlV6yKSHL4fr4dd0DeQBTBUgUkvpE1kVPbqkX117ZzuSaFf4zyfz5n9A4lk0yNU7vyb7jTy1kmFGipejKvh6h9n0W995ZPTu227hqmCz33xXgFV1v9NzI96NfjndWt7XWCB/7BSICFWL+j3lAofpCtfYFb6X9MwCJZ07mUsXRGwAAAABJRU5ErkJggg==">
-          <span style="font-size: 16px;">powered by NetLogo</span>
-        </a>
-      </div>
-    </div>
+
     <script type="text/javascript">
-      var Cloner, Random, StrictMath, println, typeIsArray;
+
+      // Generated by CoffeeScript 1.6.3
+var Cloner, Random, StrictMath, println, typeIsArray;
 
 if (!Array.prototype.filter) {
   Array.prototype.filter = function(callback) {
@@ -109,9 +104,15 @@ if (typeof StrictMath === "undefined" || StrictMath === null) {
   StrictMath.toRadians = function(degrees) {
     return degrees * Math.PI / 180;
   };
+  StrictMath.toDegrees = function(radians) {
+    return radians * 180 / Math.PI;
+  };
 }
 ;
-var AgentSet, Agents, Breed, Breeds, Dump, Globals, Iterator, Nobody, Patch, PatchesOwn, Prims, Shufflerator, Torus, Trig, Turtle, TurtlesOwn, Updates, VertCylinder, World, collectUpdates, died, patchBuiltins, turtleBuiltins, updated,
+// Generated by CoffeeScript 1.6.3
+var AgentSet, Agents, Box, Breed, Breeds, DeathInterrupt, DefaultGraph, Dump, Globals, Grapher, HorzCylinder, Iterator, Layouts, Link, Links, NetLogoException, Nobody, Patch, PatchesOwn, Prims, Shufflerator, Topology, TopologyInterrupt, Torus, Trig, Turtle, TurtlesOwn, Updates, VertCylinder, World, collectUpdates, died, linkBuiltins, noop, patchBuiltins, turtleBuiltins, updated, _ref, _ref1,
+  __hasProp = {}.hasOwnProperty,
+  __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
   __slice = [].slice,
   __indexOf = [].indexOf || function(item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; };
 
@@ -119,11 +120,61 @@ turtleBuiltins = ["id", "color", "heading", "xcor", "ycor", "shape", "label", "l
 
 patchBuiltins = ["pxcor", "pycor", "pcolor", "plabel", "plabelcolor"];
 
+linkBuiltins = ["end1", "end2", "lcolor", "llabel", "llabelcolor", "lhidden", "lbreed", "thickness", "lshape", "tiemode", "size", "heading", "midpointx", "midpointy"];
+
+NetLogoException = (function() {
+  function NetLogoException(message) {
+    this.message = message;
+  }
+
+  return NetLogoException;
+
+})();
+
+DeathInterrupt = (function(_super) {
+  __extends(DeathInterrupt, _super);
+
+  function DeathInterrupt() {
+    _ref = DeathInterrupt.__super__.constructor.apply(this, arguments);
+    return _ref;
+  }
+
+  return DeathInterrupt;
+
+})(NetLogoException);
+
+TopologyInterrupt = (function(_super) {
+  __extends(TopologyInterrupt, _super);
+
+  function TopologyInterrupt() {
+    _ref1 = TopologyInterrupt.__super__.constructor.apply(this, arguments);
+    return _ref1;
+  }
+
+  return TopologyInterrupt;
+
+})(NetLogoException);
+
 Updates = [];
 
 Nobody = {
   toString: function() {
     return "nobody";
+  }
+};
+
+DefaultGraph = {
+  plot: function(x) {},
+  reset: function() {}
+};
+
+Grapher = {
+  graph: DefaultGraph,
+  plot: function(x) {
+    return this.graph.plot(x);
+  },
+  reset: function() {
+    return this.graph.reset();
   }
 };
 
@@ -135,69 +186,121 @@ collectUpdates = function() {
       patches: {}
     }
   ] : Updates;
-  Updates = [];
+  Updates = [
+    {
+      turtles: {},
+      patches: {},
+      links: {},
+      observer: {},
+      world: {}
+    }
+  ];
   return result;
 };
 
-died = function(id) {
+died = function(agent) {
   var update;
   update = {
     patches: {},
-    turtles: {}
+    turtles: {},
+    links: {}
   };
-  update.turtles[id] = {
-    WHO: -1
-  };
-  Updates.push(update);
+  if (agent instanceof Turtle) {
+    Updates[0].turtles[agent.id] = {
+      WHO: -1
+    };
+  } else if (agent instanceof Link) {
+    Updates[0].links[agent.id] = {
+      WHO: -1
+    };
+  }
+};
+
+noop = function() {
+  var vars;
+  vars = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
 };
 
 updated = function() {
-  var change, obj, oneUpdate, update, v, vars, _i, _len;
+  var agentUpdate, agents, obj, update, v, vars, _i, _len;
   obj = arguments[0], vars = 2 <= arguments.length ? __slice.call(arguments, 1) : [];
-  change = {};
+  update = Updates[0];
+  if (obj instanceof Turtle) {
+    agents = update.turtles;
+  } else if (obj instanceof Patch) {
+    agents = update.patches;
+  } else if (obj instanceof Link) {
+    agents = update.links;
+  }
+  agentUpdate = agents[obj.id] || {};
+  if (agentUpdate['WHO'] < 0) {
+    delete agentUpdate['WHO'];
+  }
   for (_i = 0, _len = vars.length; _i < _len; _i++) {
     v = vars[_i];
-    if (v === "plabelcolor") {
-      change["PLABEL-COLOR"] = obj[v];
-    } else if (v === "breed") {
-      change["BREED"] = obj[v].name;
-    } else if (v === "labelcolor") {
-      change["LABEL-COLOR"] = obj[v];
-    } else if (v === "pensize") {
-      change["PEN-SIZE"] = obj[v];
-    } else if (v === "penmode") {
-      change["PEN-MODE"] = obj[v];
-    } else if (v === "hidden") {
-      change["HIDDEN?"] = obj[v];
-    } else if (v === "id") {
-      change["WHO"] = obj[v];
-    } else {
-      change[v.toUpperCase()] = obj[v];
+    switch (v) {
+      case "xcor":
+        agentUpdate["XCOR"] = obj.xcor();
+        break;
+      case "ycor":
+        agentUpdate["YCOR"] = obj.ycor();
+        break;
+      case "id":
+        agentUpdate[obj instanceof Link ? "ID" : "WHO"] = obj[v];
+        break;
+      case "plabelcolor":
+        agentUpdate["PLABEL-COLOR"] = obj[v];
+        break;
+      case "breed":
+        agentUpdate["BREED"] = obj[v].name;
+        break;
+      case "labelcolor":
+        agentUpdate["LABEL-COLOR"] = obj[v];
+        break;
+      case "pensize":
+        agentUpdate["PEN-SIZE"] = obj[v];
+        break;
+      case "penmode":
+        agentUpdate["PEN-MODE"] = obj[v];
+        break;
+      case "hidden":
+        agentUpdate["HIDDEN?"] = obj[v];
+        break;
+      case "tiemode":
+        agentUpdate["TIE-MODE"] = obj[v];
+        break;
+      case "end1":
+        agentUpdate["END1"] = obj[v].id;
+        break;
+      case "end2":
+        agentUpdate["END2"] = obj[v].id;
+        break;
+      default:
+        agentUpdate[v.toUpperCase()] = obj[v];
     }
   }
-  oneUpdate = {};
-  oneUpdate[obj.id] = change;
-  update = {};
-  if (obj instanceof Turtle) {
-    update.turtles = oneUpdate;
-    update.patches = {};
-  } else if (obj instanceof Patch) {
-    update.turtles = {};
-    update.patches = oneUpdate;
-  }
-  Updates.push(update);
+  agents[obj.id] = agentUpdate;
 };
 
 Turtle = (function() {
-
   Turtle.prototype.vars = [];
+
+  Turtle.prototype._xcor = 0;
+
+  Turtle.prototype._ycor = 0;
+
+  Turtle.prototype._links = [];
 
   function Turtle(color, heading, xcor, ycor, breed, label, labelcolor, hidden, size, pensize, penmode) {
     var x;
     this.color = color != null ? color : 0;
     this.heading = heading != null ? heading : 0;
-    this.xcor = xcor != null ? xcor : 0;
-    this.ycor = ycor != null ? ycor : 0;
+    if (xcor == null) {
+      xcor = 0;
+    }
+    if (ycor == null) {
+      ycor = 0;
+    }
     if (breed == null) {
       breed = Breeds.get("TURTLES");
     }
@@ -207,37 +310,74 @@ Turtle = (function() {
     this.size = size != null ? size : 1.0;
     this.pensize = pensize != null ? pensize : 1.0;
     this.penmode = penmode != null ? penmode : "up";
-    this.breedvars = {};
+    this._xcor = xcor;
+    this._ycor = ycor;
+    this.breedVars = {};
     this.updateBreed(breed);
     this.vars = (function() {
-      var _i, _len, _ref, _results;
-      _ref = TurtlesOwn.vars;
+      var _i, _len, _ref2, _results;
+      _ref2 = TurtlesOwn.vars;
       _results = [];
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        x = _ref[_i];
+      for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+        x = _ref2[_i];
         _results.push(x);
       }
       return _results;
     })();
+    this.getPatchHere().arrive(this);
   }
 
   Turtle.prototype.updateBreed = function(breed) {
-    var x, _i, _len, _ref, _results;
+    var x, _i, _len, _ref2, _results;
+    if (this.breed) {
+      this.breed.remove(this);
+    }
     this.breed = breed;
-    this.shape = this.breed.shape;
+    breed.add(this);
+    this.shape = this.breed.shape();
     if (this.breed !== Breeds.get("TURTLES")) {
-      _ref = this.breed.vars;
+      _ref2 = this.breed.vars;
       _results = [];
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        x = _ref[_i];
-        if (this.breedvars[x] === void 0) {
-          _results.push(this.breedvars[x] = 0);
+      for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+        x = _ref2[_i];
+        if (this.breedVars[x] === void 0) {
+          _results.push(this.breedVars[x] = 0);
         } else {
           _results.push(void 0);
         }
       }
       return _results;
     }
+  };
+
+  Turtle.prototype.xcor = function() {
+    return this._xcor;
+  };
+
+  Turtle.prototype.setXcor = function(newX) {
+    var originPatch;
+    originPatch = this.getPatchHere();
+    this._xcor = world.topology().wrapX(newX);
+    if (originPatch !== this.getPatchHere()) {
+      originPatch.leave(this);
+      this.getPatchHere().arrive(this);
+    }
+    return this.refreshLinks();
+  };
+
+  Turtle.prototype.ycor = function() {
+    return this._ycor;
+  };
+
+  Turtle.prototype.setYcor = function(newY) {
+    var originPatch;
+    originPatch = this.getPatchHere();
+    this._ycor = world.topology().wrapY(newY);
+    if (originPatch !== this.getPatchHere()) {
+      originPatch.leave(this);
+      this.getPatchHere().arrive(this);
+    }
+    return this.refreshLinks();
   };
 
   Turtle.prototype.setBreed = function(breed) {
@@ -260,21 +400,219 @@ Turtle = (function() {
     return this.patchAhead(amount) !== Nobody;
   };
 
-  Turtle.prototype.patchAhead = function(amount) {
-    var newX, newY;
-    try {
-      newX = world.topology().wrapX(this.xcor + amount * Trig.sin(this.heading), world.minPxcor - 0.5, world.maxPxcor + 0.5);
-      newY = world.topology().wrapY(this.ycor + amount * Trig.cos(this.heading), world.minPycor - 0.5, world.maxPycor + 0.5);
-      return world.getPatchAt(newX, newY);
-    } catch (error) {
-      return Nobody;
+  Turtle.prototype.distanceXY = function(x, y) {
+    return world.topology().distanceXY(this.xcor(), this.ycor(), x, y);
+  };
+
+  Turtle.prototype.distance = function(agent) {
+    return world.topology().distance(this.xcor(), this.ycor(), agent);
+  };
+
+  Turtle.prototype.faceXY = function(x, y) {
+    if (x !== this.xcor() || y !== this.ycor()) {
+      this.heading = world.topology().towards(this.xcor(), this.ycor(), x, y);
+      return updated(this, "heading");
     }
   };
 
+  Turtle.prototype.face = function(agent) {
+    if (agent instanceof Turtle) {
+      return this.faceXY(agent.xcor(), agent.ycor());
+    } else if (agent instanceof Patch) {
+      return this.faceXY(agent.pxcor, agent.pycor);
+    }
+  };
+
+  Turtle.prototype.inRadius = function(agents, radius) {
+    return world.topology().inRadius(this, this.xcor(), this.ycor(), agents, radius);
+  };
+
+  Turtle.prototype.patchAt = function(dx, dy) {
+    return this.getPatchHere().patchAt(dx, dy);
+  };
+
+  Turtle.prototype.turtlesAt = function(dx, dy) {
+    return this.getPatchHere().turtlesAt(dx, dy);
+  };
+
+  Turtle.prototype.connectedLinks = function(directed, isSource) {
+    var me;
+    me = this;
+    if (directed) {
+      return new Agents(world.links().items.map(function(l) {
+        if ((l.directed && l.end1 === me && isSource) || (l.directed && l.end2 === me && !isSource)) {
+          return l;
+        } else {
+          return null;
+        }
+      }).filter(function(o) {
+        return o !== null;
+      }), Breeds.get("LINKS"));
+    } else {
+      return new Agents(world.links().items.map(function(l) {
+        if ((!l.directed && l.end1 === me) || (!l.directed && l.end2 === me)) {
+          return l;
+        } else {
+          return null;
+        }
+      }).filter(function(o) {
+        return o !== null;
+      }), Breeds.get("LINKS"));
+    }
+  };
+
+  Turtle.prototype.refreshLinks = function() {
+    var l, _i, _j, _k, _len, _len1, _len2, _ref2, _ref3, _ref4, _results;
+    if (this._links.length > 0) {
+      _ref2 = (this.connectedLinks(true, true).items);
+      for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+        l = _ref2[_i];
+        l.updateEndRelatedVars();
+      }
+      _ref3 = (this.connectedLinks(true, false).items);
+      for (_j = 0, _len1 = _ref3.length; _j < _len1; _j++) {
+        l = _ref3[_j];
+        l.updateEndRelatedVars();
+      }
+      _ref4 = (this.connectedLinks(false, false).items);
+      _results = [];
+      for (_k = 0, _len2 = _ref4.length; _k < _len2; _k++) {
+        l = _ref4[_k];
+        _results.push(l.updateEndRelatedVars());
+      }
+      return _results;
+    }
+  };
+
+  Turtle.prototype.linkNeighbors = function(directed, isSource) {
+    var me;
+    me = this;
+    if (directed) {
+      return new Agents(world.links().items.map(function(l) {
+        if (l.directed && l.end1 === me && isSource) {
+          return l.end2;
+        } else if (l.directed && l.end2 === me && !isSource) {
+          return l.end1;
+        } else {
+          return null;
+        }
+      }).filter(function(o) {
+        return o !== null;
+      }), Breeds.get("TURTLES"));
+    } else {
+      return new Agents(world.links().items.map(function(l) {
+        if (!l.directed && l.end1 === me) {
+          return l.end2;
+        } else if (!l.directed && l.end2 === me) {
+          return l.end1;
+        } else {
+          return null;
+        }
+      }).filter(function(o) {
+        return o !== null;
+      }), Breeds.get("TURTLES"));
+    }
+  };
+
+  Turtle.prototype.isLinkNeighbor = function(directed, isSource, other) {
+    return this.linkNeighbors(directed, isSource).items.filter(function(o) {
+      return o === other;
+    }).length > 0;
+  };
+
+  Turtle.prototype.findLinkViaNeighbor = function(directed, isSource, other) {
+    var links, me;
+    me = this;
+    links = [];
+    if (directed) {
+      links = world.links().items.map(function(l) {
+        if ((l.directed && l.end1 === me && l.end2 === other && isSource) || (l.directed && l.end1 === other && l.end2 === me && !isSource)) {
+          return l;
+        } else {
+          return null;
+        }
+      }).filter(function(o) {
+        return o !== null;
+      });
+    } else {
+      if (world.unbreededLinksAreDirected) {
+        throw new NetLogoException("LINKS is a directed breed.");
+      }
+      links = world.links().items.map(function(l) {
+        if ((!l.directed && l.end1 === me && l.end2 === other) || (!l.directed && l.end2 === me && l.end1 === other)) {
+          return l;
+        } else {
+          return null;
+        }
+      }).filter(function(o) {
+        return o !== null;
+      });
+    }
+    if (links.length === 0) {
+      return Nobody;
+    } else {
+      return links[0];
+    }
+  };
+
+  Turtle.prototype.otherEnd = function() {
+    if (this === AgentSet.myself().end1) {
+      return AgentSet.myself().end2;
+    } else {
+      return AgentSet.myself().end1;
+    }
+  };
+
+  Turtle.prototype.patchRightAndAhead = function(angle, amount) {
+    var error, heading, newX, newY;
+    heading = this.heading + angle;
+    if (heading < 0 || heading >= 360) {
+      heading = ((heading % 360) + 360) % 360;
+    }
+    try {
+      newX = world.topology().wrapX(this.xcor() + amount * Trig.sin(heading));
+      newY = world.topology().wrapY(this.ycor() + amount * Trig.cos(heading));
+      return world.getPatchAt(newX, newY);
+    } catch (_error) {
+      error = _error;
+      if (error instanceof TopologyInterrupt) {
+        return Nobody;
+      } else {
+        throw error;
+      }
+    }
+  };
+
+  Turtle.prototype.patchLeftAndAhead = function(angle, amount) {
+    return this.patchRightAndAhead(-angle, amount);
+  };
+
+  Turtle.prototype.patchAhead = function(amount) {
+    return this.patchRightAndAhead(0, amount);
+  };
+
   Turtle.prototype.fd = function(amount) {
-    this.xcor = world.topology().wrap(this.xcor + amount * Trig.sin(this.heading), world.minPxcor - 0.5, world.maxPxcor + 0.5);
-    this.ycor = world.topology().wrap(this.ycor + amount * Trig.cos(this.heading), world.minPycor - 0.5, world.maxPycor + 0.5);
-    updated(this, "xcor", "ycor");
+    if (amount > 0) {
+      while (amount >= 1 && this.jump(1)) {
+        amount -= 1;
+      }
+      this.jump(amount);
+    } else if (amount < 0) {
+      while (amount <= -1 && this.jump(-1)) {
+        amount += 1;
+      }
+      this.jump(amount);
+    }
+  };
+
+  Turtle.prototype.jump = function(amount) {
+    if (this.canMove(amount)) {
+      this.setXcor(this.xcor() + amount * Trig.sin(this.heading));
+      this.setYcor(this.ycor() + amount * Trig.cos(this.heading));
+      updated(this, "xcor", "ycor");
+      return true;
+    }
+    return false;
   };
 
   Turtle.prototype.right = function(amount) {
@@ -283,10 +621,29 @@ Turtle = (function() {
     updated(this, "heading");
   };
 
-  Turtle.prototype.setxy = function(x, y) {
-    this.xcor = x;
-    this.ycor = y;
+  Turtle.prototype.setXY = function(x, y) {
+    var error, origXcor, origYcor;
+    origXcor = this.xcor();
+    origYcor = this.ycor();
+    try {
+      this.setXcor(x);
+      this.setYcor(y);
+    } catch (_error) {
+      error = _error;
+      this.setXcor(origXcor);
+      this.setYcor(origYcor);
+      if (error instanceof TopologyInterrupt) {
+        throw new TopologyInterrupt("The point [ " + x + " , " + y + " ] is outside of the boundaries of the world and wrapping is not permitted in one or both directions.");
+      } else {
+        throw error;
+      }
+    }
     updated(this, "xcor", "ycor");
+  };
+
+  Turtle.prototype.hideTurtle = function(flag) {
+    this.hidden = flag;
+    updated(this, "hidden");
   };
 
   Turtle.prototype.isBreed = function(breedName) {
@@ -294,20 +651,42 @@ Turtle = (function() {
   };
 
   Turtle.prototype.die = function() {
-    var deathError;
+    var error, l, _i, _len, _ref2;
+    this.breed.remove(this);
     if (this.id !== -1) {
       world.removeTurtle(this.id);
-      died(this.id);
+      died(this);
+      _ref2 = world.links().items;
+      for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+        l = _ref2[_i];
+        try {
+          if (l.end1.id === this.id || l.end2.id === this.id) {
+            l.die();
+          }
+        } catch (_error) {
+          error = _error;
+          if (!(error instanceof DeathInterrupt)) {
+            throw error;
+          }
+        }
+      }
       this.id = -1;
+      this.getPatchHere().leave(this);
     }
-    deathError = new Error("Call only from inside an askAgent block");
-    deathError.death = true;
-    throw deathError;
+    throw new DeathInterrupt("Call only from inside an askAgent block");
   };
 
   Turtle.prototype.getTurtleVariable = function(n) {
     if (n < turtleBuiltins.length) {
-      return this[turtleBuiltins[n]];
+      if (n === 3) {
+        return this.xcor();
+      } else if (n === 4) {
+        return this.ycor();
+      } else if (n === 8) {
+        return world.turtlesOfBreed(this.breed.name);
+      } else {
+        return this[turtleBuiltins[n]];
+      }
     } else {
       return this.vars[n - turtleBuiltins.length];
     }
@@ -315,12 +694,18 @@ Turtle = (function() {
 
   Turtle.prototype.setTurtleVariable = function(n, v) {
     if (n < turtleBuiltins.length) {
-      if (n === 5) {
-        v = v.toLowerCase();
-      }
-      this[turtleBuiltins[n]] = v;
-      if (n === 2) {
-        this.keepHeadingInRange();
+      if (n === 3) {
+        this.setXcor(v);
+      } else if (n === 4) {
+        this.setYcor(v);
+      } else {
+        if (n === 5) {
+          v = v.toLowerCase();
+        }
+        this[turtleBuiltins[n]] = v;
+        if (n === 2) {
+          this.keepHeadingInRange();
+        }
       }
       return updated(this, turtleBuiltins[n]);
     } else {
@@ -329,15 +714,15 @@ Turtle = (function() {
   };
 
   Turtle.prototype.getBreedVariable = function(n) {
-    return this.breedvars[n];
+    return this.breedVars[n];
   };
 
   Turtle.prototype.setBreedVariable = function(n, v) {
-    return this.breedvars[n] = v;
+    return this.breedVars[n] = v;
   };
 
   Turtle.prototype.getPatchHere = function() {
-    return world.getPatchAt(this.xcor, this.ycor);
+    return world.getPatchAt(this.xcor(), this.ycor());
   };
 
   Turtle.prototype.getPatchVariable = function(n) {
@@ -348,54 +733,50 @@ Turtle = (function() {
     return this.getPatchHere().setPatchVariable(n, v);
   };
 
+  Turtle.prototype.getNeighbors = function() {
+    return this.getPatchHere().getNeighbors();
+  };
+
+  Turtle.prototype.getNeighbors4 = function() {
+    return this.getPatchHere().getNeighbors4();
+  };
+
   Turtle.prototype.turtlesHere = function() {
-    var p, t;
-    p = this.getPatchHere();
-    return new Agents((function() {
-      var _i, _len, _ref, _results;
-      _ref = world.turtles().items;
-      _results = [];
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        t = _ref[_i];
-        if (t.getPatchHere() === p) {
-          _results.push(t);
-        }
-      }
-      return _results;
-    })(), Breeds.get("TURTLES"));
+    return this.getPatchHere().turtlesHere();
   };
 
   Turtle.prototype.breedHere = function(breedName) {
-    var p, t;
-    p = this.getPatchHere();
-    return new Agents((function() {
-      var _i, _len, _ref, _results;
-      _ref = world.turtlesOfBreed(breedName).items;
-      _results = [];
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        t = _ref[_i];
-        if (t.getPatchHere() === p) {
-          _results.push(t);
-        }
-      }
-      return _results;
-    })(), Breeds.get(breedName));
+    return this.getPatchHere().breedHere(breedName);
   };
 
   Turtle.prototype.hatch = function(n, breedName) {
-    var breed, newTurtles, num, t, v, _i, _j, _len, _ref;
+    var breed, newTurtles, num, t, v, _i, _j, _ref2;
     breed = breedName ? Breeds.get(breedName) : this.breed;
     newTurtles = [];
     for (num = _i = 0; 0 <= n ? _i < n : _i > n; num = 0 <= n ? ++_i : --_i) {
-      t = new Turtle(this.color, this.heading, this.xcor, this.ycor, breed, this.label, this.labelcolor, this.hidden, this.size, this.pensize, this.penmode);
-      _ref = TurtlesOwn.vars;
-      for (_j = 0, _len = _ref.length; _j < _len; _j++) {
-        v = _ref[_j];
+      t = new Turtle(this.color, this.heading, this.xcor(), this.ycor(), breed, this.label, this.labelcolor, this.hidden, this.size, this.pensize, this.penmode);
+      for (v = _j = 0, _ref2 = TurtlesOwn.vars.length; 0 <= _ref2 ? _j <= _ref2 : _j >= _ref2; v = 0 <= _ref2 ? ++_j : --_j) {
         t.setTurtleVariable(turtleBuiltins.length + v, this.getTurtleVariable(turtleBuiltins.length + v));
       }
-      newTurtles.push(world.createturtle(t));
+      newTurtles.push(world.createTurtle(t));
     }
     return new Agents(newTurtles, breed);
+  };
+
+  Turtle.prototype.moveTo = function(agent) {
+    if (agent instanceof Turtle) {
+      return this.setXY(agent.xcor(), agent.ycor());
+    } else if (agent instanceof Patch) {
+      return this.setXY(agent.pxcor, agent.pycor);
+    }
+  };
+
+  Turtle.prototype.watchme = function() {
+    return world.watch(this);
+  };
+
+  Turtle.prototype._removeLink = function(l) {
+    return this._links.splice(this._links.indexOf(l));
   };
 
   return Turtle;
@@ -403,7 +784,6 @@ Turtle = (function() {
 })();
 
 Patch = (function() {
-
   Patch.prototype.vars = [];
 
   function Patch(id, pxcor, pycor, pcolor, plabel, plabelcolor) {
@@ -415,15 +795,16 @@ Patch = (function() {
     this.plabel = plabel != null ? plabel : "";
     this.plabelcolor = plabelcolor != null ? plabelcolor : 9.9;
     this.vars = (function() {
-      var _i, _len, _ref, _results;
-      _ref = PatchesOwn.vars;
+      var _i, _len, _ref2, _results;
+      _ref2 = PatchesOwn.vars;
       _results = [];
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        x = _ref[_i];
+      for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+        x = _ref2[_i];
         _results.push(x);
       }
       return _results;
     })();
+    this.turtles = [];
   }
 
   Patch.prototype.toString = function() {
@@ -450,6 +831,26 @@ Patch = (function() {
     }
   };
 
+  Patch.prototype.leave = function(t) {
+    return this.turtles.splice(this.turtles.indexOf(t, 0), 1);
+  };
+
+  Patch.prototype.arrive = function(t) {
+    return this.turtles.push(t);
+  };
+
+  Patch.prototype.distanceXY = function(x, y) {
+    return world.topology().distanceXY(this.pxcor, this.pycor, x, y);
+  };
+
+  Patch.prototype.distance = function(agent) {
+    return world.topology().distance(this.pxcor, this.pycor, agent);
+  };
+
+  Patch.prototype.turtlesHere = function() {
+    return new Agents(this.turtles, Breeds.get("TURTLES"));
+  };
+
   Patch.prototype.getNeighbors = function() {
     return world.getNeighbors(this.pxcor, this.pycor);
   };
@@ -458,40 +859,209 @@ Patch = (function() {
     return world.getNeighbors4(this.pxcor, this.pycor);
   };
 
-  Patch.prototype.sprout = function(n) {
-    var num;
+  Patch.prototype.sprout = function(n, breedName) {
+    var breed, num;
+    breed = "" === breedName ? Breeds.get("TURTLES") : Breeds.get(breedName);
     return new Agents((function() {
       var _i, _results;
       _results = [];
       for (num = _i = 0; 0 <= n ? _i < n : _i > n; num = 0 <= n ? ++_i : --_i) {
-        _results.push(world.createturtle(new Turtle(5 + 10 * Random.nextInt(14), Random.nextInt(360), this.pxcor, this.pycor)));
+        _results.push(world.createTurtle(new Turtle(5 + 10 * Random.nextInt(14), Random.nextInt(360), this.pxcor, this.pycor, breed)));
       }
       return _results;
-    }).call(this), Breeds.get("TURTLES"));
+    }).call(this));
+  };
+
+  Patch.prototype.breedHere = function(breedName) {
+    var breed, t;
+    breed = Breeds.get(breedName);
+    return new Agents((function() {
+      var _i, _len, _ref2, _results;
+      _ref2 = this.turtles;
+      _results = [];
+      for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+        t = _ref2[_i];
+        if (t.breed === breed) {
+          _results.push(t);
+        }
+      }
+      return _results;
+    }).call(this), breed);
+  };
+
+  Patch.prototype.turtlesAt = function(dx, dy) {
+    return this.patchAt(dx, dy).turtlesHere();
+  };
+
+  Patch.prototype.patchAt = function(dx, dy) {
+    var error, newX, newY;
+    try {
+      newX = world.topology().wrapX(this.pxcor + dx);
+      newY = world.topology().wrapY(this.pycor + dy);
+      return world.getPatchAt(newX, newY);
+    } catch (_error) {
+      error = _error;
+      if (error instanceof TopologyInterrupt) {
+        return Nobody;
+      } else {
+        throw error;
+      }
+    }
+  };
+
+  Patch.prototype.watchme = function() {
+    return world.watch(this);
   };
 
   return Patch;
 
 })();
 
-World = (function() {
-  var width, _nextId, _patches, _patchesAllBlack, _ticks, _topology, _turtles;
+Links = {
+  compare: function(a, b) {
+    if (a === b) {
+      return 0;
+    } else if (a.end1.id < b.end1.id) {
+      return -1;
+    } else if (a.end1.id > b.end1.id) {
+      return 1;
+    } else if (a.end2.id < b.end2.id) {
+      return -1;
+    } else if (a.end2.id > b.end2.id) {
+      return 1;
+    } else if (a.breed === b.breed) {
+      return 0;
+    } else if (a.breed === Breeds.get("LINKS")) {
+      return -1;
+    } else if (b.breed === Breeds.get("LINKS")) {
+      return 1;
+    } else {
+      throw new Error("We have yet to implement link breed comparison");
+    }
+  }
+};
 
-  _nextId = 0;
+Link = (function() {
+  Link.prototype.color = 5;
+
+  Link.prototype.label = "";
+
+  Link.prototype.labelcolor = 9.9;
+
+  Link.prototype.hidden = false;
+
+  Link.prototype.shape = "default";
+
+  Link.prototype.thickness = 0;
+
+  Link.prototype.tiemode = "none";
+
+  Link.prototype.xcor = function() {};
+
+  Link.prototype.ycor = function() {};
+
+  function Link(id, directed, end1, end2) {
+    this.id = id;
+    this.directed = directed;
+    this.end1 = end1;
+    this.end2 = end2;
+    this.breed = Breeds.get("LINKS");
+    this.breed.add(this);
+    this.end1._links.push(this);
+    this.end2._links.push(this);
+    this.updateEndRelatedVars();
+  }
+
+  Link.prototype.getLinkVariable = function(n) {
+    if (n < linkBuiltins.length) {
+      return this[linkBuiltins[n]];
+    } else {
+      return this.vars[n - linkBuiltins.length];
+    }
+  };
+
+  Link.prototype.setLinkVariable = function(n, v) {
+    if (n < linkBuiltins.length) {
+      this[linkBuiltins[n]] = v;
+      return updated(this, linkBuiltins[n]);
+    } else {
+      return this.vars[n - linkBuiltins.length] = v;
+    }
+  };
+
+  Link.prototype.die = function() {
+    this.breed.remove(this);
+    if (this.id !== -1) {
+      this.end1._removeLink(this);
+      this.end2._removeLink(this);
+      world.removeLink(this.id);
+      died(this);
+      this.id = -1;
+    }
+    throw new DeathInterrupt("Call only from inside an askAgent block");
+  };
+
+  Link.prototype.getTurtleVariable = function(n) {
+    return this[turtleBuiltins[n]];
+  };
+
+  Link.prototype.setTurtleVariable = function(n, v) {
+    this[turtleBuiltins[n]] = v;
+    return updated(this, turtleBuiltins[n]);
+  };
+
+  Link.prototype.bothEnds = function() {
+    return new Agents([this.end1, this.end2], Breeds.get("TURTLES"));
+  };
+
+  Link.prototype.otherEnd = function() {
+    if (this.end1 === AgentSet.myself()) {
+      return this.end2;
+    } else {
+      return this.end1;
+    }
+  };
+
+  Link.prototype.updateEndRelatedVars = function() {
+    this.heading = world.topology().towards(this.end1.xcor(), this.end1.ycor(), this.end2.xcor(), this.end2.ycor());
+    this.size = world.topology().distanceXY(this.end1.xcor(), this.end1.ycor(), this.end2.xcor(), this.end2.ycor());
+    this.midpointx = world.topology().midpointx(this.end1.xcor(), this.end2.xcor());
+    this.midpointy = world.topology().midpointy(this.end1.ycor(), this.end2.ycor());
+    return updated.apply(null, [this].concat(__slice.call(linkBuiltins)));
+  };
+
+  Link.prototype.toString = function() {
+    return "(" + this.breed.singular + " " + this.end1.id + " " + this.end2.id + ")";
+  };
+
+  return Link;
+
+})();
+
+World = (function() {
+  var _links, _nextLinkId, _nextTurtleId, _patches, _patchesAllBlack, _ticks, _timer, _topology, _turtles, _turtlesById;
+
+  _nextLinkId = 0;
+
+  _nextTurtleId = 0;
 
   _turtles = [];
 
+  _turtlesById = {};
+
   _patches = [];
 
-  width = 0;
+  _links = [];
 
   _topology = null;
 
   _ticks = -1;
 
+  _timer = Date.now();
+
   _patchesAllBlack = true;
 
-  function World(minPxcor, maxPxcor, minPycor, maxPycor, patchSize, wrappingAllowedInY, wrappingAllowedInX, interfaceGlobalCount) {
+  function World(minPxcor, maxPxcor, minPycor, maxPycor, patchSize, wrappingAllowedInY, wrappingAllowedInX, turtleShapeList, linkShapeList, interfaceGlobalCount) {
     this.minPxcor = minPxcor;
     this.maxPxcor = maxPxcor;
     this.minPycor = minPycor;
@@ -500,6 +1070,8 @@ World = (function() {
     this.wrappingAllowedInY = wrappingAllowedInY;
     this.wrappingAllowedInX = wrappingAllowedInX;
     this.interfaceGlobalCount = interfaceGlobalCount;
+    this.perspective = 0;
+    this.targetAgent = null;
     collectUpdates();
     Updates.push({
       world: {
@@ -510,42 +1082,42 @@ World = (function() {
           minPycor: this.minPycor,
           maxPxcor: this.maxPxcor,
           maxPycor: this.maxPycor,
-          nbInterfaceGlobals: this.interfaceGlobalCount,
           linkBreeds: "XXX IMPLEMENT ME",
-          linkShapeList: "XXX IMPLEMENT ME",
+          linkShapeList: linkShapeList,
           patchSize: this.patchSize,
           patchesAllBlack: _patchesAllBlack,
           patchesWithLabels: 0,
           ticks: _ticks,
           turtleBreeds: "XXX IMPLEMENT ME",
-          turtleShapeList: "XXX IMPLEMENT ME",
+          turtleShapeList: turtleShapeList,
           unbreededLinksAreDirected: false,
           wrappingAllowedInX: this.wrappingAllowedInX,
           wrappingAllowedInY: this.wrappingAllowedInY
         }
       }
     });
+    this.updatePerspective();
     this.resize(this.minPxcor, this.maxPxcor, this.minPycor, this.maxPycor);
   }
 
   World.prototype.createPatches = function() {
-    var nested, p, x, y, _i, _len, _ref, _results;
+    var nested, p, x, y, _i, _len, _ref2, _results;
     nested = (function() {
-      var _i, _ref, _ref1, _results;
+      var _i, _ref2, _ref3, _results;
       _results = [];
-      for (y = _i = _ref = this.maxPycor, _ref1 = this.minPycor; _ref <= _ref1 ? _i <= _ref1 : _i >= _ref1; y = _ref <= _ref1 ? ++_i : --_i) {
+      for (y = _i = _ref2 = this.maxPycor, _ref3 = this.minPycor; _ref2 <= _ref3 ? _i <= _ref3 : _i >= _ref3; y = _ref2 <= _ref3 ? ++_i : --_i) {
         _results.push((function() {
-          var _j, _ref2, _ref3, _results1;
+          var _j, _ref4, _ref5, _results1;
           _results1 = [];
-          for (x = _j = _ref2 = this.minPxcor, _ref3 = this.maxPxcor; _ref2 <= _ref3 ? _j <= _ref3 : _j >= _ref3; x = _ref2 <= _ref3 ? ++_j : --_j) {
-            _results1.push(new Patch((width * (this.maxPycor - y)) + x - this.minPxcor, x, y));
+          for (x = _j = _ref4 = this.minPxcor, _ref5 = this.maxPxcor; _ref4 <= _ref5 ? _j <= _ref5 : _j >= _ref5; x = _ref4 <= _ref5 ? ++_j : --_j) {
+            _results1.push(new Patch((this.width() * (this.maxPycor - y)) + x - this.minPxcor, x, y));
           }
           return _results1;
         }).call(this));
       }
       return _results;
     }).call(this);
-    _patches = (_ref = []).concat.apply(_ref, nested);
+    _patches = (_ref2 = []).concat.apply(_ref2, nested);
     _results = [];
     for (_i = 0, _len = _patches.length; _i < _len; _i++) {
       p = _patches[_i];
@@ -558,6 +1130,10 @@ World = (function() {
     return _topology;
   };
 
+  World.prototype.links = function() {
+    return new Agents(_links.sort(Links.compare));
+  };
+
   World.prototype.turtles = function() {
     return new Agents(_turtles, Breeds.get("TURTLES"));
   };
@@ -565,13 +1141,15 @@ World = (function() {
   World.prototype.turtlesOfBreed = function(breedName) {
     var breed;
     breed = Breeds.get(breedName);
-    return new Agents(_turtles.filter(function(t) {
-      return t.breed === breed;
-    }), breed);
+    return new Agents(breed.members, breed);
   };
 
   World.prototype.patches = function() {
     return new Agents(_patches);
+  };
+
+  World.prototype.resetTimer = function() {
+    return _timer = Date.now();
   };
 
   World.prototype.resetTicks = function() {
@@ -597,30 +1175,22 @@ World = (function() {
   };
 
   World.prototype.resize = function(minPxcor, maxPxcor, minPycor, maxPycor) {
-    var t, _i, _len, _ref;
     if (minPxcor > 0 || maxPxcor < 0 || minPycor > 0 || maxPycor < 0) {
-      throw new Error("You must include the point (0, 0) in the world");
+      throw new NetLogoException("You must include the point (0, 0) in the world.");
     }
+    this.clearAll();
     this.minPxcor = minPxcor;
     this.maxPxcor = maxPxcor;
     this.minPycor = minPycor;
     this.maxPycor = maxPycor;
-    width = (this.maxPxcor - this.minPxcor) + 1;
     if (this.wrappingAllowedInX && this.wrappingAllowedInY) {
       _topology = new Torus(this.minPxcor, this.maxPxcor, this.minPycor, this.maxPycor);
     } else if (this.wrappingAllowedInX) {
       _topology = new VertCylinder(this.minPxcor, this.maxPxcor, this.minPycor, this.maxPycor);
-    }
-    _ref = this.turtles().items;
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      t = _ref[_i];
-      try {
-        t.die();
-      } catch (error) {
-        if (!error.death) {
-          throw error;
-        }
-      }
+    } else if (this.wrappingAllowedInY) {
+      _topology = new HorzCylinder(this.minPxcor, this.maxPxcor, this.minPycor, this.maxPycor);
+    } else {
+      _topology = new Box(this.minPxcor, this.maxPxcor, this.minPycor, this.maxPycor);
     }
     this.createPatches();
     return Updates.push({
@@ -639,7 +1209,7 @@ World = (function() {
 
   World.prototype.tick = function() {
     if (_ticks === -1) {
-      throw new Error("Need to call reset-ticks");
+      throw new NetLogoException("The tick counter has not been started yet. Use RESET-TICKS.");
     }
     _ticks++;
     return Updates.push({
@@ -651,12 +1221,12 @@ World = (function() {
     });
   };
 
-  World.prototype.advancetick = function(n) {
+  World.prototype.tickAdvance = function(n) {
     if (_ticks === -1) {
-      throw new Error("Need to call reset-ticks");
+      throw new NetLogoException("The tick counter has not been started yet. Use RESET-TICKS.");
     }
     if (n < 0) {
-      throw new Error("Cannot advance ticks by a negative amount");
+      throw new NetLogoException("Cannot advance the tick counter by a negative amount.");
     }
     _ticks += n;
     return Updates.push({
@@ -668,47 +1238,66 @@ World = (function() {
     });
   };
 
+  World.prototype.timer = function() {
+    return (Date.now() - _timer) / 1000;
+  };
+
   World.prototype.ticks = function() {
     if (_ticks === -1) {
-      throw new Error("Need to call reset-ticks");
+      throw new NetLogoException("The tick counter has not been started yet. Use RESET-TICKS.");
     }
     return _ticks;
   };
 
+  World.prototype.width = function() {
+    return 1 + this.maxPxcor - this.minPxcor;
+  };
+
+  World.prototype.height = function() {
+    return 1 + this.maxPycor - this.minPycor;
+  };
+
   World.prototype.getPatchAt = function(x, y) {
     var index;
-    index = (this.maxPycor - StrictMath.round(y)) * width + (StrictMath.round(x) - this.minPxcor);
+    index = (this.maxPycor - StrictMath.round(y)) * this.width() + (StrictMath.round(x) - this.minPxcor);
     return _patches[index];
   };
 
   World.prototype.getTurtle = function(id) {
-    var filteredTurtles;
-    filteredTurtles = this.turtles().items.filter(function(t) {
-      return t.id === id;
-    });
-    if (filteredTurtles.length === 0) {
-      return Nobody;
-    } else {
-      return filteredTurtles[0];
-    }
+    return _turtlesById[id] || Nobody;
   };
 
   World.prototype.getTurtleOfBreed = function(breedName, id) {
-    var filteredTurtles;
-    filteredTurtles = this.turtlesOfBreed(breedName).items.filter(function(t) {
-      return t.id === id;
-    });
-    if (filteredTurtles.length === 0) {
-      return Nobody;
+    var turtle;
+    turtle = this.getTurtle(id);
+    if (turtle.breed.name === breedName) {
+      return turtle;
     } else {
-      return filteredTurtles[0];
+      return Nobody;
+    }
+  };
+
+  World.prototype.removeLink = function(id) {
+    _links = this.links().items.filter(function(l) {
+      return l.id !== id;
+    });
+    if (_links.length === 0) {
+      this.unbreededLinksAreDirected = false;
+      Updates.push({
+        world: {
+          0: {
+            unbreededLinksAreDirected: false
+          }
+        }
+      });
     }
   };
 
   World.prototype.removeTurtle = function(id) {
-    _turtles = this.turtles().items.filter(function(t) {
-      return t.id !== id;
-    });
+    var turtle;
+    turtle = _turtlesById[id];
+    _turtles.splice(_turtles.indexOf(turtle), 1);
+    return delete _turtlesById[id];
   };
 
   World.prototype.patchesAllBlack = function(val) {
@@ -722,52 +1311,76 @@ World = (function() {
     });
   };
 
-  World.prototype.clearall = function() {
-    var t, _i, _len, _ref;
+  World.prototype.clearAll = function() {
+    var error, t, _i, _len, _ref2;
     Globals.clear(this.interfaceGlobalCount);
-    _ref = this.turtles().items;
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      t = _ref[_i];
+    _ref2 = this.turtles().items.slice(0);
+    for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+      t = _ref2[_i];
       try {
         t.die();
-      } catch (error) {
-        if (!error.death) {
+      } catch (_error) {
+        error = _error;
+        if (!(error instanceof DeathInterrupt)) {
           throw error;
         }
       }
     }
     this.createPatches();
-    _nextId = 0;
+    _nextTurtleId = 0;
+    _nextLinkId = 0;
     this.patchesAllBlack(true);
     this.clearTicks();
+    Grapher.reset();
   };
 
-  World.prototype.createturtle = function(t) {
-    t.id = _nextId++;
+  World.prototype.createTurtle = function(t) {
+    t.id = _nextTurtleId++;
     updated.apply(null, [t].concat(__slice.call(turtleBuiltins)));
     _turtles.push(t);
+    _turtlesById[t.id] = t;
     return t;
   };
 
-  World.prototype.createorderedturtles = function(n, breedName) {
+  World.prototype.createLink = function(directed, from, to) {
+    var end1, end2, l;
+    if (from.id < to.id || directed) {
+      end1 = from;
+      end2 = to;
+    } else {
+      end1 = to;
+      end2 = from;
+    }
+    if (Nobody === this.getLink(end1.id, end2.id)) {
+      l = new Link(_nextLinkId++, directed, end1, end2);
+      updated.apply(null, [l].concat(__slice.call(linkBuiltins)));
+      updated.apply(null, [l].concat(__slice.call(turtleBuiltins.slice(1))));
+      _links.push(l);
+      return l;
+    } else {
+      return Nobody;
+    }
+  };
+
+  World.prototype.createOrderedTurtles = function(n, breedName) {
     var num;
     return new Agents((function() {
       var _i, _results;
       _results = [];
       for (num = _i = 0; 0 <= n ? _i < n : _i > n; num = 0 <= n ? ++_i : --_i) {
-        _results.push(this.createturtle(new Turtle((num * 10 + 5) % 140, num * (360 / n), 0, 0, Breeds.get(breedName))));
+        _results.push(this.createTurtle(new Turtle((10 * num + 5) % 140, (360 * num) / n, 0, 0, Breeds.get(breedName))));
       }
       return _results;
     }).call(this));
   };
 
-  World.prototype.createturtles = function(n, breedName) {
+  World.prototype.createTurtles = function(n, breedName) {
     var num;
     return new Agents((function() {
       var _i, _results;
       _results = [];
       for (num = _i = 0; 0 <= n ? _i < n : _i > n; num = 0 <= n ? ++_i : --_i) {
-        _results.push(this.createturtle(new Turtle(5 + 10 * Random.nextInt(14), Random.nextInt(360), 0, 0, Breeds.get(breedName))));
+        _results.push(this.createTurtle(new Turtle(5 + 10 * Random.nextInt(14), Random.nextInt(360), 0, 0, Breeds.get(breedName))));
       }
       return _results;
     }).call(this));
@@ -781,6 +1394,131 @@ World = (function() {
     return this.topology().getNeighbors4(pxcor, pycor);
   };
 
+  World.prototype.createDirectedLink = function(from, to) {
+    this.unbreededLinksAreDirected = true;
+    Updates.push({
+      world: {
+        0: {
+          unbreededLinksAreDirected: true
+        }
+      }
+    });
+    return this.createLink(true, from, to);
+  };
+
+  World.prototype.createDirectedLinks = function(source, others) {
+    var t;
+    this.unbreededLinksAreDirected = true;
+    Updates.push({
+      world: {
+        0: {
+          unbreededLinksAreDirected: true
+        }
+      }
+    });
+    return new Agents(((function() {
+      var _i, _len, _ref2, _results;
+      _ref2 = others.items;
+      _results = [];
+      for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+        t = _ref2[_i];
+        _results.push(this.createLink(true, source, t));
+      }
+      return _results;
+    }).call(this)).filter(function(o) {
+      return o !== Nobody;
+    }), Breeds.get("LINKS"));
+  };
+
+  World.prototype.createReverseDirectedLinks = function(source, others) {
+    var t;
+    this.unbreededLinksAreDirected = true;
+    Updates.push({
+      world: {
+        0: {
+          unbreededLinksAreDirected: true
+        }
+      }
+    });
+    return new Agents(((function() {
+      var _i, _len, _ref2, _results;
+      _ref2 = others.items;
+      _results = [];
+      for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+        t = _ref2[_i];
+        _results.push(this.createLink(true, t, source));
+      }
+      return _results;
+    }).call(this)).filter(function(o) {
+      return o !== Nobody;
+    }), Breeds.get("LINKS"));
+  };
+
+  World.prototype.createUndirectedLink = function(source, other) {
+    return this.createLink(false, source, other);
+  };
+
+  World.prototype.createUndirectedLinks = function(source, others) {
+    var t;
+    return new Agents(((function() {
+      var _i, _len, _ref2, _results;
+      _ref2 = others.items;
+      _results = [];
+      for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+        t = _ref2[_i];
+        _results.push(this.createLink(false, source, t));
+      }
+      return _results;
+    }).call(this)).filter(function(o) {
+      return o !== Nobody;
+    }), Breeds.get("LINKS"));
+  };
+
+  World.prototype.getLink = function(fromId, toId) {
+    var filteredLinks;
+    filteredLinks = this.links().items.filter(function(l) {
+      return l.end1.id === fromId && l.end2.id === toId;
+    });
+    if (filteredLinks.length === 0) {
+      return Nobody;
+    } else {
+      return filteredLinks[0];
+    }
+  };
+
+  World.prototype.updatePerspective = function() {
+    return Updates.push({
+      observer: {
+        0: {
+          perspective: this.perspective,
+          targetAgent: this.targetAgent
+        }
+      }
+    });
+  };
+
+  World.prototype.watch = function(agent) {
+    var agentId, agentKind;
+    this.perspective = 3;
+    agentKind = 0;
+    agentId = -1;
+    if (agent instanceof Turtle) {
+      agentKind = 1;
+      agentId = agent.id;
+    } else if (agent instanceof Patch) {
+      agentKind = 2;
+      agentId = agent.id;
+    }
+    this.targetAgent = [agentKind, agentId];
+    return this.updatePerspective();
+  };
+
+  World.prototype.resetPerspective = function() {
+    this.perspective = 0;
+    this.targetAgent = null;
+    return this.updatePerspective();
+  };
+
   return World;
 
 })();
@@ -792,22 +1530,45 @@ AgentSet = {
   any: function(x) {
     return x.items.length > 0;
   },
+  all: function(x, f) {
+    var a, _i, _len, _ref2;
+    _ref2 = x.items;
+    for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+      a = _ref2[_i];
+      if (!this.askAgent(a, f)) {
+        return false;
+      }
+    }
+    return true;
+  },
   _self: 0,
+  _myself: 0,
   self: function() {
     return this._self;
   },
+  myself: function() {
+    if (this._myself !== 0) {
+      return this._myself;
+    } else {
+      throw new NetLogoException("There is no agent for MYSELF to refer to.");
+    }
+  },
   askAgent: function(a, f) {
-    var oldAgent, res;
+    var error, oldAgent, oldMyself, res;
+    oldMyself = this._myself;
     oldAgent = this._self;
+    this._myself = this._self;
     this._self = a;
     try {
       res = f();
-    } catch (error) {
-      if (!error.death) {
+    } catch (_error) {
+      error = _error;
+      if (!(error instanceof DeathInterrupt)) {
         throw error;
       }
     }
     this._self = oldAgent;
+    this._myself = oldMyself;
     return res;
   },
   ask: function(agentsOrAgent, shuffle, f) {
@@ -822,15 +1583,18 @@ AgentSet = {
       a = iter.next();
       this.askAgent(a, f);
     }
+    if (this._self.id && this._self.id === -1) {
+      throw new DeathInterrupt;
+    }
   },
   agentFilter: function(agents, f) {
     var a;
     return new Agents((function() {
-      var _i, _len, _ref, _results;
-      _ref = agents.items;
+      var _i, _len, _ref2, _results;
+      _ref2 = agents.items;
       _results = [];
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        a = _ref[_i];
+      for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+        a = _ref2[_i];
         if (this.askAgent(a, f)) {
           _results.push(a);
         }
@@ -872,14 +1636,91 @@ AgentSet = {
       return l[Random.nextInt(l.length)];
     }
   },
+  nOf: function(resultSize, agentsOrList) {
+    var i, index1, index2, items, j, result;
+    items = agentsOrList.items;
+    if (!items) {
+      throw new Error("n-of not implemented on lists yet");
+    }
+    return new Agents((function() {
+      var _ref2;
+      switch (resultSize) {
+        case 0:
+          return [];
+        case 1:
+          return [items[Random.nextInt(items.length)]];
+        case 2:
+          index1 = Random.nextInt(items.length);
+          index2 = Random.nextInt(items.length - 1);
+          _ref2 = index2 >= index1 ? [index1, index2 + 1] : [index2, index1], index1 = _ref2[0], index2 = _ref2[1];
+          return [items[index1], items[index2]];
+        default:
+          i = 0;
+          j = 0;
+          result = [];
+          while (j < resultSize) {
+            if (Random.nextInt(items.length - i) < resultSize - j) {
+              result.push(items[i]);
+              j += 1;
+            }
+            i += 1;
+          }
+          return result;
+      }
+    })());
+  },
+  turtlesOn: function(agentsOrAgent) {
+    var agent, agents, turtles, _ref2;
+    if (agentsOrAgent.items) {
+      agents = agentsOrAgent.items;
+    } else {
+      agents = [agentsOrAgent];
+    }
+    turtles = (_ref2 = []).concat.apply(_ref2, (function() {
+      var _i, _len, _results;
+      _results = [];
+      for (_i = 0, _len = agents.length; _i < _len; _i++) {
+        agent = agents[_i];
+        _results.push(agent.turtlesHere().items);
+      }
+      return _results;
+    })());
+    return new Agents(turtles, agentsOrAgent.breed);
+  },
   die: function() {
     return this._self.die();
+  },
+  connectedLinks: function(directed, isSource) {
+    return this._self.connectedLinks(directed, isSource);
+  },
+  linkNeighbors: function(directed, isSource) {
+    return this._self.linkNeighbors(directed, isSource);
+  },
+  isLinkNeighbor: function(directed, isSource) {
+    var t;
+    t = this._self;
+    return function(other) {
+      return t.isLinkNeighbor(directed, isSource, other);
+    };
+  },
+  findLinkViaNeighbor: function(directed, isSource) {
+    var t;
+    t = this._self;
+    return function(other) {
+      return t.findLinkViaNeighbor(directed, isSource, other);
+    };
   },
   getTurtleVariable: function(n) {
     return this._self.getTurtleVariable(n);
   },
   setTurtleVariable: function(n, v) {
     return this._self.setTurtleVariable(n, v);
+  },
+  getLinkVariable: function(n) {
+    return this._self.getLinkVariable(n);
+  },
+  setLinkVariable: function(n, v) {
+    return this._self.setLinkVariable(n, v);
   },
   getBreedVariable: function(n) {
     return this._self.getBreedVariable(n);
@@ -895,27 +1736,74 @@ AgentSet = {
   },
   setPatchVariable: function(n, v) {
     return this._self.setPatchVariable(n, v);
+  },
+  createLinkFrom: function(other) {
+    return world.createDirectedLink(other, this._self);
+  },
+  createLinksFrom: function(others) {
+    return world.createReverseDirectedLinks(this._self, this.shuffle(others));
+  },
+  createLinkTo: function(other) {
+    return world.createDirectedLink(this._self, other);
+  },
+  createLinksTo: function(others) {
+    return world.createDirectedLinks(this._self, this.shuffle(others));
+  },
+  createLinkWith: function(other) {
+    return world.createUndirectedLink(this._self, other);
+  },
+  createLinksWith: function(others) {
+    return world.createUndirectedLinks(this._self, this.shuffle(others));
+  },
+  other: function(agentSet) {
+    var filteredAgents, self;
+    self = this._self;
+    filteredAgents = agentSet.items.filter(function(o) {
+      return o !== self;
+    });
+    return new Agents(filteredAgents, agentSet.breed);
+  },
+  shuffle: function(agents) {
+    var iter, result;
+    result = [];
+    iter = new Shufflerator(agents.items);
+    while (iter.hasNext()) {
+      result.push(iter.next());
+    }
+    return new Agents(result, agents.breed);
   }
 };
 
 Agents = (function() {
-
   function Agents(items, breed) {
     this.items = items;
     this.breed = breed;
   }
+
+  Agents.prototype.toString = function() {
+    return "(" + this.items.length + " " + this.breed.name + ")";
+  };
+
+  Agents.prototype.sort = function() {
+    if (this.items.length === 0) {
+      return this.items;
+    } else if (this.items[0] instanceof Link) {
+      return this.items.sort(Links.compare);
+    } else {
+      throw new Error("We don't know how to sort your kind here!");
+    }
+  };
 
   return Agents;
 
 })();
 
 Iterator = (function() {
-
   function Iterator(agents) {
     this.agents = agents;
+    this.agents = this.agents.slice(0);
+    this.i = 0;
   }
-
-  Iterator.prototype.i = 0;
 
   Iterator.prototype.hasNext = function() {
     return this.i < this.agents.length;
@@ -933,7 +1821,6 @@ Iterator = (function() {
 })();
 
 Shufflerator = (function() {
-
   function Shufflerator(agents) {
     this.agents = agents;
     this.agents = this.agents.slice(0);
@@ -988,8 +1875,8 @@ Prims = {
   left: function(n) {
     return AgentSet.self().right(-n);
   },
-  setxy: function(x, y) {
-    return AgentSet.self().setxy(x, y);
+  setXY: function(x, y) {
+    return AgentSet.self().setXY(x, y);
   },
   getNeighbors: function() {
     return AgentSet.self().getNeighbors();
@@ -997,8 +1884,8 @@ Prims = {
   getNeighbors4: function() {
     return AgentSet.self().getNeighbors4();
   },
-  sprout: function(n) {
-    return AgentSet.self().sprout(n);
+  sprout: function(n, breedName) {
+    return AgentSet.self().sprout(n, breedName);
   },
   hatch: function(n, breedName) {
     return AgentSet.self().hatch(n, breedName);
@@ -1006,14 +1893,32 @@ Prims = {
   patch: function(x, y) {
     return world.getPatchAt(x, y);
   },
-  randomxcor: function() {
+  randomXcor: function() {
     return world.minPxcor - 0.5 + Random.nextDouble() * (world.maxPxcor - world.minPxcor + 1);
   },
-  randomycor: function() {
+  randomYcor: function() {
     return world.minPycor - 0.5 + Random.nextDouble() * (world.maxPycor - world.minPycor + 1);
   },
   shadeOf: function(c1, c2) {
     return Math.floor(c1 / 10) === Math.floor(c2 / 10);
+  },
+  equality: function(a, b) {
+    if (a === void 0 || b === void 0) {
+      throw new Error("Checking equality on undefined is an invalid condition");
+    }
+    if (a === b) {
+      return true;
+    } else if (typeIsArray(a) && typeIsArray(b)) {
+      return a.length === b.length && a.every(function(elem, i) {
+        return Prims.equality(elem, b[i]);
+      });
+    } else if (a instanceof Agents && b instanceof Agents) {
+      return a.items.length === b.items.length && a.items.every(function(elem) {
+        return __indexOf.call(b.items, elem) >= 0;
+      });
+    } else {
+      return false;
+    }
   },
   scaleColor: function(color, number, min, max) {
     var perc, tempmax, tempval;
@@ -1049,13 +1954,27 @@ Prims = {
     }
     return color + perc;
   },
-  randomfloat: function(n) {
+  random: function(n) {
+    var truncated;
+    truncated = n >= 0 ? Math.floor(n) : Math.ceil(n);
+    if (truncated === 0) {
+      return 0;
+    } else if (truncated > 0) {
+      return Random.nextLong(truncated);
+    } else {
+      return -Random.nextLong(-truncated);
+    }
+  },
+  randomFloat: function(n) {
     return n * Random.nextDouble();
   },
   list: function() {
     var xs;
     xs = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
     return xs;
+  },
+  item: function(n, xs) {
+    return xs[n];
   },
   first: function(xs) {
     return xs[0];
@@ -1072,11 +1991,24 @@ Prims = {
     result.push(x);
     return result;
   },
-  butfirst: function(xs) {
+  butFirst: function(xs) {
     return xs.slice(1);
   },
-  butlast: function(xs) {
-    return xs.slice(0, +(xs.length - 1) + 1 || 9e9);
+  butLast: function(xs) {
+    return xs.slice(0, xs.length - 1);
+  },
+  length: function(xs) {
+    return xs.length;
+  },
+  _int: function(n) {
+    if (n < 0) {
+      return Math.ceil(n);
+    } else {
+      return Math.floor(n);
+    }
+  },
+  mod: function(a, b) {
+    return ((a % b) + b) % b;
   },
   max: function(xs) {
     return Math.max.apply(Math, xs);
@@ -1084,18 +2016,31 @@ Prims = {
   min: function(xs) {
     return Math.min.apply(Math, xs);
   },
+  mean: function(xs) {
+    return this.sum(xs) / xs.length;
+  },
   sum: function(xs) {
-    return xs.reduce(function(a, b) {
+    return xs.reduce((function(a, b) {
       return a + b;
-    });
+    }), 0);
+  },
+  precision: function(n, places) {
+    var multiplier, result;
+    multiplier = Math.pow(10, places);
+    result = Math.floor(n * multiplier + .5) / multiplier;
+    if (places > 0) {
+      return result;
+    } else {
+      return Math.round(result);
+    }
   },
   sort: function(xs) {
     return xs.sort();
   },
   removeDuplicates: function(xs) {
-    var key, result, value, _i, _ref, _results;
+    var key, result, value, _i, _ref2, _results;
     result = {};
-    for (key = _i = 0, _ref = xs.length; 0 <= _ref ? _i < _ref : _i > _ref; key = 0 <= _ref ? ++_i : --_i) {
+    for (key = _i = 0, _ref2 = xs.length; 0 <= _ref2 ? _i < _ref2 : _i > _ref2; key = 0 <= _ref2 ? ++_i : --_i) {
       result[xs[key]] = xs[key];
     }
     _results = [];
@@ -1105,10 +2050,10 @@ Prims = {
     }
     return _results;
   },
-  outputprint: function(x) {
+  outputPrint: function(x) {
     return println(Dump(x));
   },
-  patchset: function() {
+  patchSet: function() {
     var inputs, recurse, result;
     inputs = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
     result = [];
@@ -1119,13 +2064,15 @@ Prims = {
         input = inputs[_i];
         if (typeIsArray(input)) {
           _results.push(recurse(input));
+        } else if (input instanceof Patch) {
+          _results.push(result.push(input));
         } else {
           _results.push((function() {
-            var _j, _len1, _ref, _results1;
-            _ref = input.items;
+            var _j, _len1, _ref2, _results1;
+            _ref2 = input.items;
             _results1 = [];
-            for (_j = 0, _len1 = _ref.length; _j < _len1; _j++) {
-              agent = _ref[_j];
+            for (_j = 0, _len1 = _ref2.length; _j < _len1; _j++) {
+              agent = _ref2[_j];
               if (!(__indexOf.call(result, agent) >= 0)) {
                 _results1.push(result.push(agent));
               } else {
@@ -1157,8 +2104,8 @@ Globals = {
     })();
   },
   clear: function(n) {
-    var i, _i, _ref;
-    for (i = _i = n, _ref = this.vars.length; n <= _ref ? _i < _ref : _i > _ref; i = n <= _ref ? ++_i : --_i) {
+    var i, _i, _ref2;
+    for (i = _i = n, _ref2 = this.vars.length; n <= _ref2 ? _i < _ref2 : _i > _ref2; i = n <= _ref2 ? ++_i : --_i) {
       this.vars[i] = 0;
     }
   },
@@ -1175,9 +2122,9 @@ TurtlesOwn = {
   init: function(n) {
     var x;
     return this.vars = (function() {
-      var _i, _ref, _results;
+      var _i, _ref2, _results;
       _results = [];
-      for (x = _i = 0, _ref = n - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; x = 0 <= _ref ? ++_i : --_i) {
+      for (x = _i = 0, _ref2 = n - 1; 0 <= _ref2 ? _i <= _ref2 : _i >= _ref2; x = 0 <= _ref2 ? ++_i : --_i) {
         _results.push(0);
       }
       return _results;
@@ -1190,9 +2137,9 @@ PatchesOwn = {
   init: function(n) {
     var x;
     return this.vars = (function() {
-      var _i, _ref, _results;
+      var _i, _ref2, _results;
       _results = [];
-      for (x = _i = 0, _ref = n - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; x = 0 <= _ref ? ++_i : --_i) {
+      for (x = _i = 0, _ref2 = n - 1; 0 <= _ref2 ? _i <= _ref2 : _i >= _ref2; x = 0 <= _ref2 ? ++_i : --_i) {
         _results.push(0);
       }
       return _results;
@@ -1240,45 +2187,63 @@ Trig = {
 };
 
 Breed = (function() {
-
-  function Breed(name, singular) {
+  function Breed(name, singular, _shape, members) {
     this.name = name;
     this.singular = singular;
+    this._shape = _shape != null ? _shape : false;
+    this.members = members != null ? members : [];
   }
 
-  Breed.prototype.shape = "default";
+  Breed.prototype.shape = function() {
+    if (this._shape) {
+      return this._shape;
+    } else {
+      return Breeds.get("TURTLES")._shape;
+    }
+  };
 
   Breed.prototype.vars = [];
+
+  Breed.prototype.add = function(agent) {
+    var a, i, _i, _len, _ref2;
+    _ref2 = this.members;
+    for (i = _i = 0, _len = _ref2.length; _i < _len; i = ++_i) {
+      a = _ref2[i];
+      if (a.id > agent.id) {
+        break;
+      }
+    }
+    return this.members.splice(i, 0, agent);
+  };
+
+  Breed.prototype.remove = function(agent) {
+    return this.members.splice(this.members.indexOf(agent), 1);
+  };
 
   return Breed;
 
 })();
 
 Breeds = {
-  breeds: [new Breed("TURTLES", "turtle")],
+  breeds: {
+    TURTLES: new Breed("TURTLES", "turtle", "default"),
+    LINKS: new Breed("LINKS", "link", "default")
+  },
   add: function(name, singular) {
-    return this.breeds.push(new Breed(name, singular));
+    return this.breeds[name] = new Breed(name, singular);
   },
   get: function(name) {
-    return (this.breeds.filter(function(b) {
-      return b.name === name;
-    }))[0];
+    return this.breeds[name];
   },
   setDefaultShape: function(agents, shape) {
-    return agents.breed.shape = shape.toLowerCase();
+    return agents.breed._shape = shape.toLowerCase();
   }
 };
 
-Torus = (function() {
+Topology = (function() {
+  function Topology() {}
 
-  function Torus(minPxcor, maxPxcor, minPycor, maxPycor) {
-    this.minPxcor = minPxcor;
-    this.maxPxcor = maxPxcor;
-    this.minPycor = minPycor;
-    this.maxPycor = maxPycor;
-  }
-
-  Torus.prototype.wrap = function(pos, min, max) {
+  Topology.prototype.wrap = function(pos, min, max) {
     var result;
     if (pos >= max) {
       return min + ((pos - max) % (max - min));
@@ -1294,19 +2259,23 @@ Torus = (function() {
     }
   };
 
-  Torus.prototype.wrapX = function(pos) {
-    return this.wrap(pos, this.minPxcor - 0.5, this.maxPxcor + 0.5);
+  Topology.prototype.getNeighbors = function(pxcor, pycor) {
+    var patch;
+    return new Agents((function() {
+      var _i, _len, _ref2, _results;
+      _ref2 = this._getNeighbors(pxcor, pycor);
+      _results = [];
+      for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+        patch = _ref2[_i];
+        if (patch !== false) {
+          _results.push(patch);
+        }
+      }
+      return _results;
+    }).call(this));
   };
 
-  Torus.prototype.wrapY = function(pos) {
-    return this.wrap(pos, this.minPycor - 0.5, this.maxPycor + 0.5);
-  };
-
-  Torus.prototype.getNeighbors = function(pxcor, pycor) {
-    return new Agents(this._getNeighbors(pxcor, pycor));
-  };
-
-  Torus.prototype._getNeighbors = function(pxcor, pycor) {
+  Topology.prototype._getNeighbors = function(pxcor, pycor) {
     if (pxcor === this.maxPxcor && pxcor === this.minPxcor) {
       if ((pycor === this.maxPycor && pycor === this.minPycor)([])) {
 
@@ -1320,11 +2289,23 @@ Torus = (function() {
     }
   };
 
-  Torus.prototype.getNeighbors4 = function(pxcor, pycor) {
-    return new Agents(this._getNeighbors4(pxcor, pycor));
+  Topology.prototype.getNeighbors4 = function(pxcor, pycor) {
+    var patch;
+    return new Agents((function() {
+      var _i, _len, _ref2, _results;
+      _ref2 = this._getNeighbors4(pxcor, pycor);
+      _results = [];
+      for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+        patch = _ref2[_i];
+        if (patch !== false) {
+          _results.push(patch);
+        }
+      }
+      return _results;
+    }).call(this));
   };
 
-  Torus.prototype._getNeighbors4 = function(pxcor, pycor) {
+  Topology.prototype._getNeighbors4 = function(pxcor, pycor) {
     if (pxcor === this.maxPxcor && pxcor === this.minPxcor) {
       if ((pycor === this.maxPycor && pycor === this.minPycor)([])) {
 
@@ -1336,6 +2317,167 @@ Torus = (function() {
     } else {
       return [this.getPatchNorth(pxcor, pycor), this.getPatchEast(pxcor, pycor), this.getPatchSouth(pxcor, pycor), this.getPatchWest(pxcor, pycor)];
     }
+  };
+
+  Topology.prototype.distanceXY = function(x1, y1, x2, y2) {
+    return StrictMath.sqrt(StrictMath.pow(this.shortestX(x1, x2), 2) + StrictMath.pow(this.shortestY(y1, y2), 2));
+  };
+
+  Topology.prototype.distance = function(x1, y1, agent) {
+    if (agent instanceof Turtle) {
+      return this.distanceXY(x1, y1, agent.xcor(), agent.ycor());
+    } else if (agent instanceof Patch) {
+      return this.distanceXY(x1, y1, agent.pxcor, agent.pycor);
+    }
+  };
+
+  Topology.prototype.towards = function(x1, y1, x2, y2) {
+    var dx, dy;
+    dx = this.shortestX(x1, x2);
+    dy = this.shortestY(y1, y2);
+    if (dx === 0) {
+      if (dy >= 0) {
+        return 0;
+      } else {
+        return 180;
+      }
+    } else if (dy === 0) {
+      if (dx >= 0) {
+        return 90;
+      } else {
+        return 270;
+      }
+    } else {
+      return (270 + StrictMath.toDegrees(Math.PI + StrictMath.atan2(-dy, dx))) % 360;
+    }
+  };
+
+  Topology.prototype.midpointx = function(x1, x2) {
+    return this.wrap((x1 + (x1 + this.shortestX(x1, x2))) / 2, world.minPxcor - 0.5, world.maxPxcor + 0.5);
+  };
+
+  Topology.prototype.midpointy = function(y1, y2) {
+    return this.wrap((y1 + (y1 + this.shortestY(y1, y2))) / 2, world.minPycor - 0.5, world.maxPycor + 0.5);
+  };
+
+  Topology.prototype.inRadius = function(origin, x, y, agents, radius) {
+    var dx, dy, height, maxDX, maxDY, minDX, minDY, p, r, result, t, width, _i, _j, _k, _len, _ref2;
+    result = [];
+    r = Math.ceil(radius);
+    width = world.width() / 2;
+    height = world.height() / 2;
+    if (r < width || !world.wrappingAllowedInX) {
+      minDX = -r;
+      maxDX = r;
+    } else {
+      maxDX = StrictMath.floor(width);
+      minDX = -Math.ceil(width - 1);
+    }
+    if (r < height || !world.wrappingAllowedInY) {
+      minDY = -r;
+      maxDY = r;
+    } else {
+      maxDY = StrictMath.floor(height);
+      minDY = -Math.ceil(height - 1);
+    }
+    for (dy = _i = minDY; minDY <= maxDY ? _i <= maxDY : _i >= maxDY; dy = minDY <= maxDY ? ++_i : --_i) {
+      for (dx = _j = minDX; minDX <= maxDX ? _j <= maxDX : _j >= maxDX; dx = minDX <= maxDX ? ++_j : --_j) {
+        p = origin.patchAt(dx, dy);
+        if (p !== Nobody) {
+          if (this.distanceXY(p.pxcor, p.pycor, x, y) <= radius && agents.items.filter(function(o) {
+            return o === p;
+          }).length > 0) {
+            result.push(p);
+          }
+          _ref2 = p.turtlesHere().items;
+          for (_k = 0, _len = _ref2.length; _k < _len; _k++) {
+            t = _ref2[_k];
+            if (this.distanceXY(t.xcor(), t.ycor(), x, y) <= radius && agents.items.filter(function(o) {
+              return o === t;
+            }).length > 0) {
+              result.push(t);
+            }
+          }
+        }
+      }
+    }
+    return new Agents(result, agents.breed);
+  };
+
+  return Topology;
+
+})();
+
+Torus = (function(_super) {
+  __extends(Torus, _super);
+
+  function Torus(minPxcor, maxPxcor, minPycor, maxPycor) {
+    this.minPxcor = minPxcor;
+    this.maxPxcor = maxPxcor;
+    this.minPycor = minPycor;
+    this.maxPycor = maxPycor;
+  }
+
+  Torus.prototype.wrapX = function(pos) {
+    return this.wrap(pos, this.minPxcor - 0.5, this.maxPxcor + 0.5);
+  };
+
+  Torus.prototype.wrapY = function(pos) {
+    return this.wrap(pos, this.minPycor - 0.5, this.maxPycor + 0.5);
+  };
+
+  Torus.prototype.shortestX = function(x1, x2) {
+    if (StrictMath.abs(x1 - x2) > world.width() / 2) {
+      return (world.width() - StrictMath.abs(x1 - x2)) * (x2 > x1 ? -1 : 1);
+    } else {
+      return Math.abs(x1 - x2) * (x1 > x2 ? -1 : 1);
+    }
+  };
+
+  Torus.prototype.shortestY = function(y1, y2) {
+    if (StrictMath.abs(y1 - y2) > world.height() / 2) {
+      return (world.height() - StrictMath.abs(y1 - y2)) * (y2 > y1 ? -1 : 1);
+    } else {
+      return Math.abs(y1 - y2) * (y1 > y2 ? -1 : 1);
+    }
+  };
+
+  Torus.prototype.diffuse = function(vn, amount) {
+    var diffusalSum, diffusallyOrderedNeighbors, n, patch, pxcor, pycor, scratch, x, _i, _j, _len, _len1, _ref2, _ref3, _results;
+    scratch = (function() {
+      var _i, _ref2, _results;
+      _results = [];
+      for (x = _i = 0, _ref2 = world.width(); 0 <= _ref2 ? _i < _ref2 : _i > _ref2; x = 0 <= _ref2 ? ++_i : --_i) {
+        _results.push([]);
+      }
+      return _results;
+    })();
+    _ref2 = world.patches().items;
+    for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+      patch = _ref2[_i];
+      scratch[patch.pxcor - this.minPxcor][patch.pycor - this.minPycor] = patch.getPatchVariable(vn);
+    }
+    _ref3 = world.patches().items;
+    _results = [];
+    for (_j = 0, _len1 = _ref3.length; _j < _len1; _j++) {
+      patch = _ref3[_j];
+      pxcor = patch.pxcor;
+      pycor = patch.pycor;
+      diffusallyOrderedNeighbors = [this.getPatchSouthWest(pxcor, pycor), this.getPatchWest(pxcor, pycor), this.getPatchNorthWest(pxcor, pycor), this.getPatchSouth(pxcor, pycor), this.getPatchNorth(pxcor, pycor), this.getPatchSouthEast(pxcor, pycor), this.getPatchEast(pxcor, pycor), this.getPatchNorthEast(pxcor, pycor)];
+      diffusalSum = ((function() {
+        var _k, _len2, _results1;
+        _results1 = [];
+        for (_k = 0, _len2 = diffusallyOrderedNeighbors.length; _k < _len2; _k++) {
+          n = diffusallyOrderedNeighbors[_k];
+          _results1.push(scratch[n.pxcor - this.minPxcor][n.pycor - this.minPycor]);
+        }
+        return _results1;
+      }).call(this)).reduce(function(a, b) {
+        return a + b;
+      });
+      _results.push(patch.setPatchVariable(vn, patch.getPatchVariable(vn) * (1.0 - amount) + (diffusalSum / 8) * amount));
+    }
+    return _results;
   };
 
   Torus.prototype.getPatchNorth = function(pxcor, pycor) {
@@ -1428,9 +2570,10 @@ Torus = (function() {
 
   return Torus;
 
-})();
+})(Topology);
 
-VertCylinder = (function() {
+VertCylinder = (function(_super) {
+  __extends(VertCylinder, _super);
 
   function VertCylinder(minPxcor, maxPxcor, minPycor, maxPycor) {
     this.minPxcor = minPxcor;
@@ -1439,20 +2582,16 @@ VertCylinder = (function() {
     this.maxPycor = maxPycor;
   }
 
-  VertCylinder.prototype.wrap = function(pos, min, max) {
-    var result;
-    if (pos >= max) {
-      return min + ((pos - max) % (max - min));
-    } else if (pos < min) {
-      result = max - ((min - pos) % (max - min));
-      if (result < max) {
-        return result;
-      } else {
-        return min;
-      }
+  VertCylinder.prototype.shortestX = function(x1, x2) {
+    if (StrictMath.abs(x1 - x2) > (1 + this.maxPxcor - this.minPxcor) / 2) {
+      return (world.width() - StrictMath.abs(x1 - x2)) * (x2 > x1 ? -1 : 1);
     } else {
-      return pos;
+      return Math.abs(x1 - x2) * (x1 > x2 ? -1 : 1);
     }
+  };
+
+  VertCylinder.prototype.shortestY = function(y1, y2) {
+    return Math.abs(y1 - y2) * (y1 > y2 ? -1 : 1);
   };
 
   VertCylinder.prototype.wrapX = function(pos) {
@@ -1461,15 +2600,669 @@ VertCylinder = (function() {
 
   VertCylinder.prototype.wrapY = function(pos) {
     if (pos >= this.maxPycor + 0.5 || pos <= this.minPycor - 0.5) {
-      throw new Error("Cannot move turtle beyond the world's edge.");
+      throw new TopologyInterrupt("Cannot move turtle beyond the world's edge.");
     } else {
       return pos;
     }
   };
 
+  VertCylinder.prototype.getPatchNorth = function(pxcor, pycor) {
+    return (pycor !== this.maxPycor) && world.getPatchAt(pxcor, pycor + 1);
+  };
+
+  VertCylinder.prototype.getPatchSouth = function(pxcor, pycor) {
+    return (pycor !== this.minPycor) && world.getPatchAt(pxcor, pycor - 1);
+  };
+
+  VertCylinder.prototype.getPatchEast = function(pxcor, pycor) {
+    if (pxcor === this.maxPxcor) {
+      return world.getPatchAt(this.minPxcor, pycor);
+    } else {
+      return world.getPatchAt(pxcor + 1, pycor);
+    }
+  };
+
+  VertCylinder.prototype.getPatchWest = function(pxcor, pycor) {
+    if (pxcor === this.minPxcor) {
+      return world.getPatchAt(this.maxPxcor, pycor);
+    } else {
+      return world.getPatchAt(pxcor - 1, pycor);
+    }
+  };
+
+  VertCylinder.prototype.getPatchNorthWest = function(pxcor, pycor) {
+    if (pycor === this.maxPycor) {
+      return false;
+    } else if (pxcor === this.minPxcor) {
+      return world.getPatchAt(this.maxPxcor, pycor + 1);
+    } else {
+      return world.getPatchAt(pxcor - 1, pycor + 1);
+    }
+  };
+
+  VertCylinder.prototype.getPatchSouthWest = function(pxcor, pycor) {
+    if (pycor === this.minPycor) {
+      return false;
+    } else if (pxcor === this.minPxcor) {
+      return world.getPatchAt(this.maxPxcor, pycor - 1);
+    } else {
+      return world.getPatchAt(pxcor - 1, pycor - 1);
+    }
+  };
+
+  VertCylinder.prototype.getPatchSouthEast = function(pxcor, pycor) {
+    if (pycor === this.minPycor) {
+      return false;
+    } else if (pxcor === this.maxPxcor) {
+      return world.getPatchAt(this.minPxcor, pycor - 1);
+    } else {
+      return world.getPatchAt(pxcor + 1, pycor - 1);
+    }
+  };
+
+  VertCylinder.prototype.getPatchNorthEast = function(pxcor, pycor) {
+    if (pycor === this.maxPycor) {
+      return false;
+    } else if (pxcor === this.maxPxcor) {
+      return world.getPatchAt(this.minPxcor, pycor + 1);
+    } else {
+      return world.getPatchAt(pxcor + 1, pycor + 1);
+    }
+  };
+
+  VertCylinder.prototype.diffuse = function(vn, amount) {
+    var diffuseVal, scratch, scratch2, x, xx, y, yy, _i, _j, _k, _ref2, _ref3, _results;
+    yy = world.height();
+    xx = world.width();
+    scratch = (function() {
+      var _i, _results;
+      _results = [];
+      for (x = _i = 0; 0 <= xx ? _i < xx : _i > xx; x = 0 <= xx ? ++_i : --_i) {
+        _results.push((function() {
+          var _j, _results1;
+          _results1 = [];
+          for (y = _j = 0; 0 <= yy ? _j < yy : _j > yy; y = 0 <= yy ? ++_j : --_j) {
+            _results1.push(world.getPatchAt(x + this.minPxcor, y + this.minPycor).getPatchVariable(vn));
+          }
+          return _results1;
+        }).call(this));
+      }
+      return _results;
+    }).call(this);
+    scratch2 = (function() {
+      var _i, _results;
+      _results = [];
+      for (x = _i = 0; 0 <= xx ? _i < xx : _i > xx; x = 0 <= xx ? ++_i : --_i) {
+        _results.push((function() {
+          var _j, _results1;
+          _results1 = [];
+          for (y = _j = 0; 0 <= yy ? _j < yy : _j > yy; y = 0 <= yy ? ++_j : --_j) {
+            _results1.push(0);
+          }
+          return _results1;
+        })());
+      }
+      return _results;
+    })();
+    for (y = _i = yy, _ref2 = yy * 2; yy <= _ref2 ? _i < _ref2 : _i > _ref2; y = yy <= _ref2 ? ++_i : --_i) {
+      for (x = _j = xx, _ref3 = xx * 2; xx <= _ref3 ? _j < _ref3 : _j > _ref3; x = xx <= _ref3 ? ++_j : --_j) {
+        diffuseVal = (scratch[x - xx][y - yy] / 8) * amount;
+        if (y > yy && y < (yy * 2) - 1) {
+          scratch2[x - xx][y - yy] += scratch[x - xx][y - yy] - (8 * diffuseVal);
+          scratch2[(x - 1) % xx][(y - 1) % yy] += diffuseVal;
+          scratch2[(x - 1) % xx][y % yy] += diffuseVal;
+          scratch2[(x - 1) % xx][(y + 1) % yy] += diffuseVal;
+          scratch2[x % xx][(y + 1) % yy] += diffuseVal;
+          scratch2[x % xx][(y - 1) % yy] += diffuseVal;
+          scratch2[(x + 1) % xx][(y - 1) % yy] += diffuseVal;
+          scratch2[(x + 1) % xx][y % yy] += diffuseVal;
+          scratch2[(x + 1) % xx][(y + 1) % yy] += diffuseVal;
+        } else if (y === yy) {
+          scratch2[x - xx][y - yy] += scratch[x - xx][y - yy] - (5 * diffuseVal);
+          scratch2[(x - 1) % xx][y % yy] += diffuseVal;
+          scratch2[(x - 1) % xx][(y + 1) % yy] += diffuseVal;
+          scratch2[x % xx][(y + 1) % yy] += diffuseVal;
+          scratch2[(x + 1) % xx][y % yy] += diffuseVal;
+          scratch2[(x + 1) % xx][(y + 1) % yy] += diffuseVal;
+        } else {
+          scratch2[x - xx][y - yy] += scratch[x - xx][y - yy] - (5 * diffuseVal);
+          scratch2[(x - 1) % xx][y % yy] += diffuseVal;
+          scratch2[(x - 1) % xx][(y - 1) % yy] += diffuseVal;
+          scratch2[x % xx][(y - 1) % yy] += diffuseVal;
+          scratch2[(x + 1) % xx][y % yy] += diffuseVal;
+          scratch2[(x + 1) % xx][(y - 1) % yy] += diffuseVal;
+        }
+      }
+    }
+    _results = [];
+    for (y = _k = 0; 0 <= yy ? _k < yy : _k > yy; y = 0 <= yy ? ++_k : --_k) {
+      _results.push((function() {
+        var _l, _results1;
+        _results1 = [];
+        for (x = _l = 0; 0 <= xx ? _l < xx : _l > xx; x = 0 <= xx ? ++_l : --_l) {
+          _results1.push(world.getPatchAt(x + this.minPxcor, y + this.minPycor).setPatchVariable(vn, scratch2[x][y]));
+        }
+        return _results1;
+      }).call(this));
+    }
+    return _results;
+  };
+
   return VertCylinder;
 
-})();
+})(Topology);
+
+HorzCylinder = (function(_super) {
+  __extends(HorzCylinder, _super);
+
+  function HorzCylinder(minPxcor, maxPxcor, minPycor, maxPycor) {
+    this.minPxcor = minPxcor;
+    this.maxPxcor = maxPxcor;
+    this.minPycor = minPycor;
+    this.maxPycor = maxPycor;
+  }
+
+  HorzCylinder.prototype.shortestX = function(x1, x2) {
+    return Math.abs(x1 - x2) * (x1 > x2 ? -1 : 1);
+  };
+
+  HorzCylinder.prototype.shortestY = function(y1, y2) {
+    if (StrictMath.abs(y1 - y2) > (1 + this.maxPycor - this.minPycor) / 2) {
+      return (world.height() - Math.abs(y1 - y2)) * (y2 > y1 ? -1 : 1);
+    } else {
+      return Math.abs(y1 - y2) * (y1 > y2 ? -1 : 1);
+    }
+  };
+
+  HorzCylinder.prototype.wrapX = function(pos) {
+    if (pos >= this.maxPxcor + 0.5 || pos <= this.minPxcor - 0.5) {
+      throw new TopologyInterrupt("Cannot move turtle beyond the world's edge.");
+    } else {
+      return pos;
+    }
+  };
+
+  HorzCylinder.prototype.wrapY = function(pos) {
+    return this.wrap(pos, this.minPycor - 0.5, this.maxPycor + 0.5);
+  };
+
+  HorzCylinder.prototype.getPatchEast = function(pxcor, pycor) {
+    return (pxcor !== this.maxPxcor) && world.getPatchAt(pxcor + 1, pycor);
+  };
+
+  HorzCylinder.prototype.getPatchWest = function(pxcor, pycor) {
+    return (pxcor !== this.minPxcor) && world.getPatchAt(pxcor - 1, pycor);
+  };
+
+  HorzCylinder.prototype.getPatchNorth = function(pxcor, pycor) {
+    if (pycor === this.maxPycor) {
+      return world.getPatchAt(pxcor, this.minPycor);
+    } else {
+      return world.getPatchAt(pxcor, pycor + 1);
+    }
+  };
+
+  HorzCylinder.prototype.getPatchSouth = function(pxcor, pycor) {
+    if (pycor === this.minPycor) {
+      return world.getPatchAt(pxcor, this.maxPycor);
+    } else {
+      return world.getPatchAt(pxcor, pycor - 1);
+    }
+  };
+
+  HorzCylinder.prototype.getPatchNorthWest = function(pxcor, pycor) {
+    if (pxcor === this.minPxcor) {
+      return false;
+    } else if (pycor === this.maxPycor) {
+      return world.getPatchAt(pxcor - 1, this.minPycor);
+    } else {
+      return world.getPatchAt(pxcor - 1, pycor + 1);
+    }
+  };
+
+  HorzCylinder.prototype.getPatchSouthWest = function(pxcor, pycor) {
+    if (pxcor === this.minPxcor) {
+      return false;
+    } else if (pycor === this.minPycor) {
+      return world.getPatchAt(pxcor - 1, this.maxPycor);
+    } else {
+      return world.getPatchAt(pxcor - 1, pycor - 1);
+    }
+  };
+
+  HorzCylinder.prototype.getPatchSouthEast = function(pxcor, pycor) {
+    if (pxcor === this.maxPxcor) {
+      return false;
+    } else if (pycor === this.minPycor) {
+      return world.getPatchAt(pxcor + 1, this.maxPycor);
+    } else {
+      return world.getPatchAt(pxcor + 1, pycor - 1);
+    }
+  };
+
+  HorzCylinder.prototype.getPatchNorthEast = function(pxcor, pycor) {
+    if (pxcor === this.maxPxcor) {
+      return false;
+    } else if (pycor === this.maxPycor) {
+      return world.getPatchAt(pxcor + 1, this.minPycor);
+    } else {
+      return world.getPatchAt(pxcor + 1, pycor + 1);
+    }
+  };
+
+  HorzCylinder.prototype.diffuse = function(vn, amount) {
+    var diffuseVal, scratch, scratch2, x, xx, y, yy, _i, _j, _k, _ref2, _ref3, _results;
+    yy = world.height();
+    xx = world.width();
+    scratch = (function() {
+      var _i, _results;
+      _results = [];
+      for (x = _i = 0; 0 <= xx ? _i < xx : _i > xx; x = 0 <= xx ? ++_i : --_i) {
+        _results.push((function() {
+          var _j, _results1;
+          _results1 = [];
+          for (y = _j = 0; 0 <= yy ? _j < yy : _j > yy; y = 0 <= yy ? ++_j : --_j) {
+            _results1.push(world.getPatchAt(x + this.minPxcor, y + this.minPycor).getPatchVariable(vn));
+          }
+          return _results1;
+        }).call(this));
+      }
+      return _results;
+    }).call(this);
+    scratch2 = (function() {
+      var _i, _results;
+      _results = [];
+      for (x = _i = 0; 0 <= xx ? _i < xx : _i > xx; x = 0 <= xx ? ++_i : --_i) {
+        _results.push((function() {
+          var _j, _results1;
+          _results1 = [];
+          for (y = _j = 0; 0 <= yy ? _j < yy : _j > yy; y = 0 <= yy ? ++_j : --_j) {
+            _results1.push(0);
+          }
+          return _results1;
+        })());
+      }
+      return _results;
+    })();
+    for (y = _i = yy, _ref2 = yy * 2; yy <= _ref2 ? _i < _ref2 : _i > _ref2; y = yy <= _ref2 ? ++_i : --_i) {
+      for (x = _j = xx, _ref3 = xx * 2; xx <= _ref3 ? _j < _ref3 : _j > _ref3; x = xx <= _ref3 ? ++_j : --_j) {
+        diffuseVal = (scratch[x - xx][y - yy] / 8) * amount;
+        if (x > xx && x < (xx * 2) - 1) {
+          scratch2[x - xx][y - yy] += scratch[x - xx][y - yy] - (8 * diffuseVal);
+          scratch2[(x - 1) % xx][(y - 1) % yy] += diffuseVal;
+          scratch2[(x - 1) % xx][y % yy] += diffuseVal;
+          scratch2[(x - 1) % xx][(y + 1) % yy] += diffuseVal;
+          scratch2[x % xx][(y + 1) % yy] += diffuseVal;
+          scratch2[x % xx][(y - 1) % yy] += diffuseVal;
+          scratch2[(x + 1) % xx][(y - 1) % yy] += diffuseVal;
+          scratch2[(x + 1) % xx][y % yy] += diffuseVal;
+          scratch2[(x + 1) % xx][(y + 1) % yy] += diffuseVal;
+        } else if (x === xx) {
+          scratch2[x - xx][y - yy] += scratch[x - xx][y - yy] - (5 * diffuseVal);
+          scratch2[x % xx][(y + 1) % yy] += diffuseVal;
+          scratch2[x % xx][(y - 1) % yy] += diffuseVal;
+          scratch2[(x + 1) % xx][(y - 1) % yy] += diffuseVal;
+          scratch2[(x + 1) % xx][y % yy] += diffuseVal;
+          scratch2[(x + 1) % xx][(y + 1) % yy] += diffuseVal;
+        } else {
+          scratch2[x - xx][y - yy] += scratch[x - xx][y - yy] - (5 * diffuseVal);
+          scratch2[x % xx][(y + 1) % yy] += diffuseVal;
+          scratch2[x % xx][(y - 1) % yy] += diffuseVal;
+          scratch2[(x - 1) % xx][(y - 1) % yy] += diffuseVal;
+          scratch2[(x - 1) % xx][y % yy] += diffuseVal;
+          scratch2[(x - 1) % xx][(y + 1) % yy] += diffuseVal;
+        }
+      }
+    }
+    _results = [];
+    for (y = _k = 0; 0 <= yy ? _k < yy : _k > yy; y = 0 <= yy ? ++_k : --_k) {
+      _results.push((function() {
+        var _l, _results1;
+        _results1 = [];
+        for (x = _l = 0; 0 <= xx ? _l < xx : _l > xx; x = 0 <= xx ? ++_l : --_l) {
+          _results1.push(world.getPatchAt(x + this.minPxcor, y + this.minPycor).setPatchVariable(vn, scratch2[x][y]));
+        }
+        return _results1;
+      }).call(this));
+    }
+    return _results;
+  };
+
+  return HorzCylinder;
+
+})(Topology);
+
+Box = (function(_super) {
+  __extends(Box, _super);
+
+  function Box(minPxcor, maxPxcor, minPycor, maxPycor) {
+    this.minPxcor = minPxcor;
+    this.maxPxcor = maxPxcor;
+    this.minPycor = minPycor;
+    this.maxPycor = maxPycor;
+  }
+
+  Box.prototype.shortestX = function(x1, x2) {
+    return Math.abs(x1 - x2) * (x1 > x2 ? -1 : 1);
+  };
+
+  Box.prototype.shortestY = function(y1, y2) {
+    return Math.abs(y1 - y2) * (y1 > y2 ? -1 : 1);
+  };
+
+  Box.prototype.wrapX = function(pos) {
+    if (pos >= this.maxPxcor + 0.5 || pos <= this.minPxcor - 0.5) {
+      throw new TopologyInterrupt("Cannot move turtle beyond the worlds edge.");
+    } else {
+      return pos;
+    }
+  };
+
+  Box.prototype.wrapY = function(pos) {
+    if (pos >= this.maxPycor + 0.5 || pos <= this.minPycor - 0.5) {
+      throw new TopologyInterrupt("Cannot move turtle beyond the worlds edge.");
+    } else {
+      return pos;
+    }
+  };
+
+  Box.prototype.getPatchNorth = function(pxcor, pycor) {
+    return (pycor !== this.maxPycor) && world.getPatchAt(pxcor, pycor + 1);
+  };
+
+  Box.prototype.getPatchSouth = function(pxcor, pycor) {
+    return (pycor !== this.minPycor) && world.getPatchAt(pxcor, pycor - 1);
+  };
+
+  Box.prototype.getPatchEast = function(pxcor, pycor) {
+    return (pxcor !== this.maxPxcor) && world.getPatchAt(pxcor + 1, pycor);
+  };
+
+  Box.prototype.getPatchWest = function(pxcor, pycor) {
+    return (pxcor !== this.minPxcor) && world.getPatchAt(pxcor - 1, pycor);
+  };
+
+  Box.prototype.getPatchNorthWest = function(pxcor, pycor) {
+    return (pycor !== this.maxPycor) && (pxcor !== this.minPxcor) && world.getPatchAt(pxcor - 1, pycor + 1);
+  };
+
+  Box.prototype.getPatchSouthWest = function(pxcor, pycor) {
+    return (pycor !== this.minPycor) && (pxcor !== this.minPxcor) && world.getPatchAt(pxcor - 1, pycor - 1);
+  };
+
+  Box.prototype.getPatchSouthEast = function(pxcor, pycor) {
+    return (pycor !== this.minPycor) && (pxcor !== this.maxPxcor) && world.getPatchAt(pxcor + 1, pycor - 1);
+  };
+
+  Box.prototype.getPatchNorthEast = function(pxcor, pycor) {
+    return (pycor !== this.maxPycor) && (pxcor !== this.maxPxcor) && world.getPatchAt(pxcor + 1, pycor + 1);
+  };
+
+  Box.prototype.diffuse = function(vn, amount) {
+    var diffuseVal, scratch, scratch2, x, xx, y, yy, _i, _j, _k, _results;
+    yy = world.height();
+    xx = world.width();
+    scratch = (function() {
+      var _i, _results;
+      _results = [];
+      for (x = _i = 0; 0 <= xx ? _i < xx : _i > xx; x = 0 <= xx ? ++_i : --_i) {
+        _results.push((function() {
+          var _j, _results1;
+          _results1 = [];
+          for (y = _j = 0; 0 <= yy ? _j < yy : _j > yy; y = 0 <= yy ? ++_j : --_j) {
+            _results1.push(world.getPatchAt(x + this.minPxcor, y + this.minPycor).getPatchVariable(vn));
+          }
+          return _results1;
+        }).call(this));
+      }
+      return _results;
+    }).call(this);
+    scratch2 = (function() {
+      var _i, _results;
+      _results = [];
+      for (x = _i = 0; 0 <= xx ? _i < xx : _i > xx; x = 0 <= xx ? ++_i : --_i) {
+        _results.push((function() {
+          var _j, _results1;
+          _results1 = [];
+          for (y = _j = 0; 0 <= yy ? _j < yy : _j > yy; y = 0 <= yy ? ++_j : --_j) {
+            _results1.push(0);
+          }
+          return _results1;
+        })());
+      }
+      return _results;
+    })();
+    for (y = _i = 0; 0 <= yy ? _i < yy : _i > yy; y = 0 <= yy ? ++_i : --_i) {
+      for (x = _j = 0; 0 <= xx ? _j < xx : _j > xx; x = 0 <= xx ? ++_j : --_j) {
+        diffuseVal = (scratch[x][y] / 8) * amount;
+        if (y > 0 && y < yy - 1 && x > 0 && x < xx - 1) {
+          scratch2[x][y] += scratch[x][y] - (8 * diffuseVal);
+          scratch2[x - 1][y - 1] += diffuseVal;
+          scratch2[x - 1][y] += diffuseVal;
+          scratch2[x - 1][y + 1] += diffuseVal;
+          scratch2[x][y + 1] += diffuseVal;
+          scratch2[x][y - 1] += diffuseVal;
+          scratch2[x + 1][y - 1] += diffuseVal;
+          scratch2[x + 1][y] += diffuseVal;
+          scratch2[x + 1][y + 1] += diffuseVal;
+        } else if (y > 0 && y < yy - 1) {
+          if (x === 0) {
+            scratch2[x][y] += scratch[x][y] - (5 * diffuseVal);
+            scratch2[x][y + 1] += diffuseVal;
+            scratch2[x][y - 1] += diffuseVal;
+            scratch2[x + 1][y - 1] += diffuseVal;
+            scratch2[x + 1][y] += diffuseVal;
+            scratch2[x + 1][y + 1] += diffuseVal;
+          } else {
+            scratch2[x][y] += scratch[x][y] - (5 * diffuseVal);
+            scratch2[x][y + 1] += diffuseVal;
+            scratch2[x][y - 1] += diffuseVal;
+            scratch2[x - 1][y - 1] += diffuseVal;
+            scratch2[x - 1][y] += diffuseVal;
+            scratch2[x - 1][y + 1] += diffuseVal;
+          }
+        } else if (x > 0 && x < xx - 1) {
+          if (y === 0) {
+            scratch2[x][y] += scratch[x][y] - (5 * diffuseVal);
+            scratch2[x - 1][y] += diffuseVal;
+            scratch2[x - 1][y + 1] += diffuseVal;
+            scratch2[x][y + 1] += diffuseVal;
+            scratch2[x + 1][y] += diffuseVal;
+            scratch2[x + 1][y + 1] += diffuseVal;
+          } else {
+            scratch2[x][y] += scratch[x][y] - (5 * diffuseVal);
+            scratch2[x - 1][y] += diffuseVal;
+            scratch2[x - 1][y - 1] += diffuseVal;
+            scratch2[x][y - 1] += diffuseVal;
+            scratch2[x + 1][y] += diffuseVal;
+            scratch2[x + 1][y - 1] += diffuseVal;
+          }
+        } else if (x === 0) {
+          if (y === 0) {
+            scratch2[x][y] += scratch[x][y] - (3 * diffuseVal);
+            scratch2[x][y + 1] += diffuseVal;
+            scratch2[x + 1][y] += diffuseVal;
+            scratch2[x + 1][y + 1] += diffuseVal;
+          } else {
+            scratch2[x][y] += scratch[x][y] - (3 * diffuseVal);
+            scratch2[x][y - 1] += diffuseVal;
+            scratch2[x + 1][y] += diffuseVal;
+            scratch2[x + 1][y - 1] += diffuseVal;
+          }
+        } else if (y === 0) {
+          scratch2[x][y] += scratch[x][y] - (3 * diffuseVal);
+          scratch2[x][y + 1] += diffuseVal;
+          scratch2[x - 1][y] += diffuseVal;
+          scratch2[x - 1][y + 1] += diffuseVal;
+        } else {
+          scratch2[x][y] += scratch[x][y] - (3 * diffuseVal);
+          scratch2[x][y - 1] += diffuseVal;
+          scratch2[x - 1][y] += diffuseVal;
+          scratch2[x - 1][y - 1] += diffuseVal;
+        }
+      }
+    }
+    _results = [];
+    for (y = _k = 0; 0 <= yy ? _k < yy : _k > yy; y = 0 <= yy ? ++_k : --_k) {
+      _results.push((function() {
+        var _l, _results1;
+        _results1 = [];
+        for (x = _l = 0; 0 <= xx ? _l < xx : _l > xx; x = 0 <= xx ? ++_l : --_l) {
+          _results1.push(world.getPatchAt(x + this.minPxcor, y + this.minPycor).setPatchVariable(vn, scratch2[x][y]));
+        }
+        return _results1;
+      }).call(this));
+    }
+    return _results;
+  };
+
+  return Box;
+
+})(Topology);
+
+Layouts = {
+  layoutSpring: function(nodeSet, linkSet, spr, len, rep) {
+    var agt, ang, ax, ay, degCount, degCount1, degCount2, dist, div, dx, dy, f, fx, fy, i, j, limit, link, newx, newy, nodeCount, perturbAmt, t, t1, t1Index, t2, t2Index, tMap, _i, _j, _k, _l, _len, _len1, _len2, _m, _n, _ref2, _ref3, _ref4, _ref5, _results;
+    nodeCount = nodeSet.items.length;
+    if (nodeCount === 0) {
+      return;
+    }
+    ax = [];
+    ay = [];
+    tMap = [];
+    degCount = (function() {
+      var _i, _results;
+      _results = [];
+      for (i = _i = 0; 0 <= nodeCount ? _i < nodeCount : _i > nodeCount; i = 0 <= nodeCount ? ++_i : --_i) {
+        _results.push(0);
+      }
+      return _results;
+    })();
+    agt = [];
+    i = 0;
+    _ref2 = AgentSet.shuffle(nodeSet).items;
+    for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
+      t = _ref2[_i];
+      agt[i] = t;
+      tMap[t.id] = i;
+      ax[i] = 0.0;
+      ay[i] = 0.0;
+      i++;
+    }
+    _ref3 = linkSet.items;
+    for (_j = 0, _len1 = _ref3.length; _j < _len1; _j++) {
+      link = _ref3[_j];
+      t1 = link.end1;
+      t2 = link.end2;
+      if (tMap[t1.id] !== void 0) {
+        t1Index = tMap[t1.id];
+        degCount[t1Index]++;
+      }
+      if (tMap[t2.id] !== void 0) {
+        t2Index = tMap[t2.id];
+        degCount[t2Index]++;
+      }
+    }
+    _ref4 = linkSet.items;
+    for (_k = 0, _len2 = _ref4.length; _k < _len2; _k++) {
+      link = _ref4[_k];
+      dx = 0;
+      dy = 0;
+      t1 = link.end1;
+      t2 = link.end2;
+      t1Index = -1;
+      degCount1 = 0;
+      if (tMap[t1.id] !== void 0) {
+        t1Index = tMap[t1.id];
+        degCount1 = degCount[t1Index];
+      }
+      t2Index = -1;
+      degCount2 = 0;
+      if (tMap[t2.id] !== void 0) {
+        t2Index = tMap[t2.id];
+        degCount2 = degCount[t2Index];
+      }
+      dist = t1.distance(t2);
+      div = (degCount1 + degCount2) / 2.0;
+      div = Math.max(div, 1.0);
+      if (dist === 0) {
+        dx += (spr * len) / div;
+      } else {
+        f = spr * (dist - len) / div;
+        dx = dx + (f * (t2.xcor() - t1.xcor()) / dist);
+        dy = dy + (f * (t2.ycor() - t1.ycor()) / dist);
+      }
+      if (t1Index !== -1) {
+        ax[t1Index] += dx;
+        ay[t1Index] += dy;
+      }
+      if (t2Index !== -1) {
+        ax[t2Index] -= dx;
+        ay[t2Index] -= dy;
+      }
+    }
+    for (i = _l = 0; 0 <= nodeCount ? _l < nodeCount : _l > nodeCount; i = 0 <= nodeCount ? ++_l : --_l) {
+      t1 = agt[i];
+      for (j = _m = _ref5 = i + 1; _ref5 <= nodeCount ? _m < nodeCount : _m > nodeCount; j = _ref5 <= nodeCount ? ++_m : --_m) {
+        t2 = agt[j];
+        dx = 0.0;
+        dy = 0.0;
+        div = (degCount[i] + degCount[j]) / 2.0;
+        div = Math.max(div, 1.0);
+        if (t2.xcor() === t1.xcor() && t2.ycor() === t1.ycor()) {
+          ang = 360 * Random.nextDouble();
+          dx = -(rep / div * Trig.sin(StrictMath.toRadians(ang)));
+          dy = -(rep / div * Trig.cos(StrictMath.toRadians(ang)));
+        } else {
+          dist = t1.distance(t2);
+          f = rep / (dist * dist) / div;
+          dx = -(f * (t2.xcor() - t1.xcor()) / dist);
+          dy = -(f * (t2.ycor() - t1.ycor()) / dist);
+        }
+        ax[i] += dx;
+        ay[i] += dy;
+        ax[j] -= dx;
+        ay[j] -= dy;
+      }
+    }
+    if (nodeCount > 1) {
+      perturbAmt = (world.width() + world.height()) / 1.0e10;
+      ax[0] += Random.nextDouble() * perturbAmt - perturbAmt / 2.0;
+      ay[0] += Random.nextDouble() * perturbAmt - perturbAmt / 2.0;
+    }
+    limit = (world.width() + world.height()) / 50.0;
+    _results = [];
+    for (i = _n = 0; 0 <= nodeCount ? _n < nodeCount : _n > nodeCount; i = 0 <= nodeCount ? ++_n : --_n) {
+      t = agt[i];
+      fx = ax[i];
+      fy = ay[i];
+      if (fx > limit) {
+        fx = limit;
+      } else if (fx < -limit) {
+        fx = -limit;
+      }
+      if (fy > limit) {
+        fy = limit;
+      } else if (fy < -limit) {
+        fy = -limit;
+      }
+      newx = t.xcor() + fx;
+      newy = t.ycor() + fy;
+      if (newx > world.maxPxcor) {
+        newx = world.maxPxcor;
+      } else if (newx < world.minPxcor) {
+        newx = world.minPxcor;
+      }
+      if (newy > world.maxPycor) {
+        newy = world.maxPycor;
+      } else if (newy < world.minPycor) {
+        newy = world.minPycor;
+      }
+      _results.push(t.setXY(newx, newy));
+    }
+    return _results;
+  }
+};
 ;
 (function() {
 
@@ -1485,43 +3278,23 @@ VertCylinder = (function() {
     }
 
     AgentModel.prototype.update = function(modelUpdate) {
-      var anyUpdates, l, linkId, p, patchId, t, turtleId, varUpdates, worldUpdate, _ref, _ref1, _ref2;
-      anyUpdates = false;
-      _ref = modelUpdate.turtles;
-      for (turtleId in _ref) {
-        varUpdates = _ref[turtleId];
-        anyUpdates = true;
-        if (varUpdates === null || varUpdates['WHO'] === -1) {
-          delete this.turtles[turtleId];
-        } else {
-          t = this.turtles[turtleId];
-          if (!(t != null)) {
-            t = this.turtles[turtleId] = {
-              heading: 360 * Math.random(),
-              xcor: 0,
-              ycor: 0,
-              shape: 'default',
-              color: 'hsl(' + (360 * Math.random()) + ',100%,50%)'
-            };
+      var linkId, linkUpdates, patchId, patchUpdates, turtleId, turtleUpdates, worldUpdate, _i, _j, _k, _len, _len1, _len2, _ref, _ref1, _ref2;
+      turtleUpdates = modelUpdate.turtles;
+      if (turtleUpdates) {
+        _ref = Object.keys(turtleUpdates);
+        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+          turtleId = _ref[_i];
+          if (isFinite(turtleId)) {
+            this.updateTurtle(turtleId, turtleUpdates[turtleId]);
           }
-          mergeObjectInto(varUpdates, t);
         }
       }
-      _ref1 = modelUpdate.links;
-      for (linkId in _ref1) {
-        varUpdates = _ref1[linkId];
-        anyUpdates = true;
-        if (varUpdates === null) {
-          delete this.links[linkId];
-        } else {
-          l = this.links[linkId];
-          if (!(l != null)) {
-            l = this.links[linkId] = {
-              shape: 'default',
-              color: 5
-            };
-          }
-          mergeObjectInto(varUpdates, l);
+      linkUpdates = modelUpdate.links;
+      if (linkUpdates) {
+        _ref1 = Object.keys(linkUpdates);
+        for (_j = 0, _len1 = _ref1.length; _j < _len1; _j++) {
+          linkId = _ref1[_j];
+          this.updateLink(linkId, linkUpdates[linkId]);
         }
       }
       if ((modelUpdate.world != null) && (modelUpdate.world[0] != null)) {
@@ -1531,18 +3304,61 @@ VertCylinder = (function() {
           this.patches = {};
         }
       }
-      _ref2 = modelUpdate.patches;
-      for (patchId in _ref2) {
-        varUpdates = _ref2[patchId];
-        anyUpdates = true;
-        p = this.patches[patchId];
-        if (p == null) {
-          p = this.patches[patchId] = {};
+      patchUpdates = modelUpdate.patches;
+      if (patchUpdates) {
+        _ref2 = Object.keys(patchUpdates);
+        for (_k = 0, _len2 = _ref2.length; _k < _len2; _k++) {
+          patchId = _ref2[_k];
+          this.updatePatches(patchId, patchUpdates[patchId]);
         }
-        mergeObjectInto(varUpdates, p);
       }
-      mergeObjectInto(modelUpdate.observer, this.observer);
-      return anyUpdates;
+      if ((modelUpdate.observer != null) && (modelUpdate.observer[0] != null)) {
+        mergeObjectInto(modelUpdate.observer[0], this.observer);
+      }
+    };
+
+    AgentModel.prototype.updateTurtle = function(turtleId, varUpdates) {
+      var t;
+      if (varUpdates === null || varUpdates['WHO'] === -1) {
+        return delete this.turtles[turtleId];
+      } else {
+        t = this.turtles[turtleId];
+        if (!(t != null)) {
+          t = this.turtles[turtleId] = {
+            heading: 360 * Math.random(),
+            xcor: 0,
+            ycor: 0,
+            shape: 'default',
+            color: 'hsl(' + (360 * Math.random()) + ',100%,50%)'
+          };
+        }
+        return mergeObjectInto(varUpdates, t);
+      }
+    };
+
+    AgentModel.prototype.updateLink = function(linkId, varUpdates) {
+      var l;
+      if (varUpdates === null) {
+        return delete this.links[linkId];
+      } else {
+        l = this.links[linkId];
+        if (!(l != null)) {
+          l = this.links[linkId] = {
+            shape: 'default',
+            color: 5
+          };
+        }
+        return mergeObjectInto(varUpdates, l);
+      }
+    };
+
+    AgentModel.prototype.updatePatches = function(patchId, varUpdates) {
+      var p;
+      p = this.patches[patchId];
+      if (p == null) {
+        p = this.patches[patchId] = {};
+      }
+      return mergeObjectInto(varUpdates, p);
     };
 
     mergeObjectInto = function(updatedObject, targetObject) {
@@ -1560,29 +3376,48 @@ VertCylinder = (function() {
 }).call(this);
 ;
 (function() {
-  var b, baseIndex, cachedNetlogoColors, colorArrayToCSS, colorTimesTen, g, netlogoBaseColors, r, step;
+  var b, baseIndex, cachedNetlogoColors, color, colorArrayToCSS, colorTimesTen, g, i, netlogoBaseColors, netlogoColorNamesIndices, r, step, _i, _len, _ref;
 
   window.netlogoColorToCSS = function(netlogoColor) {
+    var a, array, b, g, r, _ref;
+    _ref = array = netlogoColorToRGB(netlogoColor), r = _ref[0], g = _ref[1], b = _ref[2];
+    a = array.length > 3 ? array[3] : 255;
+    if (a < 255) {
+      return "rgba(" + r + ", " + g + ", " + b + ", " + (a / 255) + ")";
+    } else {
+      return "rgb(" + r + ", " + g + ", " + b + ")";
+    }
+  };
+
+  window.netlogoColorToRGB = function(netlogoColor) {
     switch (typeof netlogoColor) {
       case "number":
         return cachedNetlogoColors[Math.floor(netlogoColor * 10)];
       case "object":
-        return colorArrayToCSS(netlogoColor);
+        return netlogoColor.map(Math.round);
       case "string":
-        return netlogoColor;
+        return netlogoBaseColors[netlogoColorNamesIndices[netlogoColor]];
       default:
         return console.error("Unrecognized color: " + netlogoColor);
     }
   };
 
+  netlogoColorNamesIndices = {};
+
+  _ref = ['gray', 'red', 'orange', 'brown', 'yellow', 'green', 'lime', 'turqoise', 'cyan', 'sky', 'blue', 'violet', 'magenta', 'pink', 'black', 'white'];
+  for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
+    color = _ref[i];
+    netlogoColorNamesIndices[color] = i;
+  }
+
   netlogoBaseColors = [[140, 140, 140], [215, 48, 39], [241, 105, 19], [156, 109, 70], [237, 237, 47], [87, 176, 58], [42, 209, 57], [27, 158, 119], [82, 196, 196], [43, 140, 190], [50, 92, 168], [123, 78, 163], [166, 25, 105], [224, 126, 149], [0, 0, 0], [255, 255, 255]];
 
   cachedNetlogoColors = (function() {
-    var _i, _ref, _results;
+    var _j, _ref1, _results;
     _results = [];
-    for (colorTimesTen = _i = 0; _i <= 1400; colorTimesTen = ++_i) {
+    for (colorTimesTen = _j = 0; _j <= 1400; colorTimesTen = ++_j) {
       baseIndex = Math.floor(colorTimesTen / 100);
-      _ref = netlogoBaseColors[baseIndex], r = _ref[0], g = _ref[1], b = _ref[2];
+      _ref1 = netlogoBaseColors[baseIndex], r = _ref1[0], g = _ref1[1], b = _ref1[2];
       step = (colorTimesTen % 100 - 50) / 50.48 + 0.012;
       if (step < 0) {
         r += Math.floor(r * step);
@@ -1593,14 +3428,14 @@ VertCylinder = (function() {
         g += Math.floor((0xFF - g) * step);
         b += Math.floor((0xFF - b) * step);
       }
-      _results.push("rgb(" + r + ", " + g + ", " + b + ")");
+      _results.push([r, g, b]);
     }
     return _results;
   })();
 
   colorArrayToCSS = function(array) {
-    var a, _ref;
-    _ref = array.map(Math.round), r = _ref[0], g = _ref[1], b = _ref[2];
+    var a, _ref1;
+    _ref1 = array.map(Math.round), r = _ref1[0], g = _ref1[1], b = _ref1[2];
     a = array.length > 3 ? array[3] : 255;
     if (a < 255) {
       return "rgba(" + r + ", " + g + ", " + b + ", " + (a / 255) + ")";
@@ -4712,7 +6547,7 @@ defaultShapes = {
 }
 ;
 (function() {
-  var PatchView, TurtleView, View,
+  var PatchView, SpotlightView, TurtleView, View,
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
@@ -4726,14 +6561,22 @@ defaultShapes = {
       this.container = container;
       this.layers = document.createElement('div');
       this.layers.style.width = '100%';
-      this.layers.style.position = 'relative';
+      this.layers.style.position = 'absolute';
       this.layers.classList.add('view-layers');
       this.container.appendChild(this.layers);
+      this.spotlightView = new SpotlightView();
       this.turtleView = new TurtleView();
-      this.patchView = new PatchView();
+      this.patchView = new PatchView(this.layers);
+      this.spotlightView.canvas.style.position = 'absolute';
+      this.spotlightView.canvas.style.top = '0px';
+      this.spotlightView.canvas.style.left = '0px';
+      this.spotlightView.canvas.style['z-index'] = 2;
       this.turtleView.canvas.style.position = 'absolute';
       this.turtleView.canvas.style.top = '0px';
       this.turtleView.canvas.style.left = '0px';
+      this.turtleView.canvas.style['z-index'] = 1;
+      this.patchView.canvas.style['z-index'] = 0;
+      this.layers.appendChild(this.spotlightView.canvas);
       this.layers.appendChild(this.patchView.canvas);
       this.layers.appendChild(this.turtleView.canvas);
       this.model = new AgentModel();
@@ -4742,8 +6585,9 @@ defaultShapes = {
     }
 
     AgentStreamController.prototype.repaint = function() {
-      this.turtleView.repaint(this.model.world, this.model.turtles, this.model.links);
-      return this.patchView.repaint(this.model.world, this.model.patches);
+      this.spotlightView.repaint(this.model);
+      this.turtleView.repaint(this.model);
+      return this.patchView.repaint(this.model);
     };
 
     AgentStreamController.prototype.update = function(modelUpdate) {
@@ -4781,12 +6625,136 @@ defaultShapes = {
       this.patchHeight = this.maxpycor - this.minpycor + 1;
       this.canvas.width = this.patchWidth * this.patchsize * this.quality;
       this.canvas.height = this.patchHeight * this.patchsize * this.quality;
-      return this.ctx.setTransform(this.canvas.width / this.patchWidth, 0, 0, -this.canvas.height / this.patchHeight, -(this.minpxcor - .5) * this.canvas.width / this.patchWidth, (this.maxpycor + .5) * this.canvas.height / this.patchHeight);
+      this.ctx.setTransform(this.canvas.width / this.patchWidth, 0, 0, -this.canvas.height / this.patchHeight, -(this.minpxcor - .5) * this.canvas.width / this.patchWidth, (this.maxpycor + .5) * this.canvas.height / this.patchHeight);
+      return this.ctx.font = '10pt "Lucida Grande", sans-serif';
+    };
+
+    View.prototype.drawLabel = function(label, color, x, y) {
+      label = label != null ? label.toString() : '';
+      if (label.length > 0) {
+        this.ctx.save();
+        this.ctx.translate(x, y);
+        this.ctx.scale(1 / this.patchsize, -1 / this.patchsize);
+        this.ctx.textAlign = 'end';
+        this.ctx.fillStyle = netlogoColorToCSS(color);
+        this.ctx.fillText(label, 0, 0);
+        return this.ctx.restore();
+      }
+    };
+
+    View.prototype.turtleType = 1;
+
+    View.prototype.patchType = 2;
+
+    View.prototype.linkType = 3;
+
+    View.prototype.watch = function(model) {
+      var id, links, observer, patches, turtles, type, _ref;
+      observer = model.observer, turtles = model.turtles, links = model.links, patches = model.patches;
+      if (observer.perspective > 0 && observer.targetagent && observer.targetagent[1] >= 0) {
+        _ref = observer.targetagent, type = _ref[0], id = _ref[1];
+        switch (type) {
+          case this.turtleType:
+            return model.turtles[id];
+          case this.patchType:
+            return model.patches[id];
+          case this.linkType:
+            return model.links[id];
+        }
+      } else {
+        return null;
+      }
+    };
+
+    View.prototype.follow = function(model) {
+      if (model.observer.perspective === 2) {
+        return watch(model);
+      } else {
+        return null;
+      }
     };
 
     return View;
 
   })();
+
+  SpotlightView = (function(_super) {
+
+    __extends(SpotlightView, _super);
+
+    function SpotlightView() {
+      return SpotlightView.__super__.constructor.apply(this, arguments);
+    }
+
+    SpotlightView.prototype.dimmed = "rgba(0, 0, 50, " + (100 / 255) + ")";
+
+    SpotlightView.prototype.spotlightInnerBorder = "rgba(200, 255, 255, " + (100 / 255) + ")";
+
+    SpotlightView.prototype.spotlightOuterBorder = "rgba(200, 255, 255, " + (50 / 255) + ")";
+
+    SpotlightView.prototype.clear = 'white';
+
+    SpotlightView.prototype.outer = function() {
+      return 10 / this.patchsize;
+    };
+
+    SpotlightView.prototype.middle = function() {
+      return 8 / this.patchsize;
+    };
+
+    SpotlightView.prototype.inner = function() {
+      return 4 / this.patchsize;
+    };
+
+    SpotlightView.prototype.drawCircle = function(x, y, diam, color) {
+      this.ctx.fillStyle = color;
+      this.ctx.beginPath();
+      this.ctx.arc(x, y, diam / 2, 0, 2 * Math.PI);
+      return this.ctx.fill();
+    };
+
+    SpotlightView.prototype.drawSpotlight = function(x, y, size) {
+      this.ctx.lineWidth = this.onePixel;
+      this.ctx.globalCompositeOperation = 'source-over';
+      this.ctx.fillStyle = this.dimmed;
+      this.ctx.fillRect(this.minpxcor - 0.5, this.minpycor - 0.5, this.patchWidth, this.patchHeight);
+      this.ctx.globalCompositeOperation = 'destination-out';
+      this.drawCircle(x, y, size + this.outer(), this.clear);
+      this.ctx.globalCompositeOperation = 'source-over';
+      this.drawCircle(x, y, size + this.outer(), this.dimmed);
+      this.drawCircle(x, y, size + this.middle(), this.spotlightOuterBorder);
+      this.drawCircle(x, y, size + this.inner(), this.spotlightInnerBorder);
+      this.ctx.globalCompositeOperation = 'destination-out';
+      return this.drawCircle(x, y, size, this.clear);
+    };
+
+    SpotlightView.prototype.adjustSize = function(size) {
+      return Math.max(size, this.patchWidth / 16, this.patchHeight / 16);
+    };
+
+    SpotlightView.prototype.dimensions = function(agent) {
+      if (agent.xcor != null) {
+        return [agent.xcor, agent.ycor, 2 * agent.size];
+      } else if (agent.pxcor != null) {
+        return [agent.pxcor, agent.pycor, 2];
+      } else {
+        return [agent.midpointx, agent.midpointy, agent.size];
+      }
+    };
+
+    SpotlightView.prototype.repaint = function(model) {
+      var size, watched, xcor, ycor, _ref;
+      this.transformToWorld(model.world);
+      watched = this.watch(model);
+      if (watched != null) {
+        _ref = this.dimensions(watched), xcor = _ref[0], ycor = _ref[1], size = _ref[2];
+        return this.drawSpotlight(xcor, ycor, this.adjustSize(size));
+      }
+    };
+
+    return SpotlightView;
+
+  })(View);
 
   TurtleView = (function(_super) {
 
@@ -4816,7 +6784,8 @@ defaultShapes = {
       }
       this.ctx.scale(scale, scale);
       this.drawer.drawShape(this.ctx, turtle.color, shapeName);
-      return this.ctx.restore();
+      this.ctx.restore();
+      return this.drawLabel(turtle.label, turtle['label-color'], xcor + turtle.size / 2, ycor - turtle.size / 2);
     };
 
     TurtleView.prototype.drawLink = function(link, turtles) {
@@ -4831,8 +6800,11 @@ defaultShapes = {
       return this.ctx.stroke();
     };
 
-    TurtleView.prototype.repaint = function(world, turtles, links) {
-      var id, link, turtle;
+    TurtleView.prototype.repaint = function(model) {
+      var id, link, links, turtle, turtles, world;
+      world = model.world;
+      turtles = model.turtles;
+      links = model.links;
       this.transformToWorld(world);
       if (world.turtleshapelist !== this.drawer.shapes && typeof world.turtleshapelist === "object") {
         this.drawer = new CachingShapeDrawer(world.turtleshapelist);
@@ -4859,53 +6831,295 @@ defaultShapes = {
     function PatchView() {
       PatchView.__super__.constructor.call(this);
       this.patchColors = [];
+      this.scratchCanvas = document.createElement('canvas');
+      this.scratchCtx = this.scratchCanvas.getContext('2d');
+      this.quality = 2;
     }
 
     PatchView.prototype.transformToWorld = function(world) {
-      var col, x, y, _i, _j, _ref, _ref1, _ref2, _ref3;
       PatchView.__super__.transformToWorld.call(this, world);
-      this.patchColors = [];
-      for (x = _i = _ref = this.minpxcor, _ref1 = this.maxpxcor; _ref <= _ref1 ? _i <= _ref1 : _i >= _ref1; x = _ref <= _ref1 ? ++_i : --_i) {
-        for (y = _j = _ref2 = this.maxpycor, _ref3 = this.minpycor; _ref2 <= _ref3 ? _j <= _ref3 : _j >= _ref3; y = _ref2 <= _ref3 ? ++_j : --_j) {
-          this.colorPatch({
-            'pxcor': x,
-            'pycor': y,
-            'pcolor': 'black'
-          });
-        }
-        col = 0;
-      }
+      this.scratchCanvas.width = this.patchWidth;
+      this.scratchCanvas.height = this.patchHeight;
+      this.ctx.imageSmoothingEnabled = false;
+      this.ctx.webkitImageSmoothingEnabled = false;
+      this.ctx.mozImageSmoothingEnabled = false;
+      this.ctx.oImageSmoothingEnabled = false;
+      this.ctx.fillStyle = 'black';
+      return this.ctx.fillRect(this.minpxcor - .5, this.minpycor - .5, this.patchWidth, this.patchHeight);
     };
 
-    PatchView.prototype.colorPatch = function(patch) {
-      var col, color, patchIndex, row;
-      row = this.maxpycor - patch.pycor;
-      col = patch.pxcor - this.minpxcor;
-      patchIndex = row * this.patchWidth + col;
-      color = patch.pcolor;
-      color = netlogoColorToCSS(color);
-      if (color !== this.patchColors[patchIndex]) {
-        this.patchColors[patchIndex] = this.ctx.fillStyle = color;
-        return this.ctx.fillRect(patch.pxcor - .5, patch.pycor - .5, 1, 1);
+    PatchView.prototype.colorPatches = function(patches) {
+      var b, g, i, ignore, imageData, patch, r, trans, _ref, _results;
+      imageData = this.ctx.createImageData(this.patchWidth, this.patchHeight);
+      for (ignore in patches) {
+        patch = patches[ignore];
+        _ref = netlogoColorToRGB(patch.pcolor), r = _ref[0], g = _ref[1], b = _ref[2];
+        i = ((this.maxpycor - patch.pycor) * this.patchWidth + (patch.pxcor - this.minpxcor)) * 4;
+        imageData.data[i + 0] = r;
+        imageData.data[i + 1] = g;
+        imageData.data[i + 2] = b;
+        imageData.data[i + 3] = 255;
       }
+      this.scratchCtx.putImageData(imageData, 0, 0);
+      trans = this.minpycor + this.maxpycor;
+      this.ctx.translate(0, trans);
+      this.ctx.scale(1, -1);
+      this.ctx.drawImage(this.scratchCanvas, this.minpxcor - .5, this.minpycor - .5, this.patchWidth, this.patchHeight);
+      this.ctx.scale(1, -1);
+      this.ctx.translate(0, -trans);
+      _results = [];
+      for (ignore in patches) {
+        patch = patches[ignore];
+        _results.push(this.drawLabel(patch.plabel, patch['plabel-color'], patch.pxcor + .5, patch.pycor - .5));
+      }
+      return _results;
     };
 
-    PatchView.prototype.repaint = function(world, patches) {
-      var p, _, _results;
+    PatchView.prototype.repaint = function(model) {
+      var patches, world;
+      world = model.world;
+      patches = model.patches;
       if (!this.matchesWorld(world)) {
         this.transformToWorld(world);
       }
-      _results = [];
-      for (_ in patches) {
-        p = patches[_];
-        _results.push(this.colorPatch(p));
-      }
-      return _results;
+      return this.colorPatches(patches);
     };
 
     return PatchView;
 
   })(View);
+
+}).call(this);
+;
+(function() {
+
+  window.Widgets = {
+    widgets: [],
+    widgetUpdateFuncs: [],
+    addTo: function(session) {
+      var widget, _i, _len, _ref, _results;
+      _ref = this.widgets;
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        widget = _ref[_i];
+        _results.push(widget(session));
+      }
+      return _results;
+    },
+    runUpdateFuncs: function() {
+      var func, _i, _len, _ref, _results;
+      _ref = this.widgetUpdateFuncs;
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        func = _ref[_i];
+        _results.push(func());
+      }
+      return _results;
+    },
+    setDimensions: function(e, left, top, right, bottom) {
+      e.style.width = right - left;
+      e.style.height = bottom - top;
+      e.style.top = top;
+      return e.style.left = left;
+    },
+    addButton: function(display, left, top, right, bottom, code, forever) {
+      var _this = this;
+      return this.widgets.push((function(session) {
+        var button, running;
+        button = document.createElement('button');
+        button.style.position = "absolute";
+        button.style.fontSize = "11pt";
+        _this.setDimensions(button, left, top, right, bottom);
+        button.innerHTML = display;
+        session.container.appendChild(button);
+        if (forever) {
+          running = false;
+          button.onclick = function() {
+            running = !running;
+            return button.innerHTML = running ? "Stop" : "Go";
+          };
+          return _this.widgetUpdateFuncs.push((function() {
+            if (running) {
+              return code();
+            }
+          }));
+        } else {
+          return button.onclick = code;
+        }
+      }));
+    },
+    addSlider: function(display, left, top, right, bottom, setter, min, max, def, step) {
+      var _this = this;
+      return this.widgets.push((function(session) {
+        var input, label, slider, valueLabel;
+        slider = document.createElement('div');
+        slider.className = 'slider';
+        slider.style.position = "absolute";
+        _this.setDimensions(slider, left, top, right, bottom);
+        valueLabel = document.createElement('div');
+        valueLabel.innerHTML = def;
+        valueLabel.style.cssFloat = "right";
+        input = document.createElement('input');
+        input.onchange = function() {
+          valueLabel.innerHTML = input.value;
+          return setter(input.value);
+        };
+        input.type = "range";
+        input.min = min;
+        input.max = max;
+        input.step = step;
+        input.value = def;
+        input.style.width = "95%";
+        label = document.createElement('div');
+        label.innerHTML = display;
+        slider.appendChild(input);
+        slider.appendChild(valueLabel);
+        slider.appendChild(label);
+        return session.container.appendChild(slider);
+      }));
+    },
+    addSwitch: function(display, left, top, right, bottom, setter) {
+      var _this = this;
+      return this.widgets.push((function(session) {
+        var input, label, swtch;
+        swtch = document.createElement('div');
+        swtch.style.position = "absolute";
+        swtch.style.fontSize = "11pt";
+        _this.setDimensions(swtch, left, top, right, bottom);
+        input = document.createElement('input');
+        input.onchange = function() {
+          return setter(input.checked);
+        };
+        input.type = "checkbox";
+        input.style.cssFloat = "left";
+        label = document.createElement('div');
+        label.innerHTML = display;
+        swtch.appendChild(input);
+        swtch.appendChild(label);
+        return session.container.appendChild(swtch);
+      }));
+    },
+    addMonitor: function(display, left, top, right, bottom, code) {
+      var _this = this;
+      return this.widgets.push((function(session) {
+        var heading, monitor, value;
+        monitor = document.createElement('div');
+        monitor.style.position = "absolute";
+        monitor.style.fontSize = "11pt";
+        monitor.style.backgroundColor = "#CCCCCC";
+        _this.setDimensions(monitor, left, top, right, bottom);
+        heading = document.createElement('div');
+        heading.style.margin = 4;
+        heading.innerHTML = display;
+        heading.style.position = "relative";
+        value = document.createElement('div');
+        value.style.backgroundColor = "white";
+        value.style.position = "relative";
+        value.style.margin = 4;
+        value.style.padding = 2;
+        value.style.textAlign = "center";
+        value.innerHTML = "0";
+        _this.widgetUpdateFuncs.push((function() {
+          return value.innerHTML = code();
+        }));
+        monitor.appendChild(heading);
+        monitor.appendChild(value);
+        return session.container.appendChild(monitor);
+      }));
+    },
+    addOutput: function(display, left, top, right, bottom) {},
+    addView: function(left, top, right, bottom) {
+      var _this = this;
+      return this.widgets.push((function(session) {
+        return _this.setDimensions(session.controller.layers, left, top, right, bottom);
+      }));
+    },
+    addGraph: function(display, left, top, right, bottom, ymin, ymax, xmin, xmax) {
+      var _this = this;
+      return this.widgets.push((function(session) {
+        var graph;
+        if (session.graph) {
+          graph = document.createElement('div');
+          graph.style.position = "absolute";
+          graph.style.border = "1px solid black";
+          _this.setDimensions(graph, left, top, right, bottom);
+          session.container.appendChild(graph);
+          return session.graph.boot(display, ymin, ymax, xmin, xmax, graph);
+        }
+      }));
+    }
+  };
+
+}).call(this);
+;
+(function() {
+
+  window.GoogleGraph = {
+    xpoint: 0,
+    drawPlot: function() {
+      this.chart = new google.visualization.LineChart(this.graphcontainer);
+      this.resetData();
+      return setInterval(this.gplot.bind(this), 100);
+    },
+    resetData: function() {
+      this.data = new google.visualization.DataTable();
+      this.data.addColumn('number', 'Tick');
+      this.data.addColumn('number', 'Temperature');
+      this.data.setColumnProperty(0, 'type', 'number');
+      this.data.setColumnProperty(1, 'type', 'number');
+      return this.chart.draw(this.data);
+    },
+    gplot: function() {
+      var opts;
+      opts = {
+        backgroundColor: '#fcfdfd',
+        chartArea: {
+          width: "85%",
+          height: "80%"
+        },
+        enableInteractivity: false,
+        legend: {
+          position: 'top',
+          textStyle: {
+            color: 'blue',
+            fontSize: 12
+          },
+          alignment: 'center'
+        },
+        vAxis: {
+          minValue: this.xmin,
+          maxValue: this.xmax
+        },
+        hAxis: {
+          minValue: this.ymin,
+          maxValue: this.ymax
+        }
+      };
+      return this.chart.draw(this.data, opts);
+    },
+    boot: function(display, ymin, ymax, xmin, xmax, graphcontainer) {
+      this.graphcontainer = graphcontainer;
+      this.ymin = ymin;
+      this.ymax = ymax;
+      this.xmin = xmin;
+      this.xmax = xmax;
+      google.load('visualization', '1', {
+        packages: ['corechart']
+      });
+      return google.setOnLoadCallback(this.drawPlot.bind(this));
+    },
+    plot: function(y) {
+      if (this.xpoint % 20 === 0) {
+        this.data.addRow([this.xpoint, y]);
+      }
+      return this.xpoint++;
+    },
+    reset: function() {
+      if (this.data) {
+        return this.data.removeRows(0, this.data.getNumberOfRows());
+      }
+    }
+  };
 
 }).call(this);
 ;
@@ -4987,6 +7201,7 @@ defaultShapes = {
     SessionLite.controller = void 0;
 
     function SessionLite(container) {
+      this.container = container;
       container.innerHTML = "";
       this.controller = new AgentStreamController(container);
     }
@@ -5010,7 +7225,7 @@ defaultShapes = {
 
 }).call(this);
 ;
-Globals.init(7)
+Globals.init(7);
 Breeds.add("RAYS", "ray");
 Breeds.get("RAYS").vars =[""];
 Breeds.add("IRS", "ir");
@@ -5020,267 +7235,267 @@ Breeds.get("HEATS").vars =[""];
 Breeds.add("CO2S", "co2");
 Breeds.get("CO2S").vars =[""];
 Breeds.add("CLOUDS", "cloud");
-Breeds.get("CLOUDS").vars =["CLOUD-SPEED", "CLOUD-ID"];world = new World(-24, 24, -8, 22, 12.0, true, true, 2);
-function SETUP () {
-world.clearall()
-Breeds.setDefaultShape(world.turtlesOfBreed("RAYS"), "ray")
-Breeds.setDefaultShape(world.turtlesOfBreed("IRS"), "ray")
-Breeds.setDefaultShape(world.turtlesOfBreed("CLOUDS"), "cloud")
-Breeds.setDefaultShape(world.turtlesOfBreed("HEATS"), "dot")
-Breeds.setDefaultShape(world.turtlesOfBreed("CO2S"), "CO2-molecule")
-SETUP_WORLD()
-Globals.setGlobal(4,12)
-world.resetTicks()
-};
-function SETUP_WORLD () {
-Globals.setGlobal(2,(world.maxPycor - 5))
-Globals.setGlobal(3,0)
-SETUP_WORLD_UPDATED()
-AgentSet.ask(world.patches(), true, function(){ if ((AgentSet.getPatchVariable(1) > Globals.getGlobal(2))) {
-AgentSet.setPatchVariable(2,Prims.scaleColor(9.9, AgentSet.getPatchVariable(1), 22, 15))
+Breeds.get("CLOUDS").vars =["CLOUD-SPEED", "CLOUD-ID"];function setup() {
+  world.clearAll();
+  Breeds.setDefaultShape(world.turtlesOfBreed("RAYS"), "ray");
+  Breeds.setDefaultShape(world.turtlesOfBreed("IRS"), "ray");
+  Breeds.setDefaultShape(world.turtlesOfBreed("CLOUDS"), "cloud");
+  Breeds.setDefaultShape(world.turtlesOfBreed("HEATS"), "dot");
+  Breeds.setDefaultShape(world.turtlesOfBreed("CO2S"), "CO2-molecule");
+  setupWorld();
+  Globals.setGlobal(4, 12);
+  world.resetTicks();
+  // Grapher.plot(Globals.getGlobal(4));
 }
-if (((AgentSet.getPatchVariable(1) <= Globals.getGlobal(2)) && (AgentSet.getPatchVariable(1) > Globals.getGlobal(3)))) {
-AgentSet.setPatchVariable(2,Prims.scaleColor(105, AgentSet.getPatchVariable(1), -20, 20))
+function setupWorld() {
+  Globals.setGlobal(2, (world.maxPycor - 5));
+  Globals.setGlobal(3, 0);
+  setupWorldUpdated();
+  AgentSet.ask(world.patches(), true, function() {
+    if ((AgentSet.getPatchVariable(1) > Globals.getGlobal(2))) {
+      AgentSet.setPatchVariable(2, Prims.scaleColor(9.9, AgentSet.getPatchVariable(1), 22, 15));
+    }
+    if (((AgentSet.getPatchVariable(1) <= Globals.getGlobal(2)) && (AgentSet.getPatchVariable(1) > Globals.getGlobal(3)))) {
+      AgentSet.setPatchVariable(2, Prims.scaleColor(105, AgentSet.getPatchVariable(1), -20, 20));
+    }
+    if ((AgentSet.getPatchVariable(1) < Globals.getGlobal(3))) {
+      AgentSet.setPatchVariable(2, (15 + 3));
+    }
+    if (Prims.equality(AgentSet.getPatchVariable(1), Globals.getGlobal(3))) {
+      updateAlbedo();
+    }
+  });
 }
-if ((AgentSet.getPatchVariable(1) < Globals.getGlobal(3))) {
-AgentSet.setPatchVariable(2,(15 + 3))
+function setupWorldUpdated() {
+  Globals.setGlobal(5, 1);
+  Globals.setGlobal(6, 0.6);
+  for(var i = 0; i < (Globals.getGlobal(1) / 25); i++) {
+    addCo2();
+  }
+  for(var i = 0; i < (Globals.getGlobal(0) / 5); i++) {
+    addCloud();
+  }
 }
-if ((AgentSet.getPatchVariable(1) === Globals.getGlobal(3))) {
-UPDATE_ALBEDO()
-} });
-};
-function SETUP_WORLD_UPDATED () {
-Globals.setGlobal(5,1)
-Globals.setGlobal(6,0.6)
-for(var i = 0; i < (Globals.getGlobal(1) / 25); i++) { ADD_CO2() }
-for(var i = 0; i < (Globals.getGlobal(0) / 5); i++) { ADD_CLOUD() }
-};
-function GO () {
-GO_UPDATED()
-AgentSet.ask(world.turtlesOfBreed("CLOUDS"), true, function(){ Prims.fd(AgentSet.getBreedVariable("CLOUD-SPEED")) });
-RUN_SUNSHINE()
-AgentSet.ask(AgentSet.agentFilter(world.patches(), function(){ return (AgentSet.getPatchVariable(1) === Globals.getGlobal(3)) }), true, function(){ UPDATE_ALBEDO() });
-RUN_HEAT()
-RUN_IR()
-RUN_CO2()
-world.tick()
-};
-function UPDATE_ALBEDO () {
-AgentSet.setPatchVariable(2,Prims.scaleColor(55, Globals.getGlobal(6), 0, 1))
-};
-function GO_UPDATED () {
-var CLOUD_DIFF = (Globals.getGlobal(0) - (MY_LENGTH(Prims.removeDuplicates(AgentSet.of(world.turtlesOfBreed("CLOUDS"), function(){ return AgentSet.getBreedVariable("CLOUD-ID") }))) * 5));
-var CO2_DIFF = (Globals.getGlobal(1) - AgentSet.count(world.turtlesOfBreed("CO2S")));
-if ((CO2_DIFF >= 0)) {
-for(var i = 0; i < (CO2_DIFF / 25); i++) { ADD_CO2() }
-} else {
-for(var i = 0; i < StrictMath.abs((CO2_DIFF / 25)); i++) { REMOVE_CO2() }
+function go() {
+  goUpdated();
+  AgentSet.ask(world.turtlesOfBreed("CLOUDS"), true, function() {
+    Prims.fd(AgentSet.getBreedVariable("CLOUD-SPEED"));
+  });
+  runSunshine();
+  AgentSet.ask(AgentSet.agentFilter(world.patches(), function() {
+    return Prims.equality(AgentSet.getPatchVariable(1), Globals.getGlobal(3))
+  }), true, function() {
+    updateAlbedo();
+  });
+  runHeat();
+  runIr();
+  runCo2();
+  world.tick();
+  Grapher.plot(Globals.getGlobal(4));
 }
-if ((CLOUD_DIFF >= 0)) {
-for(var i = 0; i < (CLOUD_DIFF / 5); i++) { ADD_CLOUD() }
-} else {
-for(var i = 0; i < StrictMath.abs((CLOUD_DIFF / 5)); i++) { REMOVE_CLOUD() }
+function updateAlbedo() {
+  AgentSet.setPatchVariable(2, Prims.scaleColor(55, Globals.getGlobal(6), 0, 1));
 }
-};
-function ADD_CLOUD () {
-var SKY_HEIGHT = (Globals.getGlobal(2) - Globals.getGlobal(3));
-var Y = ((Globals.getGlobal(3) + Prims.randomfloat((SKY_HEIGHT - 4))) + 2);
-var SPEED = (Prims.randomfloat(0.1) + 0.01);
-var X = Prims.randomxcor();
-var ID = 0;
-if (AgentSet.any(world.turtlesOfBreed("CLOUDS"))) {
-ID = (Prims.max(AgentSet.of(world.turtlesOfBreed("CLOUDS"), function(){ return AgentSet.getBreedVariable("CLOUD-ID") })) + 1);
+function goUpdated() {
+  var cloudDiff = (Globals.getGlobal(0) - (Prims.length(Prims.removeDuplicates(AgentSet.of(world.turtlesOfBreed("CLOUDS"), function() {
+    return AgentSet.getBreedVariable("CLOUD-ID")
+  }))) * 5));
+  var co2Diff = (Globals.getGlobal(1) - AgentSet.count(world.turtlesOfBreed("CO2S")));
+  if ((co2Diff >= 0)) {
+    for(var i = 0; i < (co2Diff / 25); i++) {
+      addCo2();
+    }
+  }
+  else {
+    for(var i = 0; i < StrictMath.abs((co2Diff / 25)); i++) {
+      removeCo2();
+    }
+  }
+  if ((cloudDiff >= 0)) {
+    for(var i = 0; i < (cloudDiff / 5); i++) {
+      addCloud();
+    }
+  }
+  else {
+    for(var i = 0; i < StrictMath.abs((cloudDiff / 5)); i++) {
+      removeCloud();
+    }
+  }
 }
-AgentSet.ask(world.createturtles((3 + Random.nextLong(20)), "CLOUDS"), true, function(){ AgentSet.setBreedVariable("CLOUD-SPEED",SPEED)
-AgentSet.setBreedVariable("CLOUD-ID",ID)
-Prims.setxy(((X + Random.nextLong(9)) - 4), (((Y + 2.5) + Prims.randomfloat(2)) - Prims.randomfloat(2)))
-AgentSet.setTurtleVariable(1,9.9)
-AgentSet.setTurtleVariable(10,(2 + Random.nextLong(2)))
-AgentSet.setTurtleVariable(2,90) });
-};
-function REMOVE_CLOUD () {
-if (AgentSet.any(world.turtlesOfBreed("CLOUDS"))) {
-var DOOMED_ID = AgentSet.oneOf(Prims.removeDuplicates(AgentSet.of(world.turtlesOfBreed("CLOUDS"), function(){ return AgentSet.getBreedVariable("CLOUD-ID") })));
-AgentSet.ask(AgentSet.agentFilter(world.turtlesOfBreed("CLOUDS"), function(){ return (AgentSet.getBreedVariable("CLOUD-ID") === DOOMED_ID) }), true, function(){ AgentSet.die() });
+function addCloud() {
+  var skyHeight = (Globals.getGlobal(2) - Globals.getGlobal(3));
+  var y = ((Globals.getGlobal(3) + Prims.randomFloat((skyHeight - 4))) + 2);
+  var speed = (Prims.randomFloat(0.1) + 0.01);
+  var x = Prims.randomXcor();
+  var id = 0;
+  if (AgentSet.any(world.turtlesOfBreed("CLOUDS"))) {
+    id = (Prims.max(AgentSet.of(world.turtlesOfBreed("CLOUDS"), function() {
+      return AgentSet.getBreedVariable("CLOUD-ID")
+    })) + 1);
+  }
+  AgentSet.ask(world.createTurtles((3 + Prims.random(20)), "CLOUDS"), true, function() {
+    AgentSet.setBreedVariable("CLOUD-SPEED", speed);
+    AgentSet.setBreedVariable("CLOUD-ID", id);
+    Prims.setXY(((x + Prims.random(9)) - 4), (((y + 2.5) + Prims.randomFloat(2)) - Prims.randomFloat(2)));
+    AgentSet.setTurtleVariable(1, 9.9);
+    AgentSet.setTurtleVariable(10, (2 + Prims.random(2)));
+    AgentSet.setTurtleVariable(2, 90);
+  });
 }
-};
-function RUN_SUNSHINE () {
-AgentSet.ask(world.turtlesOfBreed("RAYS"), true, function(){ if (!(MY_CAN_MOVE_P(0.3))) {
-AgentSet.die()
+function removeCloud() {
+  if (AgentSet.any(world.turtlesOfBreed("CLOUDS"))) {
+    var doomedId = AgentSet.oneOf(Prims.removeDuplicates(AgentSet.of(world.turtlesOfBreed("CLOUDS"), function() {
+      return AgentSet.getBreedVariable("CLOUD-ID")
+    })));
+    AgentSet.ask(AgentSet.agentFilter(world.turtlesOfBreed("CLOUDS"), function() {
+      return Prims.equality(AgentSet.getBreedVariable("CLOUD-ID"), doomedId)
+    }), true, function() {
+      AgentSet.die();
+    });
+  }
 }
-Prims.fd(0.3) });
-CREATE_SUNSHINE()
-REFLECT_RAYS_FROM_CLOUDS()
-ENCOUNTER_EARTH()
-};
-function CREATE_SUNSHINE () {
-if (((10 * Globals.getGlobal(5)) > Random.nextLong(50))) {
-AgentSet.ask(world.createturtles(1, "RAYS"), true, function(){ AgentSet.setTurtleVariable(2,160)
-AgentSet.setTurtleVariable(1,45)
-Prims.setxy((Random.nextLong(10) + world.minPxcor), world.maxPycor) });
+function runSunshine() {
+  AgentSet.ask(world.turtlesOfBreed("RAYS"), true, function() {
+    if (!(AgentSet.self().canMove(0.3))) {
+      AgentSet.die();
+    }
+    Prims.fd(0.3);
+  });
+  createSunshine();
+  reflectRaysFromClouds();
+  encounterEarth();
 }
-};
-function REFLECT_RAYS_FROM_CLOUDS () {
-AgentSet.ask(AgentSet.agentFilter(world.turtlesOfBreed("RAYS"), function(){ return AgentSet.any(AgentSet.self().breedHere("CLOUDS")) }), true, function(){ AgentSet.setTurtleVariable(2,(180 - AgentSet.getTurtleVariable(2))) });
-};
-function ENCOUNTER_EARTH () {
-AgentSet.ask(AgentSet.agentFilter(world.turtlesOfBreed("RAYS"), function(){ return (AgentSet.getTurtleVariable(4) <= Globals.getGlobal(3)) }), true, function(){ if (((100 * Globals.getGlobal(6)) > Random.nextLong(100))) {
-AgentSet.setTurtleVariable(2,(180 - AgentSet.getTurtleVariable(2)))
-} else {
-Prims.right((Random.nextLong(45) - Random.nextLong(45)))
-AgentSet.setTurtleVariable(1,((15 - 2) + Random.nextLong(4)))
-AgentSet.setBreed(world.turtlesOfBreed("HEATS"))
-} });
-};
-function RUN_HEAT () {
-Globals.setGlobal(4,((0.99 * Globals.getGlobal(4)) + (0.01 * (12 + (0.1 * AgentSet.count(world.turtlesOfBreed("HEATS")))))))
-AgentSet.ask(world.turtlesOfBreed("HEATS"), true, function(){ var DIST = (0.5 * Prims.randomfloat(1));
-if (MY_CAN_MOVE_P(DIST)) {
-Prims.fd(DIST)
-} else {
-AgentSet.setTurtleVariable(2,(180 - AgentSet.getTurtleVariable(2)))
+function createSunshine() {
+  if (((10 * Globals.getGlobal(5)) > Prims.random(50))) {
+    AgentSet.ask(world.createTurtles(1, "RAYS"), true, function() {
+      AgentSet.setTurtleVariable(2, 160);
+      AgentSet.setTurtleVariable(1, 45);
+      Prims.setXY((Prims.random(10) + world.minPxcor), world.maxPycor);
+    });
+  }
 }
-if ((AgentSet.getTurtleVariable(4) >= Globals.getGlobal(3))) {
-if ((((Globals.getGlobal(4) > (20 + Random.nextLong(40))) && (AgentSet.getTurtleVariable(3) > 0)) && (AgentSet.getTurtleVariable(3) < (world.maxPxcor - 8)))) {
-AgentSet.setBreed(world.turtlesOfBreed("IRS"))
-AgentSet.setTurtleVariable(2,20)
-AgentSet.setTurtleVariable(1,125)
-} else {
-AgentSet.setTurtleVariable(2,(100 + Random.nextLong(160)))
+function reflectRaysFromClouds() {
+  AgentSet.ask(AgentSet.agentFilter(world.turtlesOfBreed("RAYS"), function() {
+    return AgentSet.any(AgentSet.self().breedHere("CLOUDS"))
+  }), true, function() {
+    AgentSet.setTurtleVariable(2, (180 - AgentSet.getTurtleVariable(2)));
+  });
 }
-} });
-};
-function RUN_IR () {
-AgentSet.ask(world.turtlesOfBreed("IRS"), true, function(){ if (!(MY_CAN_MOVE_P(0.3))) {
-AgentSet.die()
+function encounterEarth() {
+  AgentSet.ask(AgentSet.agentFilter(world.turtlesOfBreed("RAYS"), function() {
+    return (AgentSet.getTurtleVariable(4) <= Globals.getGlobal(3))
+  }), true, function() {
+    if (((100 * Globals.getGlobal(6)) > Prims.random(100))) {
+      AgentSet.setTurtleVariable(2, (180 - AgentSet.getTurtleVariable(2)));
+    }
+    else {
+      Prims.right((Prims.random(45) - Prims.random(45)));
+      AgentSet.setTurtleVariable(1, ((15 - 2) + Prims.random(4)));
+      AgentSet.setBreed(world.turtlesOfBreed("HEATS"));
+    }
+  });
 }
-Prims.fd(0.3)
-if ((AgentSet.getTurtleVariable(4) <= Globals.getGlobal(3))) {
-AgentSet.setBreed(world.turtlesOfBreed("HEATS"))
-Prims.right(Random.nextLong(45))
-Prims.left(Random.nextLong(45))
-AgentSet.setTurtleVariable(1,((15 - 2) + Random.nextLong(4)))
+function runHeat() {
+  Globals.setGlobal(4, ((0.99 * Globals.getGlobal(4)) + (0.01 * (12 + (0.1 * AgentSet.count(world.turtlesOfBreed("HEATS")))))));
+  AgentSet.ask(world.turtlesOfBreed("HEATS"), true, function() {
+    var dist = (0.5 * Prims.randomFloat(1));
+    if (AgentSet.self().canMove(dist)) {
+      Prims.fd(dist);
+    }
+    else {
+      AgentSet.setTurtleVariable(2, (180 - AgentSet.getTurtleVariable(2)));
+    }
+    if ((AgentSet.getTurtleVariable(4) >= Globals.getGlobal(3))) {
+      if ((((Globals.getGlobal(4) > (20 + Prims.random(40))) && (AgentSet.getTurtleVariable(3) > 0)) && (AgentSet.getTurtleVariable(3) < (world.maxPxcor - 8)))) {
+        AgentSet.setBreed(world.turtlesOfBreed("IRS"));
+        AgentSet.setTurtleVariable(2, 20);
+        AgentSet.setTurtleVariable(1, 125);
+      }
+      else {
+        AgentSet.setTurtleVariable(2, (100 + Prims.random(160)));
+      }
+    }
+  });
 }
-if (AgentSet.any(AgentSet.self().breedHere("CO2S"))) {
-AgentSet.setTurtleVariable(2,(180 - AgentSet.getTurtleVariable(2)))
-} });
-};
-function ADD_CO2 () {
-var SKY_HEIGHT = (Globals.getGlobal(2) - Globals.getGlobal(3));
-AgentSet.ask(world.createturtles(25, "CO2S"), true, function(){ AgentSet.setTurtleVariable(1,55)
-Prims.setxy(Prims.randomxcor(), (Globals.getGlobal(3) + Prims.randomfloat(SKY_HEIGHT))) });
-};
-function REMOVE_CO2 () {
-for(var i = 0; i < 25; i++) { if (AgentSet.any(world.turtlesOfBreed("CO2S"))) {
-AgentSet.ask(AgentSet.oneOf(world.turtlesOfBreed("CO2S")), true, function(){ AgentSet.die() });
-} }
-};
-function RUN_CO2 () {
-AgentSet.ask(world.turtlesOfBreed("CO2S"), true, function(){ Prims.right((Random.nextLong(51) - 25))
-var DIST = (0.05 + Prims.randomfloat(0.1));
-if (AgentSet.of(AgentSet.self().patchAhead(DIST), function(){ return !(Prims.shadeOf(105, AgentSet.getPatchVariable(2))) })) {
-AgentSet.setTurtleVariable(2,(180 - AgentSet.getTurtleVariable(2)))
+function runIr() {
+  AgentSet.ask(world.turtlesOfBreed("IRS"), true, function() {
+    if (!(AgentSet.self().canMove(0.3))) {
+      AgentSet.die();
+    }
+    Prims.fd(0.3);
+    if ((AgentSet.getTurtleVariable(4) <= Globals.getGlobal(3))) {
+      AgentSet.setBreed(world.turtlesOfBreed("HEATS"));
+      Prims.right(Prims.random(45));
+      Prims.left(Prims.random(45));
+      AgentSet.setTurtleVariable(1, ((15 - 2) + Prims.random(4)));
+    }
+    if (AgentSet.any(AgentSet.self().breedHere("CO2S"))) {
+      AgentSet.setTurtleVariable(2, (180 - AgentSet.getTurtleVariable(2)));
+    }
+  });
 }
-Prims.fd(DIST) });
-};
-function MY_CAN_MOVE_P (AMOUNT) {
-var NEW_Y = (AgentSet.getTurtleVariable(4) + (AMOUNT * Trig.unsquashedCos(AgentSet.getTurtleVariable(2))));
-if ((AgentSet.getTurtleVariable(4) > 0)) {
-return (NEW_Y < (world.maxPycor + 0.5));
-} else {
-return (NEW_Y >= (world.minPycor - 0.5));
+function addCo2() {
+  var skyHeight = (Globals.getGlobal(2) - Globals.getGlobal(3));
+  AgentSet.ask(world.createTurtles(25, "CO2S"), true, function() {
+    AgentSet.setTurtleVariable(1, 55);
+    Prims.setXY(Prims.randomXcor(), (Globals.getGlobal(3) + Prims.randomFloat(skyHeight)));
+  });
 }
-};
-function MY_LENGTH (L) {
-if (L.length !== 0) {
-return (1 + MY_LENGTH(Prims.butfirst(L)));
-} else {
-return 0;
+function removeCo2() {
+  for(var i = 0; i < 25; i++) {
+    if (AgentSet.any(world.turtlesOfBreed("CO2S"))) {
+      AgentSet.ask(AgentSet.oneOf(world.turtlesOfBreed("CO2S")), true, function() {
+        AgentSet.die();
+      });
+    }
+  }
 }
-};
-Globals.setGlobal(0,0)
-Globals.setGlobal(1,100)
-    </script>
-    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    <script type="text/javascript">
+function runCo2() {
+  AgentSet.ask(world.turtlesOfBreed("CO2S"), true, function() {
+    Prims.right((Prims.random(51) - 25));
+    var dist = (0.05 + Prims.randomFloat(0.1));
+    if (AgentSet.of(AgentSet.self().patchAhead(dist), function() {
+      return !(Prims.shadeOf(105, AgentSet.getPatchVariable(2)))
+    })) {
+      AgentSet.setTurtleVariable(2, (180 - AgentSet.getTurtleVariable(2)));
+    }
+    Prims.fd(dist);
+  });
+}
+Globals.setGlobal(0, 25);
+Globals.setGlobal(1, 75);world = new World(-24, 24, -8, 22, 11.0, false, true, {"default":{"rotate":true,"elements":[{"xcors":[150.0,40.0,150.0,260.0],"ycors":[5.0,250.0,205.0,250.0],"type":"polygon","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true}]},"airplane":{"rotate":true,"elements":[{"xcors":[150.0,135.0,120.0,120.0,15.0,15.0,120.0,135.0,105.0,120.0,150.0,180.0,210.0,165.0,180.0,285.0,285.0,180.0,180.0,165.0],"ycors":[0.0,15.0,60.0,105.0,165.0,195.0,180.0,240.0,270.0,285.0,270.0,285.0,270.0,240.0,180.0,195.0,165.0,105.0,60.0,15.0],"type":"polygon","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true}]},"arrow":{"rotate":true,"elements":[{"xcors":[150.0,0.0,105.0,105.0,195.0,195.0,300.0],"ycors":[0.0,150.0,150.0,293.0,293.0,150.0,150.0],"type":"polygon","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true}]},"box":{"rotate":false,"elements":[{"xcors":[150.0,285.0,285.0,150.0],"ycors":[285.0,225.0,75.0,135.0],"type":"polygon","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"xcors":[150.0,15.0,150.0,285.0],"ycors":[135.0,75.0,15.0,75.0],"type":"polygon","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"xcors":[15.0,15.0,150.0,150.0],"ycors":[75.0,225.0,285.0,135.0],"type":"polygon","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"x1":150.0,"y1":285.0,"x2":150.0,"y2":135.0,"type":"line","color":"rgba(0, 0, 0, 1.0)","filled":false,"marked":false},{"x1":150.0,"y1":135.0,"x2":15.0,"y2":75.0,"type":"line","color":"rgba(0, 0, 0, 1.0)","filled":false,"marked":false},{"x1":150.0,"y1":135.0,"x2":285.0,"y2":75.0,"type":"line","color":"rgba(0, 0, 0, 1.0)","filled":false,"marked":false}]},"bug":{"rotate":true,"elements":[{"x":96.0,"y":182.0,"diam":108.0,"type":"circle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"x":110.0,"y":127.0,"diam":80.0,"type":"circle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"x":110.0,"y":75.0,"diam":80.0,"type":"circle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"x1":150.0,"y1":100.0,"x2":80.0,"y2":30.0,"type":"line","color":"rgba(141, 141, 141, 1.0)","filled":false,"marked":true},{"x1":150.0,"y1":100.0,"x2":220.0,"y2":30.0,"type":"line","color":"rgba(141, 141, 141, 1.0)","filled":false,"marked":true}]},"butterfly":{"rotate":true,"elements":[{"xcors":[150.0,209.0,225.0,225.0,195.0,165.0,150.0],"ycors":[165.0,199.0,225.0,255.0,270.0,255.0,240.0],"type":"polygon","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"xcors":[150.0,89.0,75.0,75.0,105.0,135.0,150.0],"ycors":[165.0,198.0,225.0,255.0,270.0,255.0,240.0],"type":"polygon","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"xcors":[139.0,100.0,55.0,25.0,10.0,10.0,25.0,40.0,85.0,139.0],"ycors":[148.0,105.0,90.0,90.0,105.0,135.0,180.0,195.0,194.0,163.0],"type":"polygon","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"xcors":[162.0,200.0,245.0,275.0,290.0,290.0,275.0,260.0,215.0,162.0],"ycors":[150.0,105.0,90.0,90.0,105.0,135.0,180.0,195.0,195.0,165.0],"type":"polygon","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"xcors":[150.0,135.0,120.0,135.0,150.0,165.0,180.0,165.0],"ycors":[255.0,225.0,150.0,120.0,105.0,120.0,150.0,225.0],"type":"polygon","color":"rgba(0, 0, 0, 1.0)","filled":true,"marked":false},{"x":135.0,"y":90.0,"diam":30.0,"type":"circle","color":"rgba(0, 0, 0, 1.0)","filled":true,"marked":false},{"x1":150.0,"y1":105.0,"x2":195.0,"y2":60.0,"type":"line","color":"rgba(0, 0, 0, 1.0)","filled":false,"marked":false},{"x1":150.0,"y1":105.0,"x2":105.0,"y2":60.0,"type":"line","color":"rgba(0, 0, 0, 1.0)","filled":false,"marked":false}]},"car":{"rotate":false,"elements":[{"xcors":[300.0,279.0,261.0,240.0,226.0,213.0,203.0,185.0,159.0,135.0,75.0,0.0,0.0,0.0,300.0,300.0],"ycors":[180.0,164.0,144.0,135.0,132.0,106.0,84.0,63.0,50.0,50.0,60.0,150.0,165.0,225.0,225.0,180.0],"type":"polygon","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"x":180.0,"y":180.0,"diam":90.0,"type":"circle","color":"rgba(0, 0, 0, 1.0)","filled":true,"marked":false},{"x":30.0,"y":180.0,"diam":90.0,"type":"circle","color":"rgba(0, 0, 0, 1.0)","filled":true,"marked":false},{"xcors":[162.0,132.0,134.0,209.0,194.0,189.0,180.0],"ycors":[80.0,78.0,135.0,135.0,105.0,96.0,89.0],"type":"polygon","color":"rgba(0, 0, 0, 1.0)","filled":true,"marked":false},{"x":47.0,"y":195.0,"diam":58.0,"type":"circle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"x":195.0,"y":195.0,"diam":58.0,"type":"circle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true}]},"circle":{"rotate":false,"elements":[{"x":0.0,"y":0.0,"diam":300.0,"type":"circle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true}]},"circle 2":{"rotate":false,"elements":[{"x":0.0,"y":0.0,"diam":300.0,"type":"circle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"x":30.0,"y":30.0,"diam":240.0,"type":"circle","color":"rgba(0, 0, 0, 1.0)","filled":true,"marked":false}]},"cloud":{"rotate":false,"elements":[{"x":13.0,"y":118.0,"diam":94.0,"type":"circle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"x":86.0,"y":101.0,"diam":127.0,"type":"circle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"x":51.0,"y":51.0,"diam":108.0,"type":"circle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"x":118.0,"y":43.0,"diam":95.0,"type":"circle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"x":158.0,"y":68.0,"diam":134.0,"type":"circle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true}]},"co2-molecule":{"rotate":true,"elements":[{"x":183.0,"y":63.0,"diam":84.0,"type":"circle","color":"rgba(255, 255, 255, 1.0)","filled":true,"marked":false},{"x":183.0,"y":63.0,"diam":84.0,"type":"circle","color":"rgba(0, 0, 0, 1.0)","filled":false,"marked":false},{"x":75.0,"y":75.0,"diam":150.0,"type":"circle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"x":75.0,"y":75.0,"diam":150.0,"type":"circle","color":"rgba(0, 0, 0, 1.0)","filled":false,"marked":false},{"x":33.0,"y":63.0,"diam":84.0,"type":"circle","color":"rgba(255, 255, 255, 1.0)","filled":true,"marked":false},{"x":33.0,"y":63.0,"diam":84.0,"type":"circle","color":"rgba(0, 0, 0, 1.0)","filled":false,"marked":false}]},"cow":{"rotate":false,"elements":[{"xcors":[200.0,197.0,179.0,177.0,166.0,140.0,93.0,78.0,72.0,49.0,48.0,37.0,25.0,25.0,45.0,103.0,179.0,198.0,252.0,272.0,293.0,285.0,255.0,242.0,224.0],"ycors":[193.0,249.0,249.0,196.0,187.0,189.0,191.0,179.0,211.0,209.0,181.0,149.0,120.0,89.0,72.0,84.0,75.0,76.0,64.0,81.0,103.0,121.0,121.0,118.0,167.0],"type":"polygon","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"xcors":[73.0,86.0,62.0,48.0],"ycors":[210.0,251.0,249.0,208.0],"type":"polygon","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"xcors":[25.0,16.0,9.0,23.0,25.0,39.0],"ycors":[114.0,195.0,204.0,213.0,200.0,123.0],"type":"polygon","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true}]},"cylinder":{"rotate":false,"elements":[{"x":0.0,"y":0.0,"diam":300.0,"type":"circle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true}]},"dot":{"rotate":false,"elements":[{"x":90.0,"y":90.0,"diam":120.0,"type":"circle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true}]},"face happy":{"rotate":false,"elements":[{"x":8.0,"y":8.0,"diam":285.0,"type":"circle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"x":60.0,"y":75.0,"diam":60.0,"type":"circle","color":"rgba(0, 0, 0, 1.0)","filled":true,"marked":false},{"x":180.0,"y":75.0,"diam":60.0,"type":"circle","color":"rgba(0, 0, 0, 1.0)","filled":true,"marked":false},{"xcors":[150.0,90.0,62.0,47.0,67.0,90.0,109.0,150.0,192.0,210.0,227.0,251.0,236.0,212.0],"ycors":[255.0,239.0,213.0,191.0,179.0,203.0,218.0,225.0,218.0,203.0,181.0,194.0,217.0,240.0],"type":"polygon","color":"rgba(0, 0, 0, 1.0)","filled":true,"marked":false}]},"face neutral":{"rotate":false,"elements":[{"x":8.0,"y":7.0,"diam":285.0,"type":"circle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"x":60.0,"y":75.0,"diam":60.0,"type":"circle","color":"rgba(0, 0, 0, 1.0)","filled":true,"marked":false},{"x":180.0,"y":75.0,"diam":60.0,"type":"circle","color":"rgba(0, 0, 0, 1.0)","filled":true,"marked":false},{"xmin":60.0,"ymin":195.0,"xmax":240.0,"ymax":225.0,"type":"rectangle","color":"rgba(0, 0, 0, 1.0)","filled":true,"marked":false}]},"face sad":{"rotate":false,"elements":[{"x":8.0,"y":8.0,"diam":285.0,"type":"circle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"x":60.0,"y":75.0,"diam":60.0,"type":"circle","color":"rgba(0, 0, 0, 1.0)","filled":true,"marked":false},{"x":180.0,"y":75.0,"diam":60.0,"type":"circle","color":"rgba(0, 0, 0, 1.0)","filled":true,"marked":false},{"xcors":[150.0,90.0,62.0,47.0,67.0,90.0,109.0,150.0,192.0,210.0,227.0,251.0,236.0,212.0],"ycors":[168.0,184.0,210.0,232.0,244.0,220.0,205.0,198.0,205.0,220.0,242.0,229.0,206.0,183.0],"type":"polygon","color":"rgba(0, 0, 0, 1.0)","filled":true,"marked":false}]},"fish":{"rotate":false,"elements":[{"xcors":[44.0,21.0,15.0,0.0,15.0,0.0,13.0,20.0,45.0],"ycors":[131.0,87.0,86.0,120.0,150.0,180.0,214.0,212.0,166.0],"type":"polygon","color":"rgba(255, 255, 255, 1.0)","filled":true,"marked":false},{"xcors":[135.0,119.0,95.0,76.0,46.0,60.0],"ycors":[195.0,235.0,218.0,210.0,204.0,165.0],"type":"polygon","color":"rgba(255, 255, 255, 1.0)","filled":true,"marked":false},{"xcors":[75.0,83.0,71.0,86.0,166.0,135.0],"ycors":[45.0,77.0,103.0,114.0,78.0,60.0],"type":"polygon","color":"rgba(255, 255, 255, 1.0)","filled":true,"marked":false},{"xcors":[30.0,151.0,226.0,280.0,292.0,292.0,287.0,270.0,195.0,151.0,30.0],"ycors":[136.0,77.0,81.0,119.0,146.0,160.0,170.0,195.0,210.0,212.0,166.0],"type":"polygon","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"x":215.0,"y":106.0,"diam":30.0,"type":"circle","color":"rgba(0, 0, 0, 1.0)","filled":true,"marked":false}]},"flag":{"rotate":false,"elements":[{"xmin":60.0,"ymin":15.0,"xmax":75.0,"ymax":300.0,"type":"rectangle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"xcors":[90.0,270.0,90.0],"ycors":[150.0,90.0,30.0],"type":"polygon","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"x1":75.0,"y1":135.0,"x2":90.0,"y2":135.0,"type":"line","color":"rgba(141, 141, 141, 1.0)","filled":false,"marked":true},{"x1":75.0,"y1":45.0,"x2":90.0,"y2":45.0,"type":"line","color":"rgba(141, 141, 141, 1.0)","filled":false,"marked":true}]},"flower":{"rotate":false,"elements":[{"xcors":[135.0,165.0,180.0,180.0,150.0,165.0,195.0,195.0,165.0],"ycors":[120.0,165.0,210.0,240.0,300.0,300.0,240.0,195.0,135.0],"type":"polygon","color":"rgba(89, 176, 60, 1.0)","filled":true,"marked":false},{"x":85.0,"y":132.0,"diam":38.0,"type":"circle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"x":130.0,"y":147.0,"diam":38.0,"type":"circle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"x":192.0,"y":85.0,"diam":38.0,"type":"circle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"x":85.0,"y":40.0,"diam":38.0,"type":"circle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"x":177.0,"y":40.0,"diam":38.0,"type":"circle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"x":177.0,"y":132.0,"diam":38.0,"type":"circle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"x":70.0,"y":85.0,"diam":38.0,"type":"circle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"x":130.0,"y":25.0,"diam":38.0,"type":"circle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"x":96.0,"y":51.0,"diam":108.0,"type":"circle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"x":113.0,"y":68.0,"diam":74.0,"type":"circle","color":"rgba(0, 0, 0, 1.0)","filled":true,"marked":false},{"xcors":[189.0,219.0,249.0,279.0,234.0],"ycors":[233.0,188.0,173.0,188.0,218.0],"type":"polygon","color":"rgba(89, 176, 60, 1.0)","filled":true,"marked":false},{"xcors":[180.0,150.0,105.0,75.0,135.0],"ycors":[255.0,210.0,210.0,240.0,240.0],"type":"polygon","color":"rgba(89, 176, 60, 1.0)","filled":true,"marked":false}]},"house":{"rotate":false,"elements":[{"xmin":45.0,"ymin":120.0,"xmax":255.0,"ymax":285.0,"type":"rectangle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"xmin":120.0,"ymin":210.0,"xmax":180.0,"ymax":285.0,"type":"rectangle","color":"rgba(0, 0, 0, 1.0)","filled":true,"marked":false},{"xcors":[15.0,150.0,285.0],"ycors":[120.0,15.0,120.0],"type":"polygon","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"x1":30.0,"y1":120.0,"x2":270.0,"y2":120.0,"type":"line","color":"rgba(0, 0, 0, 1.0)","filled":false,"marked":false}]},"leaf":{"rotate":false,"elements":[{"xcors":[150.0,135.0,120.0,60.0,30.0,60.0,60.0,15.0,30.0,15.0,40.0,45.0,60.0,90.0,105.0,120.0,105.0,120.0,135.0,150.0,165.0,180.0,195.0,180.0,195.0,210.0,240.0,255.0,263.0,285.0,270.0,285.0,240.0,240.0,270.0,240.0,180.0,165.0],"ycors":[210.0,195.0,210.0,210.0,195.0,180.0,165.0,135.0,120.0,105.0,104.0,90.0,90.0,105.0,120.0,120.0,60.0,60.0,30.0,15.0,30.0,60.0,60.0,120.0,120.0,105.0,90.0,90.0,104.0,105.0,120.0,135.0,165.0,180.0,195.0,210.0,210.0,195.0],"type":"polygon","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"xcors":[135.0,135.0,120.0,105.0,105.0,135.0,165.0,165.0],"ycors":[195.0,240.0,255.0,255.0,285.0,285.0,240.0,195.0],"type":"polygon","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true}]},"line":{"rotate":true,"elements":[{"x1":150.0,"y1":0.0,"x2":150.0,"y2":300.0,"type":"line","color":"rgba(141, 141, 141, 1.0)","filled":false,"marked":true}]},"line half":{"rotate":true,"elements":[{"x1":150.0,"y1":0.0,"x2":150.0,"y2":150.0,"type":"line","color":"rgba(141, 141, 141, 1.0)","filled":false,"marked":true}]},"molecule water":{"rotate":true,"elements":[{"x":183.0,"y":63.0,"diam":84.0,"type":"circle","color":"rgba(255, 255, 255, 1.0)","filled":true,"marked":false},{"x":183.0,"y":63.0,"diam":84.0,"type":"circle","color":"rgba(0, 0, 0, 1.0)","filled":false,"marked":false},{"x":75.0,"y":75.0,"diam":150.0,"type":"circle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"x":75.0,"y":75.0,"diam":150.0,"type":"circle","color":"rgba(0, 0, 0, 1.0)","filled":false,"marked":false},{"x":33.0,"y":63.0,"diam":84.0,"type":"circle","color":"rgba(255, 255, 255, 1.0)","filled":true,"marked":false},{"x":33.0,"y":63.0,"diam":84.0,"type":"circle","color":"rgba(0, 0, 0, 1.0)","filled":false,"marked":false}]},"pentagon":{"rotate":false,"elements":[{"xcors":[150.0,15.0,60.0,240.0,285.0],"ycors":[15.0,120.0,285.0,285.0,120.0],"type":"polygon","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true}]},"person":{"rotate":false,"elements":[{"x":110.0,"y":5.0,"diam":80.0,"type":"circle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"xcors":[105.0,120.0,90.0,105.0,135.0,150.0,165.0,195.0,210.0,180.0,195.0],"ycors":[90.0,195.0,285.0,300.0,300.0,225.0,300.0,300.0,285.0,195.0,90.0],"type":"polygon","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"xmin":127.0,"ymin":79.0,"xmax":172.0,"ymax":94.0,"type":"rectangle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"xcors":[195.0,240.0,225.0,165.0],"ycors":[90.0,150.0,180.0,105.0],"type":"polygon","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"xcors":[105.0,60.0,75.0,135.0],"ycors":[90.0,150.0,180.0,105.0],"type":"polygon","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true}]},"plant":{"rotate":false,"elements":[{"xmin":135.0,"ymin":90.0,"xmax":165.0,"ymax":300.0,"type":"rectangle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"xcors":[135.0,90.0,45.0,75.0,135.0],"ycors":[255.0,210.0,195.0,255.0,285.0],"type":"polygon","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"xcors":[165.0,210.0,255.0,225.0,165.0],"ycors":[255.0,210.0,195.0,255.0,285.0],"type":"polygon","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"xcors":[135.0,90.0,45.0,75.0,135.0],"ycors":[180.0,135.0,120.0,180.0,210.0],"type":"polygon","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"xcors":[165.0,165.0,225.0,255.0,210.0],"ycors":[180.0,210.0,180.0,120.0,135.0],"type":"polygon","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"xcors":[135.0,90.0,45.0,75.0,135.0],"ycors":[105.0,60.0,45.0,105.0,135.0],"type":"polygon","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"xcors":[165.0,165.0,225.0,255.0,210.0],"ycors":[105.0,135.0,105.0,45.0,60.0],"type":"polygon","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"xcors":[135.0,120.0,150.0,180.0,165.0],"ycors":[90.0,45.0,15.0,45.0,90.0],"type":"polygon","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true}]},"ray":{"rotate":true,"elements":[{"x1":150.0,"y1":0.0,"x2":150.0,"y2":315.0,"type":"line","color":"rgba(141, 141, 141, 1.0)","filled":false,"marked":true},{"x1":120.0,"y1":255.0,"x2":150.0,"y2":225.0,"type":"line","color":"rgba(141, 141, 141, 1.0)","filled":false,"marked":true},{"x1":150.0,"y1":225.0,"x2":180.0,"y2":255.0,"type":"line","color":"rgba(141, 141, 141, 1.0)","filled":false,"marked":true},{"x1":120.0,"y1":165.0,"x2":150.0,"y2":135.0,"type":"line","color":"rgba(141, 141, 141, 1.0)","filled":false,"marked":true},{"x1":120.0,"y1":75.0,"x2":150.0,"y2":45.0,"type":"line","color":"rgba(141, 141, 141, 1.0)","filled":false,"marked":true},{"x1":150.0,"y1":135.0,"x2":180.0,"y2":165.0,"type":"line","color":"rgba(141, 141, 141, 1.0)","filled":false,"marked":true},{"x1":150.0,"y1":45.0,"x2":180.0,"y2":75.0,"type":"line","color":"rgba(141, 141, 141, 1.0)","filled":false,"marked":true}]},"square":{"rotate":false,"elements":[{"xmin":30.0,"ymin":30.0,"xmax":270.0,"ymax":270.0,"type":"rectangle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true}]},"square 2":{"rotate":false,"elements":[{"xmin":30.0,"ymin":30.0,"xmax":270.0,"ymax":270.0,"type":"rectangle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"xmin":60.0,"ymin":60.0,"xmax":240.0,"ymax":240.0,"type":"rectangle","color":"rgba(0, 0, 0, 1.0)","filled":true,"marked":false}]},"star":{"rotate":false,"elements":[{"xcors":[151.0,185.0,298.0,207.0,242.0,151.0,59.0,94.0,3.0,116.0],"ycors":[1.0,108.0,108.0,175.0,282.0,216.0,282.0,175.0,108.0,108.0],"type":"polygon","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true}]},"target":{"rotate":false,"elements":[{"x":0.0,"y":0.0,"diam":300.0,"type":"circle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"x":30.0,"y":30.0,"diam":240.0,"type":"circle","color":"rgba(0, 0, 0, 1.0)","filled":true,"marked":false},{"x":60.0,"y":60.0,"diam":180.0,"type":"circle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"x":90.0,"y":90.0,"diam":120.0,"type":"circle","color":"rgba(0, 0, 0, 1.0)","filled":true,"marked":false},{"x":120.0,"y":120.0,"diam":60.0,"type":"circle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true}]},"tree":{"rotate":false,"elements":[{"x":118.0,"y":3.0,"diam":94.0,"type":"circle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"xmin":120.0,"ymin":195.0,"xmax":180.0,"ymax":300.0,"type":"rectangle","color":"rgba(157, 110, 72, 1.0)","filled":true,"marked":false},{"x":65.0,"y":21.0,"diam":108.0,"type":"circle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"x":116.0,"y":41.0,"diam":127.0,"type":"circle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"x":45.0,"y":90.0,"diam":120.0,"type":"circle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"x":104.0,"y":74.0,"diam":152.0,"type":"circle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true}]},"triangle":{"rotate":false,"elements":[{"xcors":[150.0,15.0,285.0],"ycors":[30.0,255.0,255.0],"type":"polygon","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true}]},"triangle 2":{"rotate":false,"elements":[{"xcors":[150.0,15.0,285.0],"ycors":[30.0,255.0,255.0],"type":"polygon","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"xcors":[151.0,225.0,75.0],"ycors":[99.0,223.0,224.0],"type":"polygon","color":"rgba(0, 0, 0, 1.0)","filled":true,"marked":false}]},"truck":{"rotate":false,"elements":[{"xmin":4.0,"ymin":45.0,"xmax":195.0,"ymax":187.0,"type":"rectangle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"xcors":[296.0,296.0,259.0,244.0,208.0,207.0],"ycors":[193.0,150.0,134.0,104.0,104.0,194.0],"type":"polygon","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"xmin":195.0,"ymin":60.0,"xmax":195.0,"ymax":105.0,"type":"rectangle","color":"rgba(255, 255, 255, 1.0)","filled":true,"marked":false},{"xcors":[238.0,252.0,219.0,218.0],"ycors":[112.0,141.0,141.0,112.0],"type":"polygon","color":"rgba(0, 0, 0, 1.0)","filled":true,"marked":false},{"x":234.0,"y":174.0,"diam":42.0,"type":"circle","color":"rgba(0, 0, 0, 1.0)","filled":true,"marked":false},{"xmin":181.0,"ymin":185.0,"xmax":214.0,"ymax":194.0,"type":"rectangle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"x":144.0,"y":174.0,"diam":42.0,"type":"circle","color":"rgba(0, 0, 0, 1.0)","filled":true,"marked":false},{"x":24.0,"y":174.0,"diam":42.0,"type":"circle","color":"rgba(0, 0, 0, 1.0)","filled":true,"marked":false},{"x":24.0,"y":174.0,"diam":42.0,"type":"circle","color":"rgba(141, 141, 141, 1.0)","filled":false,"marked":true},{"x":144.0,"y":174.0,"diam":42.0,"type":"circle","color":"rgba(141, 141, 141, 1.0)","filled":false,"marked":true},{"x":234.0,"y":174.0,"diam":42.0,"type":"circle","color":"rgba(141, 141, 141, 1.0)","filled":false,"marked":true}]},"turtle":{"rotate":true,"elements":[{"xcors":[215.0,240.0,246.0,228.0,215.0,193.0],"ycors":[204.0,233.0,254.0,266.0,252.0,210.0],"type":"polygon","color":"rgba(89, 176, 60, 1.0)","filled":true,"marked":false},{"xcors":[195.0,225.0,245.0,260.0,269.0,261.0,240.0,225.0,210.0],"ycors":[90.0,75.0,75.0,89.0,108.0,124.0,105.0,105.0,105.0],"type":"polygon","color":"rgba(89, 176, 60, 1.0)","filled":true,"marked":false},{"xcors":[105.0,75.0,55.0,40.0,31.0,39.0,60.0,75.0,90.0],"ycors":[90.0,75.0,75.0,89.0,108.0,124.0,105.0,105.0,105.0],"type":"polygon","color":"rgba(89, 176, 60, 1.0)","filled":true,"marked":false},{"xcors":[132.0,134.0,107.0,108.0,150.0,192.0,192.0,169.0,172.0],"ycors":[85.0,64.0,51.0,17.0,2.0,18.0,52.0,65.0,87.0],"type":"polygon","color":"rgba(89, 176, 60, 1.0)","filled":true,"marked":false},{"xcors":[85.0,60.0,54.0,72.0,85.0,107.0],"ycors":[204.0,233.0,254.0,266.0,252.0,210.0],"type":"polygon","color":"rgba(89, 176, 60, 1.0)","filled":true,"marked":false},{"xcors":[119.0,179.0,209.0,224.0,220.0,175.0,128.0,81.0,74.0,88.0],"ycors":[75.0,75.0,101.0,135.0,225.0,261.0,261.0,224.0,135.0,99.0],"type":"polygon","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true}]},"wheel":{"rotate":false,"elements":[{"x":3.0,"y":3.0,"diam":294.0,"type":"circle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"x":30.0,"y":30.0,"diam":240.0,"type":"circle","color":"rgba(0, 0, 0, 1.0)","filled":true,"marked":false},{"x1":150.0,"y1":285.0,"x2":150.0,"y2":15.0,"type":"line","color":"rgba(141, 141, 141, 1.0)","filled":false,"marked":true},{"x1":15.0,"y1":150.0,"x2":285.0,"y2":150.0,"type":"line","color":"rgba(141, 141, 141, 1.0)","filled":false,"marked":true},{"x":120.0,"y":120.0,"diam":60.0,"type":"circle","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"x1":216.0,"y1":40.0,"x2":79.0,"y2":269.0,"type":"line","color":"rgba(141, 141, 141, 1.0)","filled":false,"marked":true},{"x1":40.0,"y1":84.0,"x2":269.0,"y2":221.0,"type":"line","color":"rgba(141, 141, 141, 1.0)","filled":false,"marked":true},{"x1":40.0,"y1":216.0,"x2":269.0,"y2":79.0,"type":"line","color":"rgba(141, 141, 141, 1.0)","filled":false,"marked":true},{"x1":84.0,"y1":40.0,"x2":221.0,"y2":269.0,"type":"line","color":"rgba(141, 141, 141, 1.0)","filled":false,"marked":true}]},"x":{"rotate":false,"elements":[{"xcors":[270.0,225.0,30.0,75.0],"ycors":[75.0,30.0,225.0,270.0],"type":"polygon","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true},{"xcors":[30.0,75.0,270.0,225.0],"ycors":[75.0,30.0,225.0,270.0],"type":"polygon","color":"rgba(141, 141, 141, 1.0)","filled":true,"marked":true}]}}, {"default":{}}, 2);
+
+Widgets.addView(93, 203, 657, 358)
+Widgets.addGraph("Global Temperature", 335, 0, 655, 193, 0.0, 10000.0, 0.0, 30.0 )
+Widgets.addButton("Setup", 9, 212, 82, 245, function() {setup();}, false)
+Widgets.addButton("Go", 9, 262, 82, 295, function() {go();}, true)
+Widgets.addMonitor("temperature", 549, 122, 627, 172, function() { return Prims.precision(Globals.getGlobal(4), 1)})
+Widgets.addSlider("cloud-coverage", 3, 58, 295, 91,function(newVal) {Globals.setGlobal(0, newVal);}, 0.0, 100.0, 25.0, 5.0)
+Widgets.addSlider("CO2-amount", 3, 124, 295, 157,function(newVal) {Globals.setGlobal(1, newVal);}, 0.0, 300.0, 75.0, 25.0)
 
       var session     = new SessionLite(document.getElementsByClassName('view-container')[0])
       var runner      = -1;
       var tickCounter = document.getElementById('tick-counter');
-      var tempMonitor = document.getElementById('temp-monitor');
-      var cloudSlider = document.getElementById('cloud-slider');
-      var cloudLabel  = document.getElementById('cloud-label');
-      var co2Slider   = document.getElementById('co2-slider');
-      var co2Label    = document.getElementById('co2-label');
       var lastUpdate  = 0;
-      var chart       = null;
-      var data        = null;
-
-      google.load('visualization', '1', {packages:['corechart']});
-      google.setOnLoadCallback(drawPlot);
-
-      function drawPlot() {
-        chart = new google.visualization.LineChart(document.getElementById('chart-div'));
-        resetData();
-        setInterval(plot.bind(this, data), 100);
+      window.addEventListener('load', initPage);
+      if(useGoogleGraph) {
+        session.graph = GoogleGraph
+        Grapher.graph = GoogleGraph
       }
 
-      function resetData() {
-        data = new google.visualization.DataTable();
-        data.addColumn('number', 'Tick');
-        data.addColumn('number', 'Temperature');
-        data.setColumnProperty(0, 'type', 'number');
-        data.setColumnProperty(1, 'type', 'number');
-        chart.draw(data);
+      Widgets.addTo(session)
+
+      function initPage() {
+        tickCounter.textContent = '0';
       }
 
-      function plotPoint(tick, y) {
-        if (tick % 20 === 0) {
-          data.addRow([tick,y]);
-        }
-      }
-
-      function plot(data) {
-        var opts = {
-          backgroundColor: '#fcfdfd',
-          chartArea:{width:"80%"},
-          enableInteractivity: false,
-          legend: {position: 'top', textStyle: {color: 'blue', fontSize: 12}, alignment:'center'},
-          vAxis: {maxValue: 30},
-          hAxis: {maxValue: 10000}
-        };
-        chart.draw(data, opts);
-      }
-
-      // If the HTML was saved in the non-default state, correct it.
-      tickCounter.textContent = '0';
-      tempMonitor.textContent = '0';
-      cloudSlider.value       = 0;
-      cloudLabel.innerHTML    = 0 + '%';
-      co2Slider.value         = 100;
-      co2Label.innerHTML      = 100;
-      document.getElementById('go-button').value = 'Go';
-
-      function onCloudChange() {
-         cloudLabel.innerHTML = cloudSlider.value + '%';
-      }
-
-      function onCO2Change() {
-        co2Label.innerHTML = co2Slider.value;
-      }
-
-      function updateInterfaceGlobals() {
-        Globals.setGlobal(0, cloudSlider.value);
-        Globals.setGlobal(1, co2Slider.value);
-      }
-
-      function updateTempMonitor() {
-        tempMonitor.textContent = typeof Globals.getGlobal(4) === 'number' ? Globals.getGlobal(4).toFixed(1) : '';
-      }
+      session.update(collectUpdates());
 
       function updateTickCounter() {
-        tickCounter.textContent = typeof world.ticks() === 'number' ? world.ticks() : '';
+        try {
+          tickCounter.textContent = typeof world.ticks() === 'number' ? world.ticks() : '';
+        } catch(err) {
+        }
       }
 
       function goForever() {
@@ -5290,48 +7505,17 @@ Globals.setGlobal(1,100)
         var numUpdates = speed * delta / 1000 + 1;
 
         for (var i=0; i < numUpdates; i++) {
-          updateInterfaceGlobals();
-          plotPoint(world.ticks(), Number(Globals.getGlobal(4).toFixed(1)));
-          GO();
+          Widgets.runUpdateFuncs()
         }
 
-        updateWidgets();
+        updateTickCounter();
         session.update(collectUpdates());
 
         lastUpdate = new Date().getTime();
         runner     = setTimeout(goForever, 1000 / speed);
 
       }
-
-      function updateWidgets() {
-        updateTempMonitor();
-        updateTickCounter();
-      }
-
-      function setup() {
-        updateInterfaceGlobals();
-        if (data) data.removeRows(0,data.getNumberOfRows());
-        SETUP();
-        session.update(collectUpdates());
-        updateWidgets();
-      }
-
-      function stop() {
-        clearTimeout(runner);
-        runner = -1;
-      }
-
-      function toggleGo() {
-        var goButton = document.getElementById('go-button');
-        if (runner < 0) {
-          goForever();
-          goButton.value = "Stop";
-        } else {
-          stop();
-          goButton.value = "Go";
-        }
-      }
-
+      goForever()
     </script>
-
-</body></html>
+  </body>
+</html>
