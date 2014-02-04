@@ -4,7 +4,6 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
-    <!-- <link rel="stylesheet" href="/static/css/tortoise.css" type="text/css"> -->
     <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script>useGoogleGraph = true</script>
@@ -18,6 +17,17 @@
     border:1px solid rgba(0, 0, 0, 0.5); 
     margin:6px; 
     padding:8px;
+  }
+
+  .button {
+    background-color: #D3C8E3;
+    border-radius: 8px 8px 8px 8px;
+    box-shadow: 3px 3px 3px #555555;
+    cursor: pointer;
+    font-size: 11pt;
+    height: 44px;
+    text-align: center;
+    width: 80px;
   }
 </style>
 
@@ -6927,6 +6937,7 @@ defaultShapes = {
       return this.widgets.push((function(session) {
         var button, running;
         button = document.createElement('button');
+        button.className = 'button';
         button.style.position = "absolute";
         button.style.fontSize = "11pt";
         _this.setDimensions(button, left, top, right, bottom);
