@@ -6971,7 +6971,7 @@ defaultShapes = {
         valueLabel.innerHTML = def;
         valueLabel.style.cssFloat = "right";
         input = document.createElement('input');
-        input.onchange = function() {
+        input.oninput = function() {
           valueLabel.innerHTML = input.value;
           return setter(input.value);
         };
