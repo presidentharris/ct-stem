@@ -1,0 +1,280 @@
+{% extends "sets/set-base.html" %}
+
+{% block title %}Computational Thinking in STEM - General Assessment 2{% endblock %}
+
+{% block css %}
+ <style type="text/css">
+   .uni1-tortoise-frame {
+      height:593px;
+      width:681px;
+      padding: 8px;
+      border: 1px solid rgba(0, 0, 0, 0.5);
+      box-shadow: 3px 3px 10px #555;
+      margin-left:-38px;
+      margin-top:10px;
+   }
+  </style>
+{% endblock %}
+
+{% block set-js %}
+
+<script type="text/javascript">
+   function refreshIFrames(loadFrame) {
+      // clear all frames
+      $('iframe').each (function (id, el) { $(el).attr('src', "");});
+      // load desired frame
+      //need to update
+      $('#uni1-frame' + loadFrame).attr('src', '/static/netLogo/climate_change.html');
+   }
+
+   $(function() {
+      if (getCurrentPageNum() == 1) {
+         $('#submit-and-finish-button').css('visibility', 'hidden');
+      }
+      updateFooterPosition();
+      refreshIFrames(getCurrentPageNum());
+   });
+
+ </script>
+{% endblock %}
+
+{% block customNextPageHandler %}
+refreshIFrames(getCurrentPageNum() + 1);
+{% endblock %}
+
+{% block customBackPageHandler %}
+refreshIFrames(getCurrentPageNum() - 1); 
+{% endblock %}
+
+{% block page-header%}CT in STEM - General Assessment 2{% endblock %}
+
+{% block set-body %}
+   <div class="page">
+		<form id="theForm" action="/assessment/record/{{assessmevent.id}}/" method="post">
+
+         <center><h3>Exploring the Ideal Gas Law</h3></center>
+         <div class="stimulus">
+         These questions use a computer model that simulates air 
+         molecules in a closed container. To run the simulation, press 
+         the <b>Go</b> button.
+ 
+         <iframe id="uni1-frame1" src="" class="uni1-tortoise-frame"></iframe>
+<!--
+         //potentailly update both above and below
+-->
+         <span onclick="$( '#webstart-instructions1' ).toggle( 'blind', 
+         function(){updateFooterPosition();});" 
+         style="cursor:pointer;float:right;font-size:12px;margin-top:-12px;text-decoration:underline;">If you do not see the model above, please click here.</span><br/>
+         <div id="webstart-instructions1" style="display:none;padding-left:20px;line-height:135%;font-size:14px;">
+         You can download and run a version of the model by following these steps:
+         <pre style="font-size:11pt;line-height:100%;margin-right:-11px;">
+<!--
+			 //update model
+-->
+1. Click <a href="/static/netLogo/climate_change.jnlp" onclick="$('#opened_WS').val('true');return true;" target="_blank">here</a> to download the model.<br/>
+2. Click OK to begin the download.  It may take a minute or two.<br/>
+3. You will be asked for permission to run the model, click 'allow'.<br/>
+4. You should see a NetLogo icon, then the model will open.<br/>
+5. Use this model to answer questions 1 - 5 of this assessment.</pre>
+         </div>
+         <br />
+         Try running the model a few times now. The purple dots represent
+         individual air molecules moving inside the container. There are 
+         two sliders that adjust the number of molecules and the size of 
+         the container. After changing a slider value, click the 
+         neighboring update button to apply the change to the model. The 
+         graph shows the air pressure in the box over time.
+         <br/><br/>
+         
+      </div>
+   </div>
+
+   <div class="page">
+      Use the air pressure simulation to answer the questions below.
+      <iframe id="uni1-frame2" src="" class="uni1-tortoise-frame"></iframe>
+      <span onclick="$( '#webstart-instructions2' ).toggle( 'blind', function(){updateFooterPosition();});" style="cursor:pointer;float:right;font-size:12px;margin-top:-12px;text-decoration:underline;">If you do not see the model above, please click here.</span><br/>
+      <div id="webstart-instructions2" style="display:none;padding-left:20px;line-height:135%;font-size:14px;">
+      You can download and run a version of the model by following these steps:
+      <pre style="font-size:11pt;line-height:100%;margin-right:-11px;">
+1. Click <a href="/static/netLogo/climate_change.jnlp" onclick="$('#opened_WS').val('true');return true;" target="_blank">here</a> to download the model.<br/>
+2. Click OK to begin the download.  It may take a minute or two.<br/>
+3. You will be asked for permission to run the model, click 'allow'.<br/>
+4. You should see a NetLogo icon, then the model will open.<br/>
+5. Use this model to answer questions 1 - 5 of this assessment.</pre>
+      </div>
+      <br />
+      <div class="prompt">
+         <b>Item 1:</b> Set the number of air molecules to 100 and the 
+         wall-position to 30 and run the model. Let it run for at least 
+         40 ticks (you can speed up the model using the slider at the top
+         of the model). Choose the best statement about what happens to 
+         the air pressure over time:
+      </div>
+      <ol class="check-one" input-num="uni2_1">
+         <li answer="A">The pressure keeps increasing over the time.</li>
+         <li answer="B">The pressure increases first and then stays relatively stable.</li>
+         <li answer="C">The pressure increases, reaches a peak, and then decreases back to zero.</li>
+         <li answer="D">The pressure oscillates (repeatedly rises and falls) in a regular patternn forever.</li>
+      </ol>
+      <input id="uni2_1" type="text" dir="auto" value="" name="uni2_1" style="display:none;">
+
+      <div class="prompt">
+         <b>Item 2:</b> Watch a single air molecule (purple dot). This is easier if you slow down the model using the slider at the top of the model.
+         <br/>
+      </div>
+      <div  style="padding-left:33px;">
+         <div class="prompt">
+            <b>A:</b> What happens to the molecule when it hits a wall?    
+         </div>
+         <textarea id="uni2_2a" name="uni2_2a" style="width:597px;"></textarea>
+         <div class="prompt">
+            <b>B:</b> Do all molecules exhibit the same behavior when they hit a wall? How can you tell?
+         </div>
+         <textarea id="uni2_2b" name="uni2_2b" style="width:597px;"></textarea>
+      </div>
+      <br/>
+      <div class="prompt">
+         <b>Item 3:</b> Try changing the number of particles in the model and the size of the container. 
+         Which of these statements best describes the relationship between these two inputs and the pressure 
+         in the model?
+      </div>
+      <ol class="check-one" input-num="uni2_3">
+         <li answer="A">Only the number of particles affects the pressure in the container</li>
+         <li answer="B">Only the size of the container affects the pressure in the container</li>
+         <li answer="C">Both the size of the container and the number of particles affect the pressure in the container</li>
+         <li answer="D">Neither the size of container nor the number of particles affect the pressure in the container</li>
+      </ol>
+      <input id="uni2_3" type="text" dir="auto" value="" name="uni2_3" style="display:none;">
+   </div>
+
+   <div class="page">
+      <iframe id="uni1-frame3" src="" class="uni1-tortoise-frame"></iframe>
+      <span onclick="$( '#webstart-instructions3' ).toggle( 'blind', function(){updateFooterPosition();});" style="cursor:pointer;float:right;font-size:12px;margin-top:-12px;text-decoration:underline;">If you do not see the model above, please click here.</span><br/>
+      <div id="webstart-instructions3" style="display:none;padding-left:20px;line-height:135%;font-size:14px;">
+      You can download and run a version of the model by following these steps:
+      <pre style="font-size:11pt;line-height:100%;margin-right:-11px;">
+1. Click <a href="/static/netLogo/climate_change.jnlp" onclick="$('#opened_WS').val('true');return true;" target="_blank">here</a> to download the model.<br/>
+2. Click OK to begin the download.  It may take a minute or two.<br/>
+3. You will be asked for permission to run the model, click 'allow'.<br/>
+4. You should see a NetLogo icon, then the model will open.<br/>
+5. Use this model to answer questions 1 - 5 of this assessment.</pre>
+      </div>
+
+<!--
+      <div class="prompt">
+         <b>Item 4:</b> Set cloud coverage to 0%. Take some time to experiment with different settings for the “CO2-amount” slider. What happens to the temperature if you increase the amount of CO<sub>2</sub> in the model?
+      </div>
+-->
+	<br />
+	<div class="prompt">
+		<b>Item 4a:</b> What allowed values for container size and 
+		number of particles will result in the lowest pressure in the container?
+	</div>
+	<div style="padding-left:33px;">
+	Number of particles: <input type="text" id="uni2_4a1" name="uni2_4a1">
+	<br />
+	Wall position: <input type="text" id="uni2_4a2" name="uni2_4a2">
+	</div>
+	<div class="prompt">
+		<b>Item 4b:</b> What steps did you take to come up with these values?
+	</div>
+	<textarea id="uni2_4b" name="uni2_4b" style="width:597px;"></textarea>
+	  
+    <br/>
+    <div class="prompt">
+       <b>Item 5:</b> All computational models are only approximations of reality. What are some of the simplifications this model makes that make it different from reality?
+    </div>
+    <textarea id="uni2_5" name="uni2_5"></textarea>
+   </div>
+
+<!-- ======================================================================= -->
+
+   <div class="page">
+      <center><h3>Temperature in Bacteria Growth Experiment</h3></center>
+      A biologist wants to understand the growth of bacteria in four 
+      different temperature conditions. She uses four different sensors 
+      to measure a chemical byproduct produced by the bacteria cultures. 
+      She wrote this computer program to record temperature readings 
+      from the sensors: 
+      <br/>
+      <center><img src="/static/images/gen2/bacteria_exp.jpg" style="height:146px;"></center>
+      She wrote this computer program to record temperature readings from the sensors:
+      <br/>
+      <pre style="width: 242px;margin-left:175px;">
+repeat forever:
+   value1 = readSensor(1)
+   value2 = readSensor(2)
+   value3 = readSensor(3)
+   value4 = readSensor(4)
+   print 1, value1, time
+   print 2, value2, time
+   print 3, value3, time
+   print 4, value4, time
+
+   pause 20 seconds</pre>
+
+      <div class="prompt">
+         <b>Item 6:</b> Which of these output fragments was generated by her program?
+      </div>
+      <ol class="check-one two-columns" input-num="uni2_6">
+         <!-- yes the margin-left:0px needs to be there - otherwise the select buttons don't show -->
+            <li answer="A"><img src="/static/images/uni1/heat_exp_output1.jpg" style="margin-left:0px;"></li>
+            <li answer="B"><img src="/static/images/uni1/heat_exp_output2.jpg" style="margin-left:0px;"></li>
+            <li answer="C"><img src="/static/images/uni1/heat_exp_output3.jpg" style="margin-left:0px;"></li>
+            <li answer="D"><img src="/static/images/uni1/heat_exp_output4.jpg" style="margin-left:0px;"></li>
+      </ol>
+      <input id="uni2_6" type="text" dir="auto" value="" name="uni2_6" style="display:none;">
+      <div class="prompt">
+         <b>Item 7:</b> The scientist now wants to make a graph of her data. Which of these graphs best shows how all of the sensor readings changed over time?
+      </div>
+      <ol class="check-one" input-num="uni2_7">
+         <!-- yes the margin-left:0px needs to be there - otherwise the select buttons don't show -->
+            <li answer="A"><img src="/static/images/uni1/heat_exp_graph1.jpg" style="margin-left:0px;width:343px;padding:.05in"></li>
+            <li answer="B"><img src="/static/images/uni1/heat_exp_graph2.jpg" style="margin-left:0px;width:343px;padding:.05in"></li>
+            <li answer="C"><img src="/static/images/uni1/heat_exp_graph3.jpg" style="margin-left:0px;width:343px;padding:.05in"></li>
+            <li answer="D"><img src="/static/images/uni1/heat_exp_graph4.jpg" style="margin-left:0px;width:343px;padding:.05in"></li>
+      </ol>
+      <input id="uni2_7" type="text" dir="auto" value="" name="uni2_7" style="display:none;">
+   </div>
+   <div class="page">
+      <div class="prompt">
+         <br/>
+         <b>Item 8:</b> When the scientist ran her trial with four sensors, she noticed something strange with the third sensor. This graph shows the readings for sensors 2 and 3.
+         <br/>
+         <center><img src="/static/images/uni1/heat_exp_err.jpg" style="height:333px;"></center>
+         Which explanation is most likely?
+         <ol class="check-one" input-num="uni2_8">
+         <!-- yes the margin-left:0px needs to be there - otherwise the select buttons don't show -->
+            <li answer="A">Sensor 3 is working correctly. There is always noise in sensor readings.</li>
+            <li answer="B">Sensor 3 was accidentally disconnected before the trial started.</li>
+            <li answer="C">Sensor 3 broke after the trial finished.</li>
+            <li answer="D">Sensor 3 was accidentally disconnected during the trial.</li>
+         </ol>
+         <input id="uni2_8" type="text" dir="auto" value="" name="uni2_8" style="display:none;">
+      </div>
+      <div class="prompt">
+         The scientist now wants to measure culture growth in eight 
+         different temperature conditions. The first culture is held at 
+         20 degrees Celsius with the other culture temperatures increasing 
+         at regular five-degree intervals. The problem is that she only 
+         has 4 sensors that she can use.  
+         <br/>
+         <b> Item 9A: </b> Which option is best?
+      </div>
+      <ol class="check-one" input-num="uni2_9a">
+         <!-- yes the margin-left:0px needs to be there - otherwise the select buttons don't show -->
+            <li answer="A">Run one trial and move the sensors along the bar as they reach an equilibrium temperature.</li>
+            <li answer="B">It can't be done without getting more sensors.</li>
+            <li answer="C">Run several trials and move the sensors to different locations between the trials.</li>
+            <li answer="D">Spread the sensors out evenly along the entire length of the bar and assume that the temperature between sensors will change steadily and predictably.</li>
+      </ol>
+      <input id="uni2_9a" type="text" dir="auto" value="" name="uni2_9a" style="display:none;">
+      <div class="prompt">
+         <b> Item 9B: </b> Why did you choose this option?
+      </div>
+      <textarea id="uni2_9b" name="uni2_9b"></textarea>
+   </div>
+
+   <!-- hidden inputs for recording information about the browser -->
+   <input id="opened_WS" type="text" dir="auto" value="false" name="opened_WS" style="display:none;">
+ {% endblock %}
