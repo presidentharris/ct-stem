@@ -19,7 +19,7 @@
       <div style="width:323px;margin-top:-13px;">
         <input onclick="doSetup();" value="Setup" type="button" class="model-button">
         <input id="go-button" onclick="toggleGo();" value="Go" type="button" class="model-button" style="margin-left:3px;">
-        <input id="burn-button" onclick="startFire();" value="Burn" type="button" class="model-button" style="margin-left:3px;">
+        <input id="burn-button" onclick="startFire();" value="Drought" type="button" class="model-button" style="margin-left:3px;">
       </div>
       
       <div class="slider" style="width:334px; margin: 0px 6px 6px 0px;">
@@ -27,7 +27,7 @@
         ticks: <span id="tick-counter">0</span>
       </div>      
       <div class="slider" style="width:334px; margin: 6px 6px 6px 0px;">
-        <label style="padding-bottom:3px;">Grass to burn:<input id="grass-to-burn-slider" type="range" min="0" max="100" step="1" style="width: 187px;" value="50" onchange="$('#grass-to-burn-counter').html(this.value);Globals.setGlobal(0, this.value)"></label>
+        <label style="padding-bottom:3px;">Grass to lose:<input id="grass-to-burn-slider" type="range" min="0" max="100" step="1" style="width: 187px;" value="50" onchange="$('#grass-to-burn-counter').html(this.value);Globals.setGlobal(0, this.value)"></label>
         <span id="grass-to-burn-counter">50</span>%
       </div>
 
