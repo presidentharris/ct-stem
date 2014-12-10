@@ -1,0 +1,229 @@
+{% extends "sets/set-base.html" %}
+
+{% block title %}Flower Pickers{% endblock %}
+
+{% block css %}
+ <style type="text/css">
+   .fp-tortoise-frame {
+      height:375px;
+      width:715px;
+      padding: 8px;
+      border: 1px solid rgba(0, 0, 0, 0.5);
+      box-shadow: 3px 3px 10px #555;
+      margin-left:-50px;
+   }
+ </style>
+{% endblock %}
+
+{% block customNextPageHandler %}
+refreshIFrames(curr_page + 1);
+{% endblock %}
+
+{% block customBackPageHandler %}
+if (curr_page > 1) {
+  refreshIFrames(curr_page - 1);  
+}
+{% endblock %}
+
+{% block set-js %}
+
+<script type="text/javascript">
+  function refreshIFrames(loadModel) {
+    // clear all frames
+    $('iframe').each (function (id, el) { $(el).attr('src', "");});
+    // load desired frame
+    $('#fp-frame' + loadModel).attr('src', '/static/netLogo/fp' + (loadModel) + '.html');
+  }
+
+  $(function() {
+      if (getCurrentPageNum() == 1) {
+         $('#submit-and-finish-button').css('visibility', 'hidden');
+      }
+      updateFooterPosition();
+
+      refreshIFrames(getCurrentPageNum() - 1);
+   });
+  
+</script>
+{% endblock %}
+
+{% block page-header%}Flower Pickers{% endblock %}
+
+{% block set-body %}
+ 
+   <div class="page">
+      <div class="stimulus">
+        Imagine a town surround by flower fields. Every day, people in the town go out into the field to pick flowers to sell in the town square. If a person succeeds in picking lots of flowers, they will tell their friends to join them to help with the picking. But, if a person can't find enough flowers, the person will leave the fields. This image shows a picture of the flower pickers in the field. The brown squares are patches where flowers grow, the bigger the flower, the better it is for the flower picker.
+        <br/><br/> 
+        <center><image src="/static/images/fp/flowerPickers.jpg" alt="flower picker image"/></center>
+        <center><span style="font-family: times new roman;font-size: 16px;">Figure 1. Flower pickers in the field.</span></center> 
+        <br/>
+        For the following questions, you will use a computer simulation that models the relationship between the flower pickers and the flowers that grow in the field. The model and first questions begin on the next page.
+      </div>
+    </div>
+
+    <div class="page">
+      <br/>
+      <div class="stimulus">
+        Below is the first Flower Picker model. Click on the Go button to see the flower pickers move around the field picking flowers. The model will run for 1000 steps before ending. During this time, some flower pickers will join the field, while others leave. You can run it again by clicking the Setup button again followed by the Go button. To the left of the simulation is a graph showing the total number of flower pickers and the total number of flowers.         
+      </div>
+      <label class="help-text">To make the model run faster (or slower), use the speed slider.</label>
+
+      <iframe id="fp-frame1" src="" class="fp-tortoise-frame"></iframe>
+<!--
+      <span onclick="$( '#webstart-instructions1' ).toggle( 'blind', function(){updateFooterPosition();});" style="cursor:pointer;float:right;font-size:12px;margin-top:-12px;text-decoration:underline;">If you do not see the model above, please click here.</span><br/>
+      <div id="webstart-instructions1" style="display:none;padding-left:20px;line-height:135%;font-size:14px;">
+        Instead of viewing the model in the browser, you will open a new window to view it.</br>
+        To do so, please follow these steps: <br/>
+       <pre style="font-size:10.5pt;line-height:100%">
+1. Click <a href="/static/netLogo/pb1.jnlp" target="_blank">here</a> to download the model.<br/>
+2. Click OK to begin the download.  It may take a minute or two.<br/>
+3. You will be asked for permission to run the model, click 'allow'.<br/>
+4. You should see a NetLogo icon, then the model will open.<br/>
+5. Use this model to answer questions 1 - 5 of this assessment.</pre>
+      </div>
+-->
+      <div class="prompt">
+        <b>Item 1: </b>Describe what happens to the number of flower pickers over time: 
+      </div>
+      <textarea id="fp_1" name="fp_1" style="width:597px;"></textarea>
+      <div class="prompt">
+        <b>Item 2: </b>Describe what happens to the number of flowers over time: 
+      </div>
+      <textarea id="fp_2" name="fp_2" style="width:597px;"></textarea>
+      <div class="prompt">
+        <b>Item 3: </b>Describe the relationship between the number of flowers and the number of flower pickers:
+      </div>
+      <textarea id="fp_3" name="fp_3" style="width:597px;"></textarea>
+    <br/><br/>
+    </div>
+<div class="page">
+     <div class="stimulus">
+       We have added a new button to our model called “Freeze”. Clicking on the Freeze button simulates a frost in which 50% of the flowers are frozen and die. <br/>Try clicking the Freeze button while the model is running. You can click the button as many times as you want.
+
+     </div>
+     <br/>
+
+     <iframe id="fp-frame2" src="" class="fp-tortoise-frame"></iframe>
+<!--
+     <span onclick="$( '#webstart-instructions2' ).toggle( 'blind', function(){updateFooterPosition();});" style="cursor:pointer;float:right;font-size:12px;margin-top:-12px;text-decoration:underline;">If you do not see the model above, please click here.</span><br/>
+     <div id="webstart-instructions2" style="display:none;padding-left:20px;line-height:135%;font-size:14px;">
+        Instead of viewing the model in the browser, you will open a new window to view it.</br>
+        To do so, please follow these steps: <br/>
+       <pre style="font-size:10.5pt;line-height:100%">
+1. Click <a href="/static/netLogo/pb2.jnlp" target="_blank">here</a> to download the model.<br/>
+2. Click OK to begin the download.  It may take a minute or two.<br/>
+3. You will be asked for permission to run the model, click 'allow'.<br/>
+4. You should see a NetLogo icon, then the model will open.<br/>
+5. Use this model to answer questions 1 - 5 of this assessment.</pre>
+      </div>
+-->
+     <div class="prompt">
+        <b>Item 4a: </b>What happens to the number of flower pickers a Freeze kills half of the flowers? 
+      </div>
+      <textarea id="fp_4a" name="fp_4a" style="width:597px;"></textarea>
+     <div class="prompt">
+        <b>Item 4b: </b>Why do you think this happens? 
+      </div>
+      <textarea id="fp_4b" name="fp_4b" style="width:597px;"></textarea>
+     <div class="prompt">
+        <b>Item 5: </b>What do you think will happen to the number of flower pickers if a frost removed 90% of the flowers instead of 50%?
+      </div>
+      <textarea id="fp_5" name="fp_5" style="width:597px;"></textarea>
+   <br/><br/>
+   </div>
+   
+
+   <div class="page">
+     <div class="stimulus">
+       This model is the same as model 2 with the addition of a slider that allows you to control how many of the flowers will be affected each time the Freeze button is clicked. 
+     </div>
+     To make the model run faster (or slower), use the slider located just above the model.
+     <br/>
+     <iframe id="fp-frame3" src="" class="fp-tortoise-frame"></iframe>
+<!--
+     <span onclick="$( '#webstart-instructions3' ).toggle( 'blind', function(){updateFooterPosition();});" style="cursor:pointer;float:right;font-size:12px;margin-top:-12px;text-decoration:underline;">If you do not see the model above, please click here.</span><br/>
+     <div id="webstart-instructions3" style="display:none;padding-left:20px;line-height:135%;font-size:14px;">
+        Instead of viewing the model in the browser, you will open a new window to view it.</br>
+        To do so, please follow these steps: <br/>
+       <pre style="font-size:10.5pt;line-height:100%">
+1. Click <a href="/static/netLogo/pb3.jnlp" target="_blank">here</a> to download the model.<br/>
+2. Click OK to begin the download.  It may take a minute or two.<br/>
+3. You will be asked for permission to run the model, click 'allow'.<br/>
+4. You should see a NetLogo icon, then the model will open.<br/>
+5. Use this model to answer questions 1 - 5 of this assessment.</pre>
+      </div>
+-->
+     <div class="prompt">
+         <b>Item 6: </b> Change the <b>Flowers to freeze</b> slider to 90% and run the model, hitting the Freeze button once as it runs. What happened to the number of flower pickers in the model? 
+      </div>
+      <ol class="check-one" input-num="fp_6">
+         <li answer="A">The number of flower pickers was permanently reduced.</li>
+         <li answer="B">The flower pickers all left because there wasn’t enough flowers for them.</li>
+         <li answer="C">The number of flower pickers went down at first, but eventually returned to a similar number as before the frost.</li>
+         <li answer="D">There was no change to the number of flower pickers in the model.</li>
+      </ol>
+      <input id="fp_6" type="text" dir="auto" value="" name="fp_6" style="display:none;">
+     
+     <div class="prompt"><b>Item 7: </b> The models you have been using were written using a programming language. That means a person wrote out a sequence of steps for the computer to follow to create these simulations.  
+     </div>
+     <div id="pseudocode" style="padding-top:10px;">
+       For example, steps for controlling just the flower pickers in this model could look like this: 
+         <ol style="margin-top: 0px;">
+           <li>Ask the flower pickers to move a little</li>
+           <li>Check to see if the flower picker has picked any flowers recently; if he or she has not, leave the field</li>
+           <li>Check to see if a flower picker is next to a flower, if so, have it pick the flower.</li>
+           <li>If a flower picker has picked a lot of flowers, have him or her invite another flower picker to the field</li>
+           <li>Repeat from step 1</li>
+         </ol>
+     </div>
+      <div class="prompt">
+        Below, write instructions that could be followed by a computer to simulate a frost that removes some of the flowers. 
+      </div>
+     <textarea id="fp_7" name="fp_7" style="width:597px;"></textarea>
+   <br/><br/>
+ </div>
+
+ <div class="page">
+     <div class="stimulus">
+       This version of the model has an <b>Amount of rocks</b> slider that controls how much of the field can grow flowers (no flowers grow where there are rocks). If the slider is set to 100%, no flowers will grow in the model; if it is set to 0%, every square can grow flowers. 
+       <br/><br/>
+       Take a minute to experiment with different settings for the slider. Every time you change the value of the slider, you will need to click the Setup button again to reset the model for the change to take effect.
+     </div>
+     <br/>
+     <iframe id="fp-frame4" src="" class="fp-tortoise-frame"></iframe>
+<!--
+     <span onclick="$( '#webstart-instructions4' ).toggle( 'blind', function(){updateFooterPosition();});" style="cursor:pointer;float:right;font-size:12px;margin-top:-12px;text-decoration:underline;">If you do not see the model above, please click here.</span><br/>
+     <div id="webstart-instructions4" style="display:none;padding-left:20px;line-height:135%;font-size:14px;">
+        Instead of viewing the model in the browser, you will open a new window to view it.</br>
+        To do so, please follow these steps: <br/>
+       <pre style="font-size:10.5pt;line-height:100%">
+1. Click <a href="/static/netLogo/pb4.jnlp" target="_blank">here</a> to download the model.<br/>
+2. Click OK to begin the download.  It may take a minute or two.<br/>
+3. You will be asked for permission to run the model, click 'allow'.<br/>
+4. You should see a NetLogo icon, then the model will open.<br/>
+5. Use this model to answer questions 1 - 5 of this assessment.</pre>
+      </div>
+-->
+     <div class="prompt">
+        <b>Item 8a: </b>Please describe what happens in the model if 80% of the land covered with rocks:
+      </div>
+      <textarea id="fp_8a" name="fp_8a" style="width:597px;"></textarea>
+     <div class="prompt">
+        <b>Item 8b: </b>Why do you think this happens? 
+      </div>
+      <textarea id="fp_8b" name="fp_8b" style="width:597px;"></textarea>
+     <div class="prompt">
+        <b>Item 9: </b>Set the Amount of rocks slider to 0% and run the model. Now change the slider to 40%, click Setup and run the model again. Please describe what happens to the number of flower pickers when the slider is at 40% compared to 0%? 
+      </div>
+      <textarea id="fp_9" name="fp_9" style="width:597px;"></textarea>
+      <div class="prompt">
+        <b>Item 10: </b>If you set the Amount of rocks slider to 100% all of the flower pickers will leave the field. What steps would you take to figure out the highest value the slider can be so that there are still flower pickers in the field after 1,000 steps have passed? 
+      </div>
+      <textarea id="fp_10" name="fp_10" style="width:597px;"></textarea>
+      <div class="prompt">
+        <b>Item 11: </b>What is the largest value you can set the amount-of-rocks slider to and still keep some flower pickers in the field after 1000 steps? 
+      </div>
+      <input id="fp_11" name="fp_11" size="6"></input>
+   </div>
+ {% endblock %}
