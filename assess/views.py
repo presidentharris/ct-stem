@@ -219,6 +219,12 @@ def continuation_assessment(request):
     return HttpResponse('something went wrong')    
 
 def data_export(request):
+    if (request.GET.__contains__('lname')):
+        return export_by_lname(request)
+    else:
+        return export_by_school(request)
+
+def export_by_lname(request):
     teacher_lname = request.GET.get('lname')
 
     teacher = Teacher.objects.get(last_name=teacher_lname)
@@ -260,6 +266,48 @@ def data_export(request):
     response['Content-Disposition'] = 'attachment; filename="student_responses.csv"'
 
     return response
+
+def export_by_school(request):
+    school_name = request.GET.get('school')
+
+    students = Student.objects.filter(school__istartswith=school_name)
+    section = Section.objects.get(name='Guest Section')
+
+    response = HttpResponse(content_type='text/csv')
+    writer = csv.writer(response)
+    header_pt1 = ['assess DB ID', 'school', 'student DB-ID', 'student fname', 'student lname', 'assessment date', 'assessment set']
+
+    for assessment in ASSESSMENTS:
+        assessEvents = []  
+        for student in students:
+            assessEvents += AssessEvent.objects.filter(section=section, student=student, assessment_set=assessment)
+
+
+        has_header = False
+
+        for a in assessEvents:
+            sec = a.section
+            st = a.student
+            a_info = [a.id, st.school, st.id, st.first_name, st.last_name, a.date, a.assessment_set ]
+            responses = Response.objects.filter(assess_event=a).order_by("item_name")
+            item_names = []
+            for r in responses:
+                item_names.append(r.item_name)
+                a_info.append(r.response)
+            if len(responses) > 0: 
+                a_info.append(responses[0].submitted_at)
+                if not has_header:
+                    writer.writerow(header_pt1 + item_names + ['submitted_at'])
+                    has_header = True
+                writer.writerow([unicode(a).encode("utf-8") for a in a_info])
+
+        writer.writerow("")
+        writer.writerow("")
+
+
+    response['Content-Disposition'] = 'attachment; filename="student_responses.csv"'
+
+    return response  
 
 def robots(request):
     return(HttpResponse("User-agent: *\nDisallow: /"))
