@@ -16,7 +16,7 @@ ASSESSMENTS = {
     'FP': Assessment(id='FP', name='Flower Pickers', url='flower_pickers.html', current_version='1.0', ipad_compatible='disabled'), 
     'UNI1': Assessment(id='UNI1', name='General CT-STEM Assessment 1', url='uni1.html', current_version='1.0', ipad_compatible='disabled'),
     'WARB': Assessment(id='WARB', name='Warblers', url='warblers.html', current_version='1.0', ipad_compatible=''), 
-    # 'UNI2': Assessment(id='UNI2', name='General CT-STEM Assessment 2', url='gen2.html', current_version='1.0', ipad_compatible=''),
+    'UNI2': Assessment(id='UNI2', name='General CT-STEM Assessment 2', url='gen2.html', current_version='1.0', ipad_compatible=''),
     }
 
 

@@ -4,13 +4,13 @@
 
 {% block css %}
  <style type="text/css">
-   .uni1-tortoise-frame {
-      height:593px;
-      width:681px;
+   .gen2-tortoise-frame {
+      height:494px;
+      width:646px;
       padding: 8px;
       border: 1px solid rgba(0, 0, 0, 0.5);
       box-shadow: 3px 3px 10px #555;
-      margin-left:-38px;
+      margin-left:-19px;
       margin-top:10px;
    }
   </style>
@@ -24,7 +24,7 @@
       $('iframe').each (function (id, el) { $(el).attr('src', "");});
       // load desired frame
       //need to update
-      $('#uni1-frame' + loadFrame).attr('src', '/static/netLogo/climate_change.html');
+      $('#uni1-frame' + loadFrame).attr('src', '/static/netLogo/gasLaw2.html');
    }
 
    $(function() {
@@ -57,51 +57,17 @@ refreshIFrames(getCurrentPageNum() - 1);
          These questions use a computer model that simulates air 
          molecules in a closed container. To run the simulation, press 
          the <b>Go</b> button.
- 
-         <iframe id="uni1-frame1" src="" class="uni1-tortoise-frame"></iframe>
-<!--
-         //potentailly update both above and below
--->
-         <span onclick="$( '#webstart-instructions1' ).toggle( 'blind', 
-         function(){updateFooterPosition();});" 
-         style="cursor:pointer;float:right;font-size:12px;margin-top:-12px;text-decoration:underline;">If you do not see the model above, please click here.</span><br/>
-         <div id="webstart-instructions1" style="display:none;padding-left:20px;line-height:135%;font-size:14px;">
-         You can download and run a version of the model by following these steps:
-         <pre style="font-size:11pt;line-height:100%;margin-right:-11px;">
-<!--
-			 //update model
--->
-1. Click <a href="/static/netLogo/climate_change.jnlp" onclick="$('#opened_WS').val('true');return true;" target="_blank">here</a> to download the model.<br/>
-2. Click OK to begin the download.  It may take a minute or two.<br/>
-3. You will be asked for permission to run the model, click 'allow'.<br/>
-4. You should see a NetLogo icon, then the model will open.<br/>
-5. Use this model to answer questions 1 - 5 of this assessment.</pre>
-         </div>
-         <br />
-         Try running the model a few times now. The purple dots represent
-         individual air molecules moving inside the container. There are 
-         two sliders that adjust the number of molecules and the size of 
-         the container. After changing a slider value, click the 
-         neighboring update button to apply the change to the model. The 
-         graph shows the air pressure in the box over time.
          <br/><br/>
-         
+         The purple dots represent individual air molecules moving inside the container. You can change the number of molecules and the size of the container using the sliders in the model. After changing a slider value, click the neighboring Update button to apply the change to the model. The graph shows the air pressure in the box over time. Click the Highlight button to follow a single molecule.
+
+         <iframe id="uni1-frame1" src="" class="gen2-tortoise-frame"></iframe>
+
       </div>
    </div>
 
    <div class="page">
       Use the air pressure simulation to answer the questions below.
-      <iframe id="uni1-frame2" src="" class="uni1-tortoise-frame"></iframe>
-      <span onclick="$( '#webstart-instructions2' ).toggle( 'blind', function(){updateFooterPosition();});" style="cursor:pointer;float:right;font-size:12px;margin-top:-12px;text-decoration:underline;">If you do not see the model above, please click here.</span><br/>
-      <div id="webstart-instructions2" style="display:none;padding-left:20px;line-height:135%;font-size:14px;">
-      You can download and run a version of the model by following these steps:
-      <pre style="font-size:11pt;line-height:100%;margin-right:-11px;">
-1. Click <a href="/static/netLogo/climate_change.jnlp" onclick="$('#opened_WS').val('true');return true;" target="_blank">here</a> to download the model.<br/>
-2. Click OK to begin the download.  It may take a minute or two.<br/>
-3. You will be asked for permission to run the model, click 'allow'.<br/>
-4. You should see a NetLogo icon, then the model will open.<br/>
-5. Use this model to answer questions 1 - 5 of this assessment.</pre>
-      </div>
+      <iframe id="uni1-frame2" src="" class="gen2-tortoise-frame"></iframe>
       <br />
       <div class="prompt">
          <b>Item 1:</b> Set the number of air molecules to 100 and the 
@@ -148,23 +114,8 @@ refreshIFrames(getCurrentPageNum() - 1);
    </div>
 
    <div class="page">
-      <iframe id="uni1-frame3" src="" class="uni1-tortoise-frame"></iframe>
-      <span onclick="$( '#webstart-instructions3' ).toggle( 'blind', function(){updateFooterPosition();});" style="cursor:pointer;float:right;font-size:12px;margin-top:-12px;text-decoration:underline;">If you do not see the model above, please click here.</span><br/>
-      <div id="webstart-instructions3" style="display:none;padding-left:20px;line-height:135%;font-size:14px;">
-      You can download and run a version of the model by following these steps:
-      <pre style="font-size:11pt;line-height:100%;margin-right:-11px;">
-1. Click <a href="/static/netLogo/climate_change.jnlp" onclick="$('#opened_WS').val('true');return true;" target="_blank">here</a> to download the model.<br/>
-2. Click OK to begin the download.  It may take a minute or two.<br/>
-3. You will be asked for permission to run the model, click 'allow'.<br/>
-4. You should see a NetLogo icon, then the model will open.<br/>
-5. Use this model to answer questions 1 - 5 of this assessment.</pre>
-      </div>
-
-<!--
-      <div class="prompt">
-         <b>Item 4:</b> Set cloud coverage to 0%. Take some time to experiment with different settings for the “CO2-amount” slider. What happens to the temperature if you increase the amount of CO<sub>2</sub> in the model?
-      </div>
--->
+      <iframe id="uni1-frame3" src="" class="gen2-tortoise-frame"></iframe>
+      
 	<br />
 	<div class="prompt">
 		<b>Item 4a:</b> What allowed values for container size and 
@@ -253,13 +204,13 @@ repeat forever:
          <input id="uni2_8" type="text" dir="auto" value="" name="uni2_8" style="display:none;">
       </div>
       <div class="prompt">
-         The scientist now wants to measure culture growth in eight 
+         <b> Item 9A: </b> The scientist now wants to measure culture growth in eight 
          different temperature conditions. The first culture is held at 
          20 degrees Celsius with the other culture temperatures increasing 
          at regular five-degree intervals. The problem is that she only 
          has 4 sensors that she can use.  
-         <br/>
-         <b> Item 9A: </b> Which option is best?
+         <br/><br/>
+         Which option is best?
       </div>
       <ol class="check-one" input-num="uni2_9a">
          <!-- yes the margin-left:0px needs to be there - otherwise the select buttons don't show -->
