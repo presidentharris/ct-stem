@@ -17,3 +17,17 @@ Small
  Large
 	- make a question object in the DB that joins to reponses in DB
 	- upgrade to django 1.6 (so you can use the emailInput widget)
+
+Wish List:
+	A system for teachers to enter info about lessons they taught
+		this info will include:
+			what lesson plan taught, 
+			what day they taught it on,
+			with what class (and subject),
+			what assessment
+		the goal being that we can link classroom activities w/ assessments
+
+	Auto-scoring MC questions
+
+	Reporting framework:
+		
