@@ -11,8 +11,9 @@ HDI
 Purple Bugs
 	v1.0 - ???
 
-Universal 1
-	v1.0 - ???
+General 1
+	v1.0 - Original Text
+	v1.1 - 7.2.15 #Updating question text based on revisions
 
 Warblers
 	v1.0 - 12.17.13

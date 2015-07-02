@@ -53,7 +53,7 @@ refreshIFrames(getCurrentPageNum() - 1);
 
          <center><h3>Exploring Climate Change</h3></center>
          <div class="stimulus">
-         These questions use a computer model that simulates the effect of cloud cover and carbon dioxide (CO<sub>2</sub>) on the temperature of earth. To run the simulation, click on the <b>Setup</b> to get the model setup. Then click on the <b>Go / Stop </b> button to start the model. The CO<sub>2</sub> is shown as green and white molecules in the atmosphere. To run the simulation again, press the Setup button. A graph above the simulation shows the global temperature over the time. You can change the speed of the model with the slider at the top of the model.
+         These questions use a computer model that simulates the effect of cloud cover and carbon dioxide (CO<sub>2</sub>) on the temperature of earth. To run the simulation, click on the <b>Setup</b> button and then click on the <b>Go</b> button to start the model. CO<sub>2</sub> is shown as green and white molecules in the atmosphere. To run the simulation again, press the Setup button. A graph above the simulation shows the global temperature over the time. You can change the speed of the model with the slider at the top of the model.
          <iframe id="uni1-frame1" src="" class="uni1-tortoise-frame"></iframe>
          <span onclick="$( '#webstart-instructions1' ).toggle( 'blind', function(){updateFooterPosition();});" style="cursor:pointer;float:right;font-size:12px;margin-top:-12px;text-decoration:underline;">If you do not see the model above, please click here.</span><br/>
          <div id="webstart-instructions1" style="display:none;padding-left:20px;line-height:135%;font-size:14px;">
@@ -65,7 +65,7 @@ refreshIFrames(getCurrentPageNum() - 1);
 4. You should see a NetLogo icon, then the model will open.<br/>
 5. Use this model to answer questions 1 - 5 of this assessment.</pre>
          </div>
-         Try running the model a few times now. There are two sliders that adjust the level of cloud coverage and carbon dioxide (CO<sub>2</sub>) in the atmosphere. 
+         Try running the model a few times now. There are two sliders that adjust the cloud coverage and carbon dioxide (CO<sub>2</sub>) in the atmosphere. 
          <br/><br/>
          In the model, the yellow lines represent sunlight. Some of the sunlight reflects off the earth’s surface while some of the sunlight is absorbed. The red dots represent heat energy that has been absorbed. Some of this heat energy is emitted back towards the atmosphere in the form of infrared (IR) light. The infrared light is show as red lines.
       </div>
@@ -85,41 +85,30 @@ refreshIFrames(getCurrentPageNum() - 1);
 5. Use this model to answer questions 1 - 5 of this assessment.</pre>
       </div>
       <div class="prompt">
-         <b>Item 1:</b> Set the cloud-coverage to 0% and CO<sub>2</sub>-amount to 0 and run the model. Let it run for at least 10,000 ticks (you can speed up the model using the slider at the top of the model). Choose the best statement about what happens to the temperature over time, based on your experiments:
+         <b>Item 1:</b> Set the cloud-coverage to 0% and CO<sub>2</sub>-amount to 0 and run the model. Let it run for at least 10,000 ticks. Choose the best statement about what happens to the temperature over time:
       </div>
       <ol class="check-one" input-num="uni1_1">
          <li answer="A">The temperature keeps increasing over the time.</li>
          <li answer="B">The temperature oscillates (repeatedly rises and falls) forever.</li>
-         <li answer="C">The temperature increases first and then begins oscillating.</li>
+         <li answer="C">The temperature increases first and then begins oscillating forever.</li>
          <li answer="D">The temperature increases, reaches a peak, then decreases back to zero.</li>
       </ol>
       <input id="uni1_1" type="text" dir="auto" value="" name="uni1_1" style="display:none;">
 
       <div class="prompt">
-         <b>Item 2:</b> Watch a single ray of sunlight (yellow line). This is easier if you slow down the model using the slider at the top of the model.
+         <b>Item 2:</b> Keep the cloud-coverage and CO<sub>2</sub> sliders at zero. Watch a single ray of sunlight (yellow line) all the way down to the earth. This is easier if you slow down the model using the slider at the top of the model.
          <br/>
       </div>
       <div  style="padding-left:33px;">
          <div class="prompt">
-            <b>A:</b> What happens to the ray of sunlight when it hits the earth?    
+            <b>A:</b> What happens to the single ray of sunlight when it hits the earth?    
          </div>
          <textarea id="uni1_2a" name="uni1_2a" style="width:597px;"></textarea>
          <div class="prompt">
-            <b>B:</b> Do all rays of sunlight follow similar paths?
+            <b>B:</b> What are all of the different things that can happen to a ray of sunlight in the model?
          </div>
          <textarea id="uni1_2b" name="uni1_2b" style="width:597px;"></textarea>
       </div>
-      <br/>
-      <div class="prompt">
-         <b>Item 3:</b> Set the cloud coverage to 50% and CO<sub>2</sub> amount to 50. Run the model long enough to see IR light (red lines). Choose the best statement, based on your experiments:
-      </div>
-      <ol class="check-one" input-num="uni1_3">
-         <li answer="A">Clouds block IR light but not sunlight.</li>
-         <li answer="B">CO<sub>2</sub> molecules block IR light but not sunlight.</li>
-         <li answer="C">Both clouds and CO2 molecules block IR light but not sunlight.</li>
-         <li answer="D">Both clouds and CO2 molecules block sunlight but not IR light.</li>
-      </ol>
-      <input id="uni1_3" type="text" dir="auto" value="" name="uni1_3" style="display:none;">
    </div>
 
    <div class="page">
@@ -136,12 +125,23 @@ refreshIFrames(getCurrentPageNum() - 1);
       </div>
 
       <div class="prompt">
+         <b>Item 3:</b> Set the cloud coverage to 50% and CO<sub>2</sub> amount to 50. Run the model long enough to see IR light (red lines) start to appear. Choose the best statement, based on what you see:
+      </div>
+      <ol class="check-one" input-num="uni1_3">
+         <li answer="A">Clouds block both IR light and sunlight.</li>
+         <li answer="B">CO<sub>2</sub> molecules block both IR light and sunlight.</li>
+         <li answer="C">CO<sub>2</sub> molecules block IR light but not sunlight.</li>
+         <li answer="D">Clouds block IR light but not sunlight.</li>
+      </ol>
+      <input id="uni1_3" type="text" dir="auto" value="" name="uni1_3" style="display:none;">
+
+      <div class="prompt">
          <b>Item 4:</b> Set cloud coverage to 0%. Take some time to experiment with different settings for the “CO2-amount” slider. What happens to the temperature if you increase the amount of CO<sub>2</sub> in the model?
       </div>
       <textarea id="uni1_4" name="uni1_4"></textarea>
       <br/>
       <div class="prompt">
-         <b>Item 5:</b> All computational models are only approximations of reality. What are some of the simplifications this model makes that make it different from reality?
+         <b>Item 5:</b> All computational models are only approximations of reality. What are some ways in which this model is different from reality?
       </div>
       <textarea id="uni1_5" name="uni1_5"></textarea>
    </div>
@@ -180,7 +180,7 @@ repeat forever:
       </ol>
       <input id="uni1_6" type="text" dir="auto" value="" name="uni1_6" style="display:none;">
       <div class="prompt">
-         <b>Item 7:</b> The scientist now wants to make a graph of her data. Which of these graphs best shows how all of the sensor readings changed over time?
+         <b>Item 7:</b> The scientist now wants to make a graph of her data. Which of these graphs would be best to show how all of the sensor readings changed over time?
       </div>
       <ol class="check-one" input-num="uni1_7">
          <!-- yes the margin-left:0px needs to be there - otherwise the select buttons don't show -->
@@ -201,7 +201,7 @@ repeat forever:
          <ol class="check-one" input-num="uni1_8">
          <!-- yes the margin-left:0px needs to be there - otherwise the select buttons don't show -->
             <li answer="A">Sensor 3 is working correctly. There is always noise in sensor readings.</li>
-            <li answer="B">Sensor 3 was accidentally disconnected before the trial started.</li>
+            <li answer="B">The heat source got disconnected.</li>
             <li answer="C">Sensor 3 broke after the trial finished.</li>
             <li answer="D">Sensor 3 was accidentally disconnected during the trial.</li>
          </ol>
