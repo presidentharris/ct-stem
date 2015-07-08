@@ -2,12 +2,24 @@ import csv, codecs, cStringIO
 from django.contrib import admin
 # from django.core import serializers
 from django.http import HttpResponse
-from oas.models import Teacher, Section, Student, AssessEvent, Response
+from oas.models import Teacher, Section, Student, AssessEvent, Response 
 
+#class OwnerAdmin(admin.ModelAdmin):
+#  list_display = ('first_name', 'last_name')
 
 class TeacherAdmin(admin.ModelAdmin):
   list_display = ('first_name', 'last_name', 'school', 'email')
   list_filter = ('school',)
+  def queryset(self, request):
+        """Limit Pages to those that belong to the request's user."""
+        qs = super(TeacherAdmin, self).queryset(request)
+        if request.user.is_superuser:
+            # It is mine, all mine. Just return everything.
+            return qs
+        # Now we just add an extra filter on the queryset and
+        # we're done. Assumption: Page.owner is a foreignkey
+        # to a User.
+        return qs.filter(owner=request.user)
   # actions = ['export_uni1_by_teacher']
 
   # def export_uni1_by_teacher(modeladmin, request, queryset):
@@ -116,7 +128,6 @@ class AssessEventAdmin(admin.ModelAdmin):
 class ResponseAdmin(admin.ModelAdmin):
 	list_display = ('assess_event', 'item_name', 'response')
 	list_filter = ('item_name',)
-
 
 admin.site.register(Teacher, TeacherAdmin)
 admin.site.register(Section, SectionAdmin)

@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class TeacherManager(models.Manager):
 	def getSchoolChoices(self):
@@ -10,7 +11,7 @@ class Teacher(models.Model):
 	school = models.CharField(max_length=50)
 	display_name = models.CharField(max_length=40) # this would hold: Mr. Weintrop, Ms. Trouille, etc.
 	email = models.EmailField()
-
+	owner = models.ForeignKey(User)
 	objects = TeacherManager()
 
 	def __unicode__(self):
