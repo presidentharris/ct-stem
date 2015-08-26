@@ -2,24 +2,21 @@ import csv, codecs, cStringIO
 from django.contrib import admin
 # from django.core import serializers
 from django.http import HttpResponse
-from oas.models import Teacher, Section, Student, AssessEvent, Response 
-
-#class OwnerAdmin(admin.ModelAdmin):
-#  list_display = ('first_name', 'last_name')
+from oas.models import Teacher, Section, Student, AssessEvent, Response
 
 class TeacherAdmin(admin.ModelAdmin):
   list_display = ('first_name', 'last_name', 'school', 'email')
   list_filter = ('school',)
-  def queryset(self, request):
+  # define queryset function that will filter the results
+  def queryset(self, request): 
         """Limit Pages to those that belong to the request's user."""
         qs = super(TeacherAdmin, self).queryset(request)
         if request.user.is_superuser:
-            # It is mine, all mine. Just return everything.
+            # return all results if super user (CT-Stem Admins)
             return qs
-        # Now we just add an extra filter on the queryset and
-        # we're done. Assumption: Page.owner is a foreignkey
-        # to a User.
-        return qs.filter(owner=request.user)
+        else:
+        	# return only the results that belong to an outside user (Outside Admin)
+        	return qs.filter(owner=request.user)
   # actions = ['export_uni1_by_teacher']
 
   # def export_uni1_by_teacher(modeladmin, request, queryset):
@@ -49,11 +46,35 @@ class TeacherAdmin(admin.ModelAdmin):
 class SectionAdmin(admin.ModelAdmin):
 	list_display = ('teacher', 'name', 'subject', 'section')
 	list_filter = ('subject', 'teacher')
+	# define queryset function that will filter the results
+	def queryset(self, request):
+          """Limit Pages to those that belong to the request's user."""
+          qs = super(SectionAdmin, self).queryset(request)
+          if request.user.is_superuser:
+              # return all results if super user (CT-Stem Admins)
+             return qs
+          else:   
+              # return only the results that belong to an outside user (Outside Admin)
+          	 return qs.filter(teacher__owner=request.user)
+          
 
 class StudentAdmin(admin.ModelAdmin):
   list_display = ('first_name', 'last_name', 'school', 'student_id')
   list_filter = ('school',)
   actions = ['export_students']
+
+  # define queryset function that will filter the results
+  def queryset(self, request):
+        """Limit Pages to those that belong to the request's user."""
+        qs = super(StudentAdmin, self).queryset(request)
+        if request.user.is_superuser:
+             # return all results if super user (CT-Stem Admins)
+           return qs
+           	 
+    	else:
+    		 # return only the results that belong to an outside user (Outside Admin)
+           	 # since one student can have multiple assess events, use distinct
+    		return qs.filter(assessevent__section__teacher__owner=request.user).distinct() 
 
   def export_students(studentadmin, request, queryset):
 		response = HttpResponse(content_type='text/csv')
@@ -69,9 +90,21 @@ class StudentAdmin(admin.ModelAdmin):
 		return response
 
 class AssessEventAdmin(admin.ModelAdmin):
+	readonly_fields = ('section', 'student', 'date', 'location', 'assessment_set')
 	list_display = ('section', 'assessment_set', 'student', 'date')
-	list_filter = ('date', 'assessment_set', 'section')
+	list_filter = ('date', 'assessment_set')
 	actions = ['export_responses', 'export_assess_events']
+
+	# define queryset function that will filter the results
+	def queryset(self, request):
+          """Limit Pages to those that belong to the request's user."""
+          qs = super(AssessEventAdmin, self).queryset(request)
+          if request.user.is_superuser:
+             # return all results if super user (CT-Stem Admins)
+             return qs
+          else:
+          	 # return only the results that belong to an outside user (Outside Admin)
+          	 return qs.filter(section__teacher__owner=request.user)
 
 	def export_responses(modeladmin, request, queryset):
 		response = HttpResponse(content_type='text/csv')
@@ -128,6 +161,16 @@ class AssessEventAdmin(admin.ModelAdmin):
 class ResponseAdmin(admin.ModelAdmin):
 	list_display = ('assess_event', 'item_name', 'response')
 	list_filter = ('item_name',)
+	readonly_fields = ('assess_event', 'item_name', 'response', 'submitted_at')
+	# define queryset function that will filter the results
+	# def queryset(self, request):
+ #          """Limit Pages to those that belong to the request's user."""
+ #          qs = super(ResponseAdmin, self).queryset(request)
+ #          if request.user.is_superuser:
+ #             # return all results if super user (CT-Stem Admins)
+ #             return qs
+ #          # return only the results that belong to an outside user (Outside Admin)
+ #          return qs.filter(assess_event__section__teacher__owner=request.user)
 
 admin.site.register(Teacher, TeacherAdmin)
 admin.site.register(Section, SectionAdmin)

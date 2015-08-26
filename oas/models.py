@@ -9,19 +9,19 @@ class Teacher(models.Model):
 	first_name = models.CharField(max_length=30)
 	last_name = models.CharField(max_length=30)
 	school = models.CharField(max_length=50)
-	display_name = models.CharField(max_length=40) # this would hold: Mr. Weintrop, Ms. Trouille, etc.
+	display_name = models.CharField(max_length=40, help_text="This is the name that students will see. Ex: Mr. Smith, Ms. Jackson") # this would hold: Mr. Weintrop, Ms. Trouille, etc.
 	email = models.EmailField()
-	owner = models.ForeignKey(User)
+	owner = models.ForeignKey(User) # manually assigned creator of teacher
 	objects = TeacherManager()
 
 	def __unicode__(self):
 		return self.first_name + ' ' + self.last_name
 
 class Section(models.Model):
-  name = models.CharField(max_length=30)
+  name = models.CharField(max_length=30, help_text="Ex: 8th Period Physics")
   teacher = models.ForeignKey(Teacher)
-  subject = models.CharField(max_length=10)
-  section = models.CharField(max_length=30)
+  subject = models.CharField(max_length=10, help_text="Ex: Physics, Algebra")
+  section = models.CharField(max_length=30, help_text="Ex: 9, 11:30-12")
   
   def __unicode__(self):
 		return self.teacher.last_name + ', ' + self.teacher.first_name + ": " + self.name + " section: " + self.section
