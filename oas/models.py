@@ -58,3 +58,9 @@ class Response(models.Model):
 
  	def __unicode__(self):
  		return self.assess_event.student.last_name + ': ' +self.item_name + ' : ' + self.response
+ 		
+class Resources(models.Model):
+	def guide_Link(self):
+		return '<a href="www.facebook.com/%s/">Link Name</a>' % self.id
+		some_name.allow_tags = True #this is to allow HTML tags.
+		some_name.short_description = 'Table Header Name here'
